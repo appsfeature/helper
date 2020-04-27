@@ -1,89 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-        <!-- Base application theme. -->
-        <style name="AppTheme" parent="ActivityTheme.ActionBar">
-            <item name="colorPrimary">@color/colorPrimary</item>
-            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-            <item name="colorAccent">@color/colorAccent</item>
-        </style>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="ActivityTheme.ActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-        <!-- Light base activity theme -->
-        <style name="ActivityTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
-            <item name="colorPrimary">@color/colorPrimary</item>
-            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-            <item name="colorAccent">@color/colorAccent</item>
-            <item name="android:textColor">@color/themeTextColor</item>
-            <item name="android:textColorSecondary">@color/themeSecondaryTextColor</item>
-            <item name="android:editTextColor">@color/themeSecondaryTextColor</item>
-            <item name="android:editTextBackground">@android:color/transparent</item>
-            <item name="android:textColorHint">@color/themeHintColor</item>
-            <item name="android:divider">@color/themeDividerColor</item>
-            <item name="android:listDivider">@color/themeDividerColor</item>
-            <item name="android:childDivider">@color/themeDividerColor</item>
-            <item name="android:windowBackground">@color/themeWindowBackground</item>
-            <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-            <item name="android:windowExitAnimation">@android:anim/fade_out</item>
-    <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
-            <item name="android:spinnerStyle">@style/SpinnerStyle</item>
-        </style>
+    <!-- Light base activity theme -->
+    <style name="ActivityTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/themeTextColor</item>
+        <item name="android:textColorSecondary">@color/themeSecondaryTextColor</item>
+        <item name="android:editTextColor">@color/themeSecondaryTextColor</item>
+        <item name="android:editTextBackground">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/themeHintColor</item>
+        <item name="android:divider">@color/themeDividerColor</item>
+        <item name="android:listDivider">@color/themeDividerColor</item>
+        <item name="android:childDivider">@color/themeDividerColor</item>
+        <item name="android:windowBackground">@color/themeWindowBackground</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+        <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
+        <item name="android:spinnerStyle">@style/SpinnerStyle</item>
+    </style>
 
-        <!-- Light base activity theme -->
-        <style name="ActivityTheme.ActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
-            <item name="colorPrimary">@color/colorPrimary</item>
-            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-            <item name="colorAccent">@color/colorAccent</item>
-            <item name="android:textColor">@color/themeTextColor</item>
-            <item name="android:textColorSecondary">@color/themeSecondaryTextColor</item>
-            <item name="android:editTextColor">@color/themeSecondaryTextColor</item>
-            <item name="android:editTextBackground">@android:color/transparent</item>
-            <item name="android:textColorHint">@color/themeHintColor</item>
-            <item name="android:divider">@color/themeDividerColor</item>
-            <item name="android:listDivider">@color/themeDividerColor</item>
-            <item name="android:childDivider">@color/themeDividerColor</item>
-            <item name="android:windowBackground">@color/themeWindowBackground</item>
-            <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-            <item name="android:windowExitAnimation">@android:anim/fade_out</item>
-    <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
-            <item name="android:spinnerStyle">@style/SpinnerStyle</item>
-        </style>
+    <!-- Light base activity theme -->
+    <style name="ActivityTheme.ActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/themeTextColor</item>
+        <item name="android:textColorSecondary">@color/themeSecondaryTextColor</item>
+        <item name="android:editTextColor">@color/themeSecondaryTextColor</item>
+        <item name="android:editTextBackground">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/themeHintColor</item>
+        <item name="android:divider">@color/themeDividerColor</item>
+        <item name="android:listDivider">@color/themeDividerColor</item>
+        <item name="android:childDivider">@color/themeDividerColor</item>
+        <item name="android:windowBackground">@color/themeWindowBackground</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+        <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
+        <item name="android:spinnerStyle">@style/SpinnerStyle</item>
+    </style>
 
-        <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-            <!--buttons color-->
-            <item name="colorAccent">@color/colorAccent</item>
-            <!--title and message color-->
-            <!--dialog background-->
-            <item name="android:windowBackground">@color/themeBackgroundCardColor</item>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--title and message color-->
+        <!--dialog background-->
+        <item name="android:windowBackground">@color/themeBackgroundCardColor</item>
 
-            <item name="android:background">@color/themeBackgroundCardColor</item>
-            <item name="android:textColor">@color/themeTextColor</item>
-            <item name="android:textColorPrimary">@color/themeTextColor</item>
-            <item name="android:textColorSecondary">@color/themeTextColor</item>
-            <item name="textColorAlertDialogListItem">@color/themeTextColor</item>
-        </style>
+        <item name="android:background">@color/themeBackgroundCardColor</item>
+        <item name="android:textColor">@color/themeTextColor</item>
+        <item name="android:textColorPrimary">@color/themeTextColor</item>
+        <item name="android:textColorSecondary">@color/themeTextColor</item>
+        <item name="textColorAlertDialogListItem">@color/themeTextColor</item>
+    </style>
 
-        <style name="SpinnerStyle" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
-            <item name="background">?android:selectableItemBackground</item>
-            <item name="android:popupBackground">@color/themeBackgroundCardColor</item>
-            <item name="android:dropDownSelector">?android:selectableItemBackground</item>
-            <item name="android:divider">@color/themeDividerColorDark</item>
-            <item name="android:textColor">@color/themeTextColor</item>
-        </style>
+    <style name="SpinnerStyle" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="background">?android:selectableItemBackground</item>
+        <item name="android:popupBackground">@color/themeBackgroundCardColor</item>
+        <item name="android:dropDownSelector">?android:selectableItemBackground</item>
+        <item name="android:divider">@color/themeDividerColorDark</item>
+        <item name="android:textColor">@color/themeTextColor</item>
+    </style>
 
 
-        <style name="PopupMenuStyle" parent="android:Theme.Holo.Light.DarkActionBar">
-            <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
-            <item name="colorAccent">@color/colorAccent</item>
-            <item name="android:windowBackground">@color/themeBackgroundCardColor</item>
-            <item name="android:background">@color/themeBackgroundCardColor</item>
-            <item name="android:textColor">@color/themeTextColor</item>
-            <item name="android:textColorPrimary">@color/themeTextColor</item>
-            <item name="android:textColorSecondary">@color/themeTextColor</item>
-            <item name="textColorAlertDialogListItem">@color/themeTextColor</item>
-        </style>
+    <style name="PopupMenuStyle" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/themeBackgroundCardColor</item>
+        <item name="android:background">@color/themeBackgroundCardColor</item>
+        <item name="android:textColor">@color/themeTextColor</item>
+        <item name="android:textColorPrimary">@color/themeTextColor</item>
+        <item name="android:textColorSecondary">@color/themeTextColor</item>
+        <item name="textColorAlertDialogListItem">@color/themeTextColor</item>
+    </style>
 
-        <style name="MyApp.PopupMenu" parent="android:Widget.Holo.Light.ListPopupWindow">
-            <item name="android:popupBackground">@color/themeBackgroundCardColor</item>
-        </style>
+    <style name="MyApp.PopupMenu" parent="android:Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@color/themeBackgroundCardColor</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 
 </resources>

@@ -28,6 +28,7 @@ allprojects {
     //Usege $rootProject.ext.appcompat
     ext {
         appcompat = '1.2.0-beta01'
+        material = '1.0.0'
 
     }
 }
