@@ -1,5 +1,6 @@
 package com.helper.callback;
 
+import android.animation.Animator;
 import android.view.View;
 
 
@@ -16,10 +17,12 @@ public interface Response {
     //Useage : function(@Response.Visibility int visibility)
     @IntDef({VISIBLE, INVISIBLE, GONE})
     @Retention(RetentionPolicy.SOURCE)
-    @interface Visibility {}
+    @interface Visibility {
+    }
 
     interface Callback<T> {
         void onSuccess(T response);
+
         void onFailure(Exception e);
     }
 
@@ -29,8 +32,11 @@ public interface Response {
 
     interface NetworkCallback<T> {
         void onCompleted();
+
         void onDataLoaded();
+
         void onSuccess(T response);
+
         void onFailure(Exception e);
     }
 
@@ -40,6 +46,13 @@ public interface Response {
 
     interface Progress {
         void onStartProgressBar();
+
         void onStopProgressBar();
+    }
+
+    interface AnimatorListener {
+        void onAnimationStart(Animator animation);
+
+        void onAnimationEnd(Animator animation);
     }
 }

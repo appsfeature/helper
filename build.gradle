@@ -29,6 +29,8 @@ allprojects {
     ext {
         appcompat = '1.2.0-beta01'
         material = '1.0.0'
+        retrofit_version = '2.3.0'
+        room_version = "2.2.5"
 
     }
 }
