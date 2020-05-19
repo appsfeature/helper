@@ -14,6 +14,7 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 public interface Response {
+
     //Useage : function(@Response.Visibility int visibility)
     @IntDef({VISIBLE, INVISIBLE, GONE})
     @Retention(RetentionPolicy.SOURCE)
@@ -22,6 +23,12 @@ public interface Response {
 
     interface Callback<T> {
         void onSuccess(T response);
+
+        void onFailure(Exception e);
+    }
+
+    interface CallbackImage<T> {
+        void onSuccess(T response, String imagePath, String pdfPath);
 
         void onFailure(Exception e);
     }
