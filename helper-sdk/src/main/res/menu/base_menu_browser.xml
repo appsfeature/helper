@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_share"
+        android:icon="@drawable/ic_share"
+        app:iconTint="@android:color/white"
+        android:title="Share"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="Refresh"
+        app:iconTint="@android:color/white"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_pdf"
+        android:title="PDF"
+        app:showAsAction="ifRoom"/>
+</menu>

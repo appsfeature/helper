@@ -1,21 +1,34 @@
 package com.helper.util;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.IntDef;
 import androidx.core.content.ContextCompat;
 
+import com.adssdk.AdsSDK;
+import com.helper.Helper;
 import com.helper.R;
+import com.helper.activity.BrowserActivity;
 import com.helper.callback.Response;
+import com.helper.widget.PopupProgress;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -103,4 +116,75 @@ public class BaseUtil {
     private static void setNightMode(Context context, boolean isNightModeEnabled) {
         DayNightPreference.setNightMode(context, isNightModeEnabled);
     }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html) {
+        if (html == null) {
+            return new SpannableString("");
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(html);
+        }
+    }
+    public static void loadBanner(final RelativeLayout view , Activity activity) {
+        if ( view != null && activity != null && AdsSDK.getInstance() != null ){
+            AdsSDK.getInstance().setAdoptiveBannerAdsOnView(view , activity);
+        }
+    }
+
+    private static void openLinkInAppBrowser(Context context, String webUrl) {
+        try {
+            Intent intent = new Intent(context, BrowserActivity.class);
+            intent.putExtra(BaseConstants.WEB_VIEW_URL, webUrl);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            BaseUtil.showToast(context, "No option available for take action.");
+        }
+    }
+
+
+    public static void showProgressDialog(boolean isShow, Context context) {
+        showProgressDialog(context, isShow, context.getString(R.string.loading));
+    }
+    public static void showProgressDialog(Context context, boolean isShow, String message) {
+        if (context != null) {
+            if (context instanceof Activity && !((Activity) context).isFinishing()) {
+                if (isShow) {
+                    BaseUtil.showDialog(message, context);
+                } else {
+                    BaseUtil.hideDialog();
+                }
+            }
+        }
+    }
+
+    private static AlertDialog dialog;
+
+    public static void hideDialog() {
+        try {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+                dialog = null;
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static void showDialog(String msg, Context context) {
+        showDialog(context, msg, true);
+    }
+
+    public static void showDialog(Context context, String msg, boolean isCancelable) {
+        if (dialog == null) {
+            try {
+                dialog = PopupProgress.newInstance(context, msg)
+                        .setCancelable(isCancelable)
+                        .show();
+            } catch (Exception e) {
+            }
+        }
+    }
+
 }

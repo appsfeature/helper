@@ -1,9 +1,15 @@
 package com.helper;
 
+import com.helper.callback.Response;
+import com.helper.util.BaseConstants;
+
 public class Helper {
-    
+
+    public static final boolean IS_ADS_ENABLE = true;
+    public static String downloadDirectory = BaseConstants.DEFAULT_DIRECTORY;
     private static volatile Helper helper;
     private boolean isEnableDebugMode = false;
+    private Response.Helper mListener;
 
     private Helper() {
         if (helper != null) {
@@ -30,6 +36,24 @@ public class Helper {
      */
     public Helper setDebugMode(Boolean isDebug) {
         isEnableDebugMode = isDebug;
+        return this;
+    }
+
+    public Response.Helper getListener() {
+        return mListener;
+    }
+
+    public Helper setListener(Response.Helper listener) {
+        this.mListener = listener;
+        return this;
+    }
+
+    public String getDownloadDirectory() {
+        return downloadDirectory;
+    }
+
+    public Helper setListener(String directory) {
+        downloadDirectory = directory;
         return this;
     }
 }

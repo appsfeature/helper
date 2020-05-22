@@ -1,6 +1,7 @@
 package com.helper.callback;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.view.View;
 
 
@@ -55,6 +56,10 @@ public interface Response {
         void onStartProgressBar();
 
         void onStopProgressBar();
+    }
+
+    interface Helper {
+        void onOpenPdf(Activity activity, String url);
     }
 
     interface AnimatorListener {
