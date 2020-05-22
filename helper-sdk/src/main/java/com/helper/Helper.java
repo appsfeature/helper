@@ -5,7 +5,7 @@ import com.helper.util.BaseConstants;
 
 public class Helper {
 
-    public static final boolean IS_ADS_ENABLE = true;
+    public static boolean IS_ADS_ENABLE = true;
     public static String downloadDirectory = BaseConstants.DEFAULT_DIRECTORY;
     private static volatile Helper helper;
     private boolean isEnableDebugMode = false;
@@ -52,8 +52,13 @@ public class Helper {
         return downloadDirectory;
     }
 
-    public Helper setListener(String directory) {
+    public Helper setDownloadDirectory(String directory) {
         downloadDirectory = directory;
+        return this;
+    }
+
+    public Helper setAdsEnable(Boolean isAdsEnable) {
+        IS_ADS_ENABLE = isAdsEnable;
         return this;
     }
 }
