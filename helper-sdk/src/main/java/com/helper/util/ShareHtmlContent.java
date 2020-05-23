@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider;
 
 import com.helper.Helper;
 import com.helper.R;
+import com.helper.callback.Response;
 
 import java.io.File;
 
@@ -30,15 +31,17 @@ public class ShareHtmlContent {
     private final Context context;
     private final Handler handler;
     private static final String colorWhite = "#fff", colorBlack = "#000";
+    private final Response.Progress callback;
 
-    private ShareHtmlContent(Context context) {
+    private ShareHtmlContent(Context context, Response.Progress callback) {
         this.context = context;
+        this.callback = callback;
         handler = new Handler();
     }
 
-    public static ShareHtmlContent getInstance(Context context) {
+    public static ShareHtmlContent getInstance(Context context, Response.Progress callback) {
         if (instance == null) {
-            instance = new ShareHtmlContent(context);
+            instance = new ShareHtmlContent(context, callback);
         }
         return instance;
     }
@@ -49,6 +52,9 @@ public class ShareHtmlContent {
 
 
     public void share(final String fileName, String desc) {
+        if (callback != null) {
+            callback.onStartProgressBar();
+        }
         final WebView webView = new WebView(context);
         BaseUtil.showProgressDialog(context, true, "Processing, Please wait...");
         loadWebView(webView, desc, new WebViewClient() {
@@ -111,9 +117,16 @@ public class ShareHtmlContent {
     }
 
     private void share(Context context, File file) {
-        String strUri = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
-        Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
-        intentShare(context, fileUri, strUri);
+        try {
+            if (callback != null) {
+                callback.onStopProgressBar();
+            }
+            String strUri = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
+            Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+            intentShare(context, fileUri, strUri);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void shareApp(String s) {
@@ -141,7 +154,7 @@ public class ShareHtmlContent {
         intent.setType("application/pdf");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
-            context.startActivity(Intent.createChooser(intent, "Share With"));
+            context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }

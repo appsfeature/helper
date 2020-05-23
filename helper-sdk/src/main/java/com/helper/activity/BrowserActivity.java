@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.helper.Helper;
 import com.helper.R;
+import com.helper.callback.Response;
 import com.helper.util.BaseConstants;
 import com.helper.util.BaseUtil;
 import com.helper.util.FileUtils;
@@ -364,7 +365,17 @@ public class BrowserActivity extends AppCompatActivity {
     private void shareResult() {
         if (webView != null) {
             final String fileName = ShareHtmlContent.getFileName("Article");
-            ShareHtmlContent.getInstance(webView.getContext()).share(fileName, url);
+            ShareHtmlContent.getInstance(webView.getContext(), new Response.Progress() {
+                @Override
+                public void onStartProgressBar() {
+                    BaseUtil.showDialog(BrowserActivity.this, null, true);
+                }
+
+                @Override
+                public void onStopProgressBar() {
+                    BaseUtil.hideDialog();
+                }
+            }).share(fileName, url);
         }
     }
 

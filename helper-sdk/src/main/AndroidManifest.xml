@@ -2,6 +2,7 @@
         package="com.helper" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application>
         <activity android:name=".activity.BrowserActivity"
             android:theme="@style/ActivityTheme.ActionBar"/>
