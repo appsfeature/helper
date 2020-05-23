@@ -146,7 +146,7 @@ public class BaseUtil {
 
 
     public static void showProgressDialog(boolean isShow, Context context) {
-        showProgressDialog(context, isShow, context.getString(R.string.loading));
+        showProgressDialog(context, isShow, context.getString(R.string.helper_loading));
     }
     public static void showProgressDialog(Context context, boolean isShow, String message) {
         if (context != null) {

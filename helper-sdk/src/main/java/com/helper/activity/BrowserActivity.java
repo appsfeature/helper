@@ -368,7 +368,7 @@ public class BrowserActivity extends AppCompatActivity {
             ShareHtmlContent.getInstance(webView.getContext(), new Response.Progress() {
                 @Override
                 public void onStartProgressBar() {
-                    BaseUtil.showDialog(BrowserActivity.this, null, true);
+                    BaseUtil.showDialog(BrowserActivity.this, "Processing, Please wait...", true);
                 }
 
                 @Override

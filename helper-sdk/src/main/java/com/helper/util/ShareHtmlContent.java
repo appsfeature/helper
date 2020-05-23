@@ -56,11 +56,9 @@ public class ShareHtmlContent {
             callback.onStartProgressBar();
         }
         final WebView webView = new WebView(context);
-        BaseUtil.showProgressDialog(context, true, "Processing, Please wait...");
         loadWebView(webView, desc, new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                // do your stuff here
-                BaseUtil.showProgressDialog(false, context);
+                // do your stuff here`
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

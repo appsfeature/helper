@@ -72,7 +72,7 @@ public class PopupProgress {
         dialogBuilder.setCancelable(cancelable);
         tvMessage = (TextView) dialogView.findViewById(R.id.tv_message);
         if (message == null) {
-            tvMessage.setText(context.getString(R.string.dialog_message));
+            tvMessage.setText(context.getString(R.string.helper_dialog_message));
         } else {
             tvMessage.setText(message);
         }

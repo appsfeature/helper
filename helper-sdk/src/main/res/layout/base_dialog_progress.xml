@@ -49,7 +49,7 @@
                 android:textSize="14sp"
                 android:layout_width="match_parent"
                 android:textColor="@color/themeColorBlackWhite"
-                android:text="@string/popup_progress_message" />
+                android:text="@string/helper_popup_progress_message" />
         </LinearLayout>
     </LinearLayout>
 

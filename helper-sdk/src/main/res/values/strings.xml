@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="loading">Loading&#8230;</string>
-    <string name="popup_progress_message">Processing, Please wait…</string>
-    <string name="dialog_message">Loading, Please wait…</string>
+    <string name="helper_loading">Loading&#8230;</string>
+    <string name="helper_popup_progress_message">Processing, Please wait…</string>
+    <string name="helper_dialog_message">Loading, Please wait…</string>
 
 </resources>
