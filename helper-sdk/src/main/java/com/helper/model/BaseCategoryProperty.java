@@ -85,14 +85,6 @@ public class BaseCategoryProperty extends BaseDataModel implements Cloneable{
         this.parentId = parentId;
     }
 
-    public String getName() {
-        return title;
-    }
-
-    public void setName(String name) {
-        this.title = title;
-    }
-
     public String getTitle() {
         return title;
     }
