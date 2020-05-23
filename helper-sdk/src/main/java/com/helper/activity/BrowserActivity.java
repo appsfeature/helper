@@ -86,7 +86,7 @@ public class BrowserActivity extends AppCompatActivity {
         if (intent.hasExtra(BaseConstants.WEB_VIEW_URL)) {
             url = intent.getStringExtra(BaseConstants.WEB_VIEW_URL);
         }
-        if(TextUtils.isEmpty(url)){
+        if (TextUtils.isEmpty(url)) {
             BaseUtil.showToast(this, "Invalid Url");
             finish();
             return;
@@ -144,28 +144,26 @@ public class BrowserActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 super.shouldOverrideUrlLoading(view, url);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    if (url.endsWith("viewer.action=download")) {
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-                        return false;
-                    }
-                    if (isUrlPdfType(url)) {
-                        openPDF(url);
-                        return false;
-                    }
-                    if (isUrlIntentType(url)) {
-                        SocialUtil.openIntentUrl(BrowserActivity.this, url);
-                        progressBar.setVisibility(View.GONE);
-                        webView.stopLoading();
-                        webView.goBack();
-                        return false;
-                    }
-                    view.loadUrl(url);
-                    return true;
+                if (url.endsWith("viewer.action=download")) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                    return false;
                 }
-                return false;
+                if (isUrlPdfType(url)) {
+                    openPDF(url);
+                    return false;
+                }
+                if (isUrlIntentType(url)) {
+                    SocialUtil.openIntentUrl(BrowserActivity.this, url);
+                    progressBar.setVisibility(View.GONE);
+                    webView.stopLoading();
+                    webView.goBack();
+                    return false;
+                }
+                view.loadUrl(url);
+                return true;
+//                }
             }
 
 
@@ -199,7 +197,7 @@ public class BrowserActivity extends AppCompatActivity {
     private void openPDF(String url) {
         if (Helper.getInstance().getListener() != null) {
             Helper.getInstance().getListener().onOpenPdf(this, url);
-        }else {
+        } else {
             SocialUtil.openUrlExternal(this, url);
         }
     }
