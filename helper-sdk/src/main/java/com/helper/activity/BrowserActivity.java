@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.adssdk.PageAdsAppCompactActivity;
 import com.helper.Helper;
 import com.helper.R;
 import com.helper.callback.Response;
@@ -38,10 +39,9 @@ import com.helper.util.ShareHtmlContent;
 import com.helper.util.SocialUtil;
 
 import java.io.File;
-import java.util.Objects;
 
 
-public class BrowserActivity extends AppCompatActivity {
+public class BrowserActivity extends PageAdsAppCompactActivity {
 
     private String TAG = "BrowserActivity";
     private String url;
@@ -52,6 +52,7 @@ public class BrowserActivity extends AppCompatActivity {
     public ProgressDialog progressDialog;
     public RelativeLayout container;
     public WebView webView;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,12 @@ public class BrowserActivity extends AppCompatActivity {
         setContentView(R.layout.base_activity_browser);
 
         initDataFromIntent();
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (!TextUtils.isEmpty(title)) {
+                getSupportActionBar().setTitle(title);
+            }
+        }
         BaseUtil.loadBanner(findViewById(R.id.rlBannerAds), this);
     }
 
@@ -86,6 +92,9 @@ public class BrowserActivity extends AppCompatActivity {
 
         if (intent.hasExtra(BaseConstants.WEB_VIEW_URL)) {
             url = intent.getStringExtra(BaseConstants.WEB_VIEW_URL);
+        }
+        if (intent.hasExtra(BaseConstants.TITLE)) {
+            title = intent.getStringExtra(BaseConstants.TITLE);
         }
         if (TextUtils.isEmpty(url)) {
             BaseUtil.showToast(this, "Invalid Url");
@@ -196,11 +205,14 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void openPDF(String url) {
-        if (Helper.getInstance().getListener() != null) {
-            Helper.getInstance().getListener().onOpenPdf(this, url);
-        } else {
-            SocialUtil.openUrlExternal(this, url);
+        if (!TextUtils.isEmpty(url) ) {
+            if (Helper.getInstance().getListener() != null) {
+                Helper.getInstance().getListener().onOpenPdf(this, (int)System.currentTimeMillis(), TextUtils.isEmpty(title) ? "From Browser" : title, url);
+            } else {
+                SocialUtil.openUrlExternal(this, url);
+            }
         }
+
     }
 
     @Override

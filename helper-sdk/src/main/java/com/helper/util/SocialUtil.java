@@ -54,10 +54,11 @@ public class SocialUtil {
         }
     }
 
-    public static void openLinkInAppBrowser(Context context, String webUrl) {
+    public static void openLinkInAppBrowser(Context context, String title, String webUrl) {
         try {
             Intent intent = new Intent(context, BrowserActivity.class);
             intent.putExtra(BaseConstants.WEB_VIEW_URL, webUrl);
+            intent.putExtra(BaseConstants.TITLE, title);
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();

@@ -59,7 +59,7 @@ public interface Response {
     }
 
     interface Helper {
-        void onOpenPdf(Activity activity, String url);
+        void onOpenPdf(Activity activity, int id, String title, String url);
     }
 
     interface AnimatorListener {

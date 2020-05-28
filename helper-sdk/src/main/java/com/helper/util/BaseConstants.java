@@ -13,6 +13,7 @@ public interface BaseConstants {
     String NO_INTERNET_CONNECTION = "No Internet Connection";
     int ACTIVE = 1;
     String WEB_VIEW_URL = "webViewUrl";
+    String TITLE = "title";
     String DEFAULT_DIRECTORY = "Helper";
 
     interface Error {

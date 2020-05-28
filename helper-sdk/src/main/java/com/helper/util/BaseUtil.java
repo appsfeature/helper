@@ -44,7 +44,7 @@ public class BaseUtil {
     }
 
     public static void showToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        showToastCentre(context, message);
     }
 
     public static void showToastCentre(Context context, String msg) {
@@ -133,10 +133,11 @@ public class BaseUtil {
         }
     }
 
-    public static void openLinkInAppBrowser(Context context, String webUrl) {
+    public static void openLinkInAppBrowser(Context context, String title, String webUrl) {
         try {
             Intent intent = new Intent(context, BrowserActivity.class);
             intent.putExtra(BaseConstants.WEB_VIEW_URL, webUrl);
+            intent.putExtra(BaseConstants.TITLE, title);
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
