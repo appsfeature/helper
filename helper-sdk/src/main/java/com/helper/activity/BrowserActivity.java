@@ -124,7 +124,7 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 super.shouldOverrideUrlLoading(view, request);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     String requestUrl = request.getUrl().toString();
                     if (request.getUrl().toString().endsWith("viewer.action=download")) {
                         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -132,11 +132,9 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
                         startActivity(i);
                         return false;
                     }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        if (isUrlPdfType(request.getUrl().toString())) {
-                            openPDF(request.getUrl().toString());
-                            return false;
-                        }
+                    if (isUrlPdfType(request.getUrl().toString())) {
+                        openPDF(request.getUrl().toString());
+                        return false;
                     }
                     if (isUrlIntentType(request.getUrl().toString())) {
                         SocialUtil.openIntentUrl(BrowserActivity.this, request.getUrl().toString());
@@ -154,26 +152,28 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 super.shouldOverrideUrlLoading(view, url);
-                if (url.endsWith("viewer.action=download")) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                    return false;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    if (url.endsWith("viewer.action=download")) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        return false;
+                    }
+                    if (isUrlPdfType(url)) {
+                        openPDF(url);
+                        return false;
+                    }
+                    if (isUrlIntentType(url)) {
+                        SocialUtil.openIntentUrl(BrowserActivity.this, url);
+                        progressBar.setVisibility(View.GONE);
+                        webView.stopLoading();
+                        webView.goBack();
+                        return false;
+                    }
+                    view.loadUrl(url);
+                    return true;
                 }
-                if (isUrlPdfType(url)) {
-                    openPDF(url);
-                    return false;
-                }
-                if (isUrlIntentType(url)) {
-                    SocialUtil.openIntentUrl(BrowserActivity.this, url);
-                    progressBar.setVisibility(View.GONE);
-                    webView.stopLoading();
-                    webView.goBack();
-                    return false;
-                }
-                view.loadUrl(url);
-                return true;
-//                }
+                return false;
             }
 
 
@@ -205,9 +205,9 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
     }
 
     private void openPDF(String url) {
-        if (!TextUtils.isEmpty(url) ) {
+        if (!TextUtils.isEmpty(url)) {
             if (Helper.getInstance().getListener() != null) {
-                Helper.getInstance().getListener().onOpenPdf(this, (int)System.currentTimeMillis(), TextUtils.isEmpty(title) ? "From Browser" : title, url);
+                Helper.getInstance().getListener().onOpenPdf(this, (int) System.currentTimeMillis(), TextUtils.isEmpty(title) ? "From Browser" : title, url);
             } else {
                 SocialUtil.openUrlExternal(this, url);
             }

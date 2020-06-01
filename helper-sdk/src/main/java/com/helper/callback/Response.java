@@ -67,4 +67,9 @@ public interface Response {
 
         void onAnimationEnd(Animator animation);
     }
+
+    interface SlideListener {
+        void onSlideUp();
+        void onSlideDown();
+    }
 }
