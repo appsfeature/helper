@@ -21,6 +21,11 @@ public class BaseNetworkManager {
 
         void onFailure(Exception error);
     }
+    public interface ParserConfigDataSimple<T> {
+        void onSuccess(T t);
+
+        void onFailure(Exception error);
+    }
 
     public static <T> List<T> addBaseUrlOnList(List<T> items, String imagePath, String pdfPath) {
         for (T item : items){
@@ -30,6 +35,26 @@ public class BaseNetworkManager {
             }
         }
         return items;
+    }
+
+
+    public static <T> void parseConfigData(String data, Type type, ParserConfigDataSimple<T> callback) {
+        try {
+            if (!BaseUtil.isEmptyOrNull(data)) {
+                final T t = GsonParser.getGson()
+                        .fromJson(data, type);
+                if (t != null) {
+                    callback.onSuccess(t);
+                } else {
+                    callback.onFailure(new Exception(BaseConstants.NO_DATA));
+                }
+            } else {
+                callback.onFailure(new Exception(BaseConstants.EMPTY_OR_NULL_DATA));
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            callback.onFailure(e);
+        }
     }
 
     public static <T> void parseConfigData(String data, String objectKey, Type type, ParserConfigData<T> callback) {
