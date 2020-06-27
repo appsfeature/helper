@@ -39,10 +39,6 @@ import static android.view.View.VISIBLE;
 
 public class BaseUtil {
 
-    public static boolean isEmptyOrNull(String s) {
-        return (s == null || TextUtils.isEmpty(s));
-    }
-
     public static void showToast(Context context, String message) {
         showToastCentre(context, message);
     }
@@ -186,6 +182,10 @@ public class BaseUtil {
             } catch (Exception e) {
             }
         }
+    }
+
+    public static boolean isEmptyOrNull(String s) {
+        return (s == null || TextUtils.isEmpty(s));
     }
 
 }
