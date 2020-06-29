@@ -52,6 +52,11 @@ public interface Response {
         void onItemClicked(View view, T item);
     }
 
+    interface OnListClickListener<T> {
+        void onItemClicked(View view, T item);
+        void onDeleteClicked(View view, int position, T item);
+    }
+
     interface Progress {
         void onStartProgressBar();
 

@@ -15,6 +15,9 @@ public class GsonParser {
         return gson;
     }
 
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
     public static <T> String toJson(Object item, TypeToken<T> typeCast) {
         String toJson = "";
         try {
@@ -29,6 +32,9 @@ public class GsonParser {
         return toJson;
     }
 
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
     public static <T> T fromJson(String jsonValue, TypeToken<T> typeCast) {
         try {
             Gson gson = new GsonBuilder()

@@ -186,6 +186,7 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
                 if (!isUrlPdfType(url))
                     view.loadUrl("javascript:console.log('" + TAG + "'+document.getElementsByTagName('html')[0].innerHTML);");

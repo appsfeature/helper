@@ -92,6 +92,19 @@ public class BaseUtil {
         }
     }
 
+    public static void showNoDataProgress(View view) {
+        if (view != null) {
+            view.setVisibility(VISIBLE);
+            if (view.findViewById(com.helper.R.id.player_progressbar) != null) {
+                view.findViewById(com.helper.R.id.player_progressbar).setVisibility(VISIBLE);
+            }
+            TextView tvNoData = view.findViewById(com.helper.R.id.tv_no_data);
+            if (tvNoData != null) {
+                tvNoData.setVisibility(GONE);
+            }
+        }
+    }
+
     public static String getColorValue(Context context, int colorResource) {
         try {
             return "#" + Integer.toHexString(ContextCompat.getColor(context, colorResource) & 0x00ffffff);

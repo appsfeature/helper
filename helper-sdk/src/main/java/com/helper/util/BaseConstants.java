@@ -15,6 +15,8 @@ public interface BaseConstants {
     String WEB_VIEW_URL = "webViewUrl";
     String TITLE = "title";
     String DEFAULT_DIRECTORY = "Helper";
+    String CATEGORY_PROPERTY = "category_property";
+    String EXTRA_PROPERTY = "extra_property";
 
     interface Error {
         String MSG_ERROR = "Error, please try later.";

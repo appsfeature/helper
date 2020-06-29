@@ -38,6 +38,12 @@ public class BaseNetworkManager {
     }
 
 
+    /**
+     * @param data : JSON data
+     * @param type : new TypeToken<ModelName>() {}.getType()
+     * @param callback : response
+     * @param <T> : typecast
+     */
     public static <T> void parseConfigData(String data, Type type, ParserConfigDataSimple<T> callback) {
         try {
             if (!BaseUtil.isEmptyOrNull(data)) {
@@ -57,6 +63,13 @@ public class BaseNetworkManager {
         }
     }
 
+    /**
+     * @param data : JSON data
+     * @param objectKey : parse key from data object
+     * @param type : new TypeToken<ModelName>() {}.getType()
+     * @param callback : response
+     * @param <T> : typecast
+     */
     public static <T> void parseConfigData(String data, String objectKey, Type type, ParserConfigData<T> callback) {
         try {
             if (!BaseUtil.isEmptyOrNull(data)) {
