@@ -7,7 +7,9 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 import com.helper.model.base.BaseDataModel;
+import com.helper.util.GsonParser;
 
 public class BaseCategoryProperty extends BaseDataModel implements Cloneable{
 
@@ -139,6 +141,18 @@ public class BaseCategoryProperty extends BaseDataModel implements Cloneable{
 
     public void setPropertyJson(String propertyJson) {
         this.propertyJson = propertyJson;
+    }
+
+
+//    public ModelName getOtherProperty() {
+//        return getPropertyModel(new TypeToken<ModelName>() {});
+//    }
+
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
+    public <T> T getPropertyModel(TypeToken<T> typeCast) {
+        return GsonParser.fromJson(propertyJson, typeCast);
     }
 
     @NonNull
