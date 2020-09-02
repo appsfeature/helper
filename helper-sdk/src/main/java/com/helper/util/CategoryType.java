@@ -74,4 +74,5 @@ public interface CategoryType {
     int CATEGORY_TYPE_CATEGORY_TABS = 1035;
     int TYPE_PRE_YEAR_PAPER = 1036;
     int TYPE_IMPORTANT_INFO = 1037;
+    int CATEGORY_TYPE_SPEED_TEST = 1038;
 }
