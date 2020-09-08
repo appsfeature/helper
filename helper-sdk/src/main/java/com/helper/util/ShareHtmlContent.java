@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.view.View;
@@ -18,8 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
-
-import com.helper.Helper;
 import com.helper.R;
 import com.helper.callback.Response;
 
@@ -36,7 +34,7 @@ public class ShareHtmlContent {
     private ShareHtmlContent(Context context, Response.Progress callback) {
         this.context = context;
         this.callback = callback;
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
     }
 
     public static ShareHtmlContent getInstance(Context context, Response.Progress callback) {
@@ -88,8 +86,9 @@ public class ShareHtmlContent {
     private void saveWebPageToPDF(final String fileName, final WebView webView) throws Exception{
         if (!isRunning) {
             isRunning = true;
-            final String filePath = Environment.getExternalStorageDirectory() + "/" + Helper.downloadDirectory;
-            final File path = new File(filePath);
+//            final String filePath = Environment.getExternalStorageDirectory() + "/" + Helper.downloadDirectory;
+//            final File path = new File(filePath);
+            final File path = FileUtils.getFileStoreDirectory(context);
             final String jobName = webView.getContext().getString(R.string.app_name);
 //        String deepLink = "Click here to open: <a href=\"" + strUri + "\">" + strUri + "</a>";
             String deepLink = "";
@@ -106,7 +105,7 @@ public class ShareHtmlContent {
                         @Override
                         public void onSaveFinished(boolean isSuccess) {
                             isRunning = false;
-                            share(webView.getContext(), new File(filePath, fileName));
+                            share(webView.getContext(), FileUtils.getFile(context, fileName));
                         }
                     });
                 }

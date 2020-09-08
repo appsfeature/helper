@@ -1,12 +1,14 @@
 package com.helper;
 
+import android.content.Context;
+
 import com.helper.callback.Response;
 import com.helper.util.BaseConstants;
+import com.helper.util.BasePrefUtil;
 
 public class Helper {
 
     public static boolean IS_ADS_ENABLE = true;
-    public static String downloadDirectory = BaseConstants.DEFAULT_DIRECTORY;
     private static volatile Helper helper;
     private boolean isEnableDebugMode = false;
     private Response.Helper mListener;
@@ -48,12 +50,12 @@ public class Helper {
         return this;
     }
 
-    public String getDownloadDirectory() {
-        return downloadDirectory;
+    public String getDownloadDirectory(Context context) {
+        return BasePrefUtil.getDownloadDirectory(context);
     }
 
-    public Helper setDownloadDirectory(String directory) {
-        downloadDirectory = directory;
+    public Helper setDownloadDirectory(Context context, String directory) {
+        BasePrefUtil.setDownloadDirectory(context, directory);
         return this;
     }
 

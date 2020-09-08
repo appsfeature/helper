@@ -28,12 +28,12 @@ public class RunTimePermissionUtility {
             new AlertDialog.Builder(activity, R.style.DialogTheme)
                     .setTitle("Required Attention")
                     .setMessage("Please Note this permission is required to get your Location")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             requestLocationPermission(activity, requestCode);
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing
                         }
@@ -44,7 +44,7 @@ public class RunTimePermissionUtility {
             new AlertDialog.Builder(activity, R.style.DialogTheme)
                     .setTitle("Required Attention")
                     .setMessage("Please Note previously you do not granted this permission. Please go to setting and enable this permission for this application.")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
@@ -77,12 +77,12 @@ public class RunTimePermissionUtility {
             new AlertDialog.Builder(activity, R.style.DialogTheme)
                     .setTitle("Required Attention")
                     .setMessage("Please Note this permission is required.")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             requestWriteExternalStoragePermission(activity, requestCode);
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing
                         }
@@ -93,7 +93,7 @@ public class RunTimePermissionUtility {
             new AlertDialog.Builder(activity, R.style.DialogTheme)
                     .setTitle("Required Attention")
                     .setMessage("Please Note previously you do not granted this permission. Please go to setting and enable this permission for this application.")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
                         }

@@ -4,37 +4,30 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.IntDef;
 import androidx.core.content.ContextCompat;
 
 import com.adssdk.AdsSDK;
-import com.helper.Helper;
 import com.helper.R;
 import com.helper.activity.BrowserActivity;
 import com.helper.callback.Response;
 import com.helper.widget.PopupProgress;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 public class BaseUtil {
@@ -51,20 +44,23 @@ public class BaseUtil {
 
     public static boolean isConnected(Context context) {
         boolean isConnected = false;
-
         try {
             if (context != null && context.getSystemService(Context.CONNECTIVITY_SERVICE) != null && context.getSystemService(Context.CONNECTIVITY_SERVICE) instanceof ConnectivityManager) {
-                ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                isConnected = false;
-                if (connectivityManager != null) {
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Network network = connectivityManager.getActiveNetwork();
+                    if (network != null) {
+                        NetworkCapabilities nc = connectivityManager.getNetworkCapabilities(network);
+                        isConnected = nc != null && (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) || nc.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
+                    }
+                } else {
                     NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
                     isConnected = activeNetwork != null && activeNetwork.isConnected();
                 }
             }
-        } catch (Exception var4) {
-            var4.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return isConnected;
     }
 

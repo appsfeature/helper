@@ -1,6 +1,5 @@
 package com.helper.activity;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -8,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.text.TextUtils;
@@ -24,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.adssdk.PageAdsAppCompactActivity;
 import com.helper.Helper;
@@ -49,7 +46,6 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
     private static final int WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF = 101;
     private static final int WRITE_EXTERNAL_REQUEST_CODE_FOR_SHARE = 102;
     public ProgressBar progressBar;
-    public ProgressDialog progressDialog;
     public RelativeLayout container;
     public WebView webView;
     private String title;
@@ -302,7 +298,7 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
                         .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                         .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                         .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
-                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS + "/" + jobName);
+                File path = FileUtils.getFilePublic(this, jobName);
                 String fileName = "Result" + System.currentTimeMillis() + ".pdf";
                 final String fullPath = path + "/" + fileName;
                 PdfPrint pdfPrint = new PdfPrint(attributes);
@@ -334,20 +330,22 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
     private void showHideProgressBar(boolean show) {
         if (show) {
             String processing = "Saving PDF to SD Card....";
-            progressDialog = new ProgressDialog(this, R.style.DialogTheme);
-            progressDialog.setMessage(processing);
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+//            progressDialog = new ProgressDialog(this, R.style.DialogTheme);
+//            progressDialog.setMessage(processing);
+//            progressDialog.setCancelable(false);
+//            progressDialog.show();
+            BaseUtil.showDialog(this, processing, false);
         } else {
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
+//            if (progressDialog.isShowing()) {
+//                progressDialog.dismiss();
+//            }
+            BaseUtil.hideDialog();
         }
     }
 
     private void sharePDF(String fullPath) {
         Logger.e(TAG, "sharePDF Path : " + fullPath);
-        SocialUtil.shareImage(this, FileUtils.getUriForFile(this, new File(fullPath)));
+        SocialUtil.shareImage(this, FileUtils.getUriFromFile(this, new File(fullPath)));
     }
 
     private void showPDFSaveDialog(String message, final String pdfPath) {

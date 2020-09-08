@@ -1,29 +1,24 @@
 package com.helper.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 
-public class DayNightPreference {
+public class DayNightPreference extends BasePrefUtil{
 
     private static final String DAY_MODE = "dayMode";
     public static final String NIGHT_MODE = "NIGHT_MODE";
 
 
     public static boolean isNightModeEnabled(Context context) {
-        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getBoolean(NIGHT_MODE, false);
+        return getBoolean(context, NIGHT_MODE, false);
     }
 
     private static void setNightModeEnabled(Context context, boolean isNightModeEnabled) {
-        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putBoolean(NIGHT_MODE, isNightModeEnabled);
-        editor.apply();
+        setBoolean(context, NIGHT_MODE, isNightModeEnabled);
     }
 
     public static void setNightMode(Context context) {
@@ -36,9 +31,10 @@ public class DayNightPreference {
         setNightModeEnabled(context, isNightMode);
 
         if (context instanceof AppCompatActivity) {
-            ((AppCompatActivity) context).getDelegate().setLocalNightMode(isNightMode
-                    ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                ((AppCompatActivity) context).getDelegate().setLocalNightMode(isNightMode
+                        ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            }
         }
         if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

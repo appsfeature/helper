@@ -37,7 +37,7 @@ public class SocialUtil {
 
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, FileUtils.getUriForFile(context, new File(imagePath)));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, FileUtils.getUriFromFile(context, new File(imagePath)));
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(shareIntent, "Share image using"));
 
