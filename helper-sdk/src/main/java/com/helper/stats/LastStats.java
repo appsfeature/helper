@@ -6,24 +6,23 @@ import java.util.ArrayList;
 /**
  * @author Created by Abhijit on 11/02/2020.
  */
-public enum LastStats {
-    instance;
-    private ArrayList<StatisticsModel> lastStats;
+public class LastStats {
+    private static ArrayList<StatisticsModel> lastStats;
 
     //call from SplashActivity.java
     public static void clear() {
-        instance.lastStats = null;
+        LastStats.lastStats = null;
     }
 
     public static ArrayList<StatisticsModel> getLastStats() {
-        if(instance.lastStats == null){
+        if(LastStats.lastStats == null){
             return new ArrayList<>();
         }else {
-            return instance.lastStats;
+            return LastStats.lastStats;
         }
     }
 
     public static void setLastStats(ArrayList<StatisticsModel> lastStats) {
-        instance.lastStats = lastStats;
+        LastStats.lastStats = lastStats;
     }
 }
