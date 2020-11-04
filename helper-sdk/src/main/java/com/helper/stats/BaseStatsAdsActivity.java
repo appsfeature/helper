@@ -30,7 +30,7 @@ public abstract class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
         return getStatisticsLevel(id + "", title);
     }
     public StatisticsLevel getStatisticsLevel(String id, String title) {
-        return new StatisticsLevel(id, title, statisticsModel.getLevels().size() + 1);
+        return new StatisticsLevel(id, title, statisticsModel != null ? statisticsModel.getLevels().size() + 1 : 0);
     }
 
     //call after addStatistics() method
@@ -48,7 +48,9 @@ public abstract class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
     }
 
     public void addStatistics(StatisticsLevel statisticsLevel) {
-        statisticsModel.getLevels().add(statisticsLevel);
+        if (statisticsModel != null) {
+            statisticsModel.getLevels().add(statisticsLevel);
+        }
         updateLastStats();
     }
 

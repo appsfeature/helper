@@ -31,7 +31,7 @@ public abstract class BaseStatsFragment extends Fragment {
         return getStatisticsLevel(id + "", title);
     }
     public StatisticsLevel getStatisticsLevel(String id, String title) {
-        return new StatisticsLevel(id, title, statisticsModel.getLevels().size() + 1);
+        return new StatisticsLevel(id, title, statisticsModel != null ? statisticsModel.getLevels().size() + 1 : 0);
     }
 
     //call after addStatistics() method

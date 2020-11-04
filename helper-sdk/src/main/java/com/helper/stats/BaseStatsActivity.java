@@ -29,7 +29,7 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
         return getStatisticsLevel(id + "", title);
     }
     public StatisticsLevel getStatisticsLevel(String id, String title) {
-        return new StatisticsLevel(id, title, statisticsModel.getLevels().size() + 1);
+        return new StatisticsLevel(id, title, statisticsModel != null ? statisticsModel.getLevels().size() + 1 : 0);
     }
 
     //call after addStatistics() method
@@ -47,7 +47,9 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
     }
 
     public void addStatistics(StatisticsLevel statisticsLevel) {
-        statisticsModel.getLevels().add(statisticsLevel);
+        if (statisticsModel != null) {
+            statisticsModel.getLevels().add(statisticsLevel);
+        }
         updateLastStats();
     }
 
