@@ -49,7 +49,9 @@ public abstract class BaseStatsFragment extends Fragment {
     }
 
     public void addStatistics(StatisticsLevel statisticsLevel) {
-        statisticsModel.getLevels().add(statisticsLevel);
+        if (statisticsModel != null) {
+            statisticsModel.getLevels().add(statisticsLevel);
+        }
         updateLastStats();
     }
 

@@ -13,8 +13,12 @@ public class StatisticsModel implements Serializable, Cloneable {
     @Expose
     private ArrayList<StatisticsLevel> levels;
 
+    public StatisticsModel() {
+        this.levels = new ArrayList<>();
+    }
+
     public ArrayList<StatisticsLevel> getLevels() {
-        return levels;
+        return levels == null ? new ArrayList<>() : levels;
     }
 
     public void setLevels(ArrayList<StatisticsLevel> levels) {
