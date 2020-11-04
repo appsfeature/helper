@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-class StatsJsonCreator {
+public class StatsJsonCreator {
 
     public static String toJson(ArrayList<StatisticsModel> statisticsModels) {
         try {
