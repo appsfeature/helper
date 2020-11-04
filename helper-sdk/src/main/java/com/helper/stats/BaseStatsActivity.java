@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.helper.util.BaseConstants;
+
 /*  Usage
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +20,18 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
 
     private StatisticsModel statisticsModel;
 
+    public StatisticsModel getStatisticsModel() {
+        return statisticsModel.getClone();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (statisticsModel == null) {
-            statisticsModel = LastStats.getLastStats(this);
+        if(getIntent() != null && getIntent().getSerializableExtra(BaseConstants.STATISTICS) instanceof StatisticsModel) {
+            statisticsModel = (StatisticsModel) ((StatisticsModel) getIntent().getSerializableExtra(BaseConstants.STATISTICS)).getClone();
+            updateLastStats();
+        }else if (statisticsModel == null) {
+            statisticsModel = LastStats.getLastStats(this).getClone();
         }
     }
 
@@ -52,7 +62,12 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
         }
         updateLastStats();
     }
-
+    public void removeLastStatistics() {
+        if (statisticsModel != null && statisticsModel.getLevels().size() > 0) {
+            statisticsModel.getLevels().remove(statisticsModel.getLevels().size() - 1);
+        }
+        updateLastStats();
+    }
     private void updateLastStats() {
         if (statisticsModel != null) {
             LastStats.setLastStats(this, statisticsModel.getClone());

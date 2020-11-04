@@ -3,8 +3,9 @@ package com.helper.stats;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.helper.util.BaseConstants;
 
 /*  Usage
     @Override
@@ -19,11 +20,19 @@ public abstract class BaseStatsFragment extends Fragment {
 
     private StatisticsModel statisticsModel;
 
+    public StatisticsModel getStatisticsModel() {
+        return statisticsModel.getClone();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (statisticsModel == null) {
-            statisticsModel = LastStats.getLastStats(getActivity());
+        if(getArguments() != null && getArguments().getSerializable(BaseConstants.STATISTICS) instanceof StatisticsModel) {
+            statisticsModel = (StatisticsModel) ((StatisticsModel) getArguments().getSerializable(BaseConstants.STATISTICS)).getClone();
+            updateLastStats();
+        }else
+            if (statisticsModel == null) {
+            statisticsModel = LastStats.getLastStats(getActivity()).getClone();
         }
     }
 
@@ -51,6 +60,12 @@ public abstract class BaseStatsFragment extends Fragment {
     public void addStatistics(StatisticsLevel statisticsLevel) {
         if (statisticsModel != null) {
             statisticsModel.getLevels().add(statisticsLevel);
+        }
+        updateLastStats();
+    }
+    public void removeLastStatistics() {
+        if (statisticsModel != null && statisticsModel.getLevels().size() > 0) {
+            statisticsModel.getLevels().remove(statisticsModel.getLevels().size() - 1);
         }
         updateLastStats();
     }

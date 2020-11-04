@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class LastStats {
 
-    //call from SplashActivity.java or onDestroy
+    //call from SplashActivity.java
     public static void clear(Context context) {
         BasePrefUtil.setLastStats(context, "");
     }

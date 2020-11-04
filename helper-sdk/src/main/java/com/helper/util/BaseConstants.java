@@ -4,6 +4,7 @@ public interface BaseConstants {
 
     String DEFAULT_KEY_IMAGE_PATH = "image_path";
     String DEFAULT_KEY_PDF_PATH = "pdf_path";
+    String STATISTICS = "statistics";
 
     String NO_DATA = "No Data";
     String EMPTY_OR_NULL_DATA = "Empty or Null Data";

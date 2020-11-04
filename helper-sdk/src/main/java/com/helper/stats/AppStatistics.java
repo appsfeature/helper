@@ -1,37 +1,29 @@
 package com.helper.stats;
 
-import android.os.Bundle;
+import android.app.Activity;
 
-import androidx.annotation.Nullable;
-
-import com.adssdk.PageAdsAppCompactActivity;
 import com.helper.util.BaseConstants;
 
-/*  Usage
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ....
-        ....
-        addStatistics(getStatisticsModel(id, title));
-
-        String currentStatsLevelJson = getStatistics();
-}*/
-public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
+public class AppStatistics {
 
     private StatisticsModel statisticsModel;
+    private Activity activity;
 
     public StatisticsModel getStatisticsModel() {
         return statisticsModel.getClone();
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if(getIntent() != null && getIntent().getSerializableExtra(BaseConstants.STATISTICS) instanceof StatisticsModel) {
-            statisticsModel = (StatisticsModel) ((StatisticsModel) getIntent().getSerializableExtra(BaseConstants.STATISTICS)).getClone();
+    public void setStatisticsModel(StatisticsModel statisticsModel) {
+        this.statisticsModel = statisticsModel;
+    }
+
+    public void onCreate(Activity activity) {
+        this.activity = activity;
+        if(activity.getIntent() != null && activity.getIntent().getExtras().getSerializable(BaseConstants.STATISTICS) instanceof StatisticsModel) {
+            statisticsModel = (StatisticsModel) ((StatisticsModel) activity.getIntent().getExtras().getSerializable(BaseConstants.STATISTICS)).getClone();
             updateLastStats();
         }else if (statisticsModel == null) {
-            statisticsModel = LastStats.getLastStats(this).getClone();
+            statisticsModel = LastStats.getLastStats(activity).getClone();
         }
     }
 
@@ -50,9 +42,7 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
         return StatsJsonCreator.toJson(statisticsModel);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void onResume() {
         updateLastStats();
     }
 
@@ -72,7 +62,7 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
 
     private void updateLastStats() {
         if (statisticsModel != null) {
-            LastStats.setLastStats(this, statisticsModel.getClone());
+            LastStats.setLastStats(activity, statisticsModel.getClone());
         }
     }
 
