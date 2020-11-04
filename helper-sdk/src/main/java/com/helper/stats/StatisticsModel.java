@@ -1,45 +1,24 @@
 package com.helper.stats;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class StatisticsModel implements Serializable, Cloneable {
 
-    private String id;
-    private String title;
-    private String level;
+    @SerializedName("levels")
+    @Expose
+    private ArrayList<StatisticsLevel> levels;
 
-    public StatisticsModel() {
+    public ArrayList<StatisticsLevel> getLevels() {
+        return levels;
     }
 
-    public StatisticsModel(String id, String title, int level) {
-        this.id = id;
-        this.title = title;
-        this.level = level + "";
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
+    public void setLevels(ArrayList<StatisticsLevel> levels) {
+        this.levels = levels;
     }
 
     @Override

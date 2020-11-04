@@ -5,35 +5,40 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.adssdk.PageAdsAppCompactActivity;
+/*  Usage
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ....
+        ....
+        addStatistics(getStatisticsModel(id, title));
 
-import java.util.ArrayList;
-
+        String currentStatsLevelJson = getStatistics();
+}*/
 public abstract class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
 
-    private ArrayList<StatisticsModel> previousLevel;
+    private StatisticsModel statisticsModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (previousLevel == null) {
-            previousLevel = LastStats.getLastStats();
+        if (statisticsModel == null) {
+            statisticsModel = LastStats.getLastStats(this);
         }
     }
 
-    public StatisticsModel getStatisticsModel(int id, String title) {
-        return getStatisticsModel(id + "", title);
+    public StatisticsLevel getStatisticsLevel(int id, String title) {
+        return getStatisticsLevel(id + "", title);
     }
-
-    public StatisticsModel getStatisticsModel(String id, String title) {
-        return new StatisticsModel(id, title, previousLevel.size() + 1);
+    public StatisticsLevel getStatisticsLevel(String id, String title) {
+        return new StatisticsLevel(id, title, statisticsModel.getLevels().size() + 1);
     }
 
     //call after addStatistics() method
     public String getStatistics() {
-        if (previousLevel == null || previousLevel.size() == 0) {
+        if (statisticsModel == null || statisticsModel.getLevels().size() == 0) {
             return "Empty";
         }
-        return StatsJsonCreator.toJson(previousLevel);
+        return StatsJsonCreator.toJson(statisticsModel);
     }
 
     @Override
@@ -42,21 +47,20 @@ public abstract class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
         updateLastStats();
     }
 
-    public void addStatistics(StatisticsModel statisticsModel) {
-        previousLevel.add(statisticsModel);
+    public void addStatistics(StatisticsLevel statisticsLevel) {
+        statisticsModel.getLevels().add(statisticsLevel);
         updateLastStats();
     }
 
     private void updateLastStats() {
-        if (previousLevel != null) {
-            ArrayList<StatisticsModel> clone = new ArrayList<>(previousLevel);
-            LastStats.setLastStats(clone);
+        if (statisticsModel != null) {
+            LastStats.setLastStats(this, statisticsModel.getClone());
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LastStats.clear();
+        LastStats.clear(this);
     }
 }

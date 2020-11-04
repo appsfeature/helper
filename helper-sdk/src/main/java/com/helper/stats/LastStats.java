@@ -1,28 +1,29 @@
 package com.helper.stats;
 
 
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.helper.util.BasePrefUtil;
+
 import java.util.ArrayList;
 
 /**
  * @author Created by Abhijit on 11/02/2020.
  */
 public class LastStats {
-    private static ArrayList<StatisticsModel> lastStats;
 
-    //call from SplashActivity.java
-    public static void clear() {
-        LastStats.lastStats = null;
+    //call from SplashActivity.java or onDestroy
+    public static void clear(Context context) {
+        BasePrefUtil.setLastStats(context, "");
     }
 
-    public static ArrayList<StatisticsModel> getLastStats() {
-        if(LastStats.lastStats == null){
-            return new ArrayList<>();
-        }else {
-            return LastStats.lastStats;
-        }
+    public static StatisticsModel getLastStats(Context context) {
+        StatisticsModel statsModel = StatsJsonCreator.fromJson(BasePrefUtil.getLastStats(context));
+        return statsModel == null ? new StatisticsModel() : statsModel;
     }
 
-    public static void setLastStats(ArrayList<StatisticsModel> lastStats) {
-        LastStats.lastStats = lastStats;
+    public static void setLastStats(Context context, StatisticsModel lastStats) {
+        BasePrefUtil.setLastStats(context, StatsJsonCreator.toJson(lastStats));
     }
 }

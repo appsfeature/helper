@@ -9,20 +9,23 @@ public class BasePrefUtil {
 
     private static final String TAG = "BasePrefUtil";
     private static final String DOWNLOAD_DIRECTORY = "DownloadDirectory";
+    private static final String LAST_STATS = "last_stats";
     private static SharedPreferences sharedPreferences;
 
 
     private static SharedPreferences getDefaultSharedPref(Context context) {
-        if (sharedPreferences == null)
+        if (sharedPreferences == null && context != null)
             sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 
         return sharedPreferences;
     }
 
     public static void setString(Context context, String key, String value) {
-        final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
-        editor.putString(key, value);
-        editor.apply();
+        if(context != null) {
+            final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
+            editor.putString(key, value);
+            editor.commit();
+        }
     }
 
     public static String getString(Context context, String key) {
@@ -30,13 +33,18 @@ public class BasePrefUtil {
     }
 
     public static String getString(Context context, String key, String defaultValue) {
+        if(context == null) {
+            return defaultValue;
+        }
         return getDefaultSharedPref(context).getString(key, defaultValue);
     }
 
     public static void setInt(Context context, String key, int value) {
-        final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
-        editor.putInt(key, value);
-        editor.apply();
+        if(context != null) {
+            final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
+            editor.putInt(key, value);
+            editor.apply();
+        }
     }
 
     public static int getInt(Context context, String key) {
@@ -44,13 +52,18 @@ public class BasePrefUtil {
     }
 
     public static int getInt(Context context, String key, int defaultValue) {
+        if(context == null) {
+            return defaultValue;
+        }
         return getDefaultSharedPref(context).getInt(key, defaultValue);
     }
 
     public static void setFloat(Context context, String key, float value) {
-        final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
-        editor.putFloat(key, value);
-        editor.apply();
+        if(context != null) {
+            final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
+            editor.putFloat(key, value);
+            editor.apply();
+        }
     }
 
     public static float getFloat(Context context, String key) {
@@ -58,23 +71,33 @@ public class BasePrefUtil {
     }
 
     public static float getFloat(Context context, String key, float defaultValue) {
+        if(context == null) {
+            return defaultValue;
+        }
         return getDefaultSharedPref(context).getFloat(key, defaultValue);
     }
 
     public static void setLong(Context context, String key, long value) {
-        final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
-        editor.putLong(key, value);
-        editor.apply();
+        if(context != null) {
+            final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
+            editor.putLong(key, value);
+            editor.apply();
+        }
     }
 
     public static long getLong(Context context, String key) {
+        if(context == null) {
+            return 0;
+        }
         return getDefaultSharedPref(context).getLong(key, 0);
     }
 
     public static void setBoolean(Context context, String key, boolean value) {
-        final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
-        editor.putBoolean(key, value);
-        editor.apply();
+        if(context != null) {
+            final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
+            editor.putBoolean(key, value);
+            editor.apply();
+        }
     }
 
     public static boolean getBoolean(Context context, String key) {
@@ -82,17 +105,24 @@ public class BasePrefUtil {
     }
 
     public static boolean getBoolean(Context context, String key, boolean defaultValue) {
+        if(context == null) {
+            return defaultValue;
+        }
         return getDefaultSharedPref(context).getBoolean(key, defaultValue);
     }
 
     public static void removeKey(Context context, String key) {
-        getDefaultSharedPref(context).edit().remove(key).apply();
+        if(context != null) {
+            getDefaultSharedPref(context).edit().remove(key).apply();
+        }
     }
 
     public static void clearPreferences(Context context) {
-        final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
-        editor.clear();
-        editor.apply();
+        if(context != null) {
+            final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
+            editor.clear();
+            editor.apply();
+        }
     }
 
     public static String getDownloadDirectory(Context context) {
@@ -101,5 +131,13 @@ public class BasePrefUtil {
 
     public static void setDownloadDirectory(Context context, String value) {
         setString(context, DOWNLOAD_DIRECTORY, value);
+    }
+
+    public static String getLastStats(Context context) {
+        return getString(context, LAST_STATS, "");
+    }
+
+    public static void setLastStats(Context context, String value) {
+        setString(context, LAST_STATS, value);
     }
 }

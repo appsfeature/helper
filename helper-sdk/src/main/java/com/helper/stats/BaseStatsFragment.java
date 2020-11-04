@@ -3,9 +3,8 @@ package com.helper.stats;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
 
 /*  Usage
     @Override
@@ -18,29 +17,29 @@ import java.util.ArrayList;
 }*/
 public abstract class BaseStatsFragment extends Fragment {
 
-    private ArrayList<StatisticsModel> previousLevel;
+    private StatisticsModel statisticsModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (previousLevel == null) {
-            previousLevel = LastStats.getLastStats();
+        if (statisticsModel == null) {
+            statisticsModel = LastStats.getLastStats(getActivity());
         }
     }
 
-    public StatisticsModel getStatisticsModel(int id, String title) {
-        return getStatisticsModel(id + "", title);
+    public StatisticsLevel getStatisticsLevel(int id, String title) {
+        return getStatisticsLevel(id + "", title);
+    }
+    public StatisticsLevel getStatisticsLevel(String id, String title) {
+        return new StatisticsLevel(id, title, statisticsModel.getLevels().size() + 1);
     }
 
-    public StatisticsModel getStatisticsModel(String id, String title) {
-        return new StatisticsModel(id, title, previousLevel.size() + 1);
-    }
-
+    //call after addStatistics() method
     public String getStatistics() {
-        if (previousLevel == null || previousLevel.size() == 0) {
+        if (statisticsModel == null || statisticsModel.getLevels().size() == 0) {
             return "Empty";
         }
-        return StatsJsonCreator.toJson(previousLevel);
+        return StatsJsonCreator.toJson(statisticsModel);
     }
 
     @Override
@@ -49,21 +48,20 @@ public abstract class BaseStatsFragment extends Fragment {
         updateLastStats();
     }
 
-    public void addStatistics(StatisticsModel statisticsModel) {
-        previousLevel.add(statisticsModel);
+    public void addStatistics(StatisticsLevel statisticsLevel) {
+        statisticsModel.getLevels().add(statisticsLevel);
         updateLastStats();
     }
 
     private void updateLastStats() {
-        if (previousLevel != null) {
-            ArrayList<StatisticsModel> clone = new ArrayList<>(previousLevel);
-            LastStats.setLastStats(clone);
+        if (statisticsModel != null) {
+            LastStats.setLastStats(getActivity(), statisticsModel.getClone());
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LastStats.clear();
+        LastStats.clear(getActivity());
     }
 }
