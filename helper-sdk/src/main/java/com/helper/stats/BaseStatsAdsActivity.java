@@ -60,9 +60,9 @@ public abstract class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LastStats.clear(this);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        LastStats.clear(this);
+//    }
 }

@@ -59,9 +59,9 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LastStats.clear(this);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        LastStats.clear(this);
+//    }
 }

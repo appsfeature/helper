@@ -61,9 +61,9 @@ public abstract class BaseStatsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LastStats.clear(getActivity());
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        LastStats.clear(getActivity());
+//    }
 }
