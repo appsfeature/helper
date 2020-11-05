@@ -10,11 +10,7 @@ public class AppStatistics {
     private Activity activity;
 
     public StatisticsModel getStatisticsModel() {
-        return statisticsModel.getClone();
-    }
-
-    public void setStatisticsModel(StatisticsModel statisticsModel) {
-        this.statisticsModel = statisticsModel;
+        return statisticsModel != null ? statisticsModel.getClone() : new StatisticsModel();
     }
 
     public void onCreate(Activity activity) {
@@ -46,11 +42,12 @@ public class AppStatistics {
         updateLastStats();
     }
 
-    public void addStatistics(StatisticsLevel statisticsLevel) {
+    public AppStatistics addStatistics(StatisticsLevel statisticsLevel) {
         if (statisticsModel != null) {
             statisticsModel.getLevels().add(statisticsLevel);
         }
         updateLastStats();
+        return this;
     }
 
     public void removeLastStatistics() {
@@ -65,10 +62,14 @@ public class AppStatistics {
             LastStats.setLastStats(activity, statisticsModel.getClone());
         }
     }
+    private boolean isClearLastSavedData = false;
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        LastStats.clear(this);
-//    }
+    public void setEnableOnDestroyMethod() {
+        this.isClearLastSavedData = true;
+    }
+
+    public void onDestroy() {
+        if(isClearLastSavedData)
+            LastStats.clear(activity);
+    }
 }

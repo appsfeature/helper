@@ -21,7 +21,7 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
     private StatisticsModel statisticsModel;
 
     public StatisticsModel getStatisticsModel() {
-        return statisticsModel.getClone();
+        return statisticsModel != null ? statisticsModel.getClone() : new StatisticsModel();
     }
 
     @Override
@@ -56,11 +56,12 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
         updateLastStats();
     }
 
-    public void addStatistics(StatisticsLevel statisticsLevel) {
+    public BaseStatsActivity addStatistics(StatisticsLevel statisticsLevel) {
         if (statisticsModel != null) {
             statisticsModel.getLevels().add(statisticsLevel);
         }
         updateLastStats();
+        return this;
     }
     public void removeLastStatistics() {
         if (statisticsModel != null && statisticsModel.getLevels().size() > 0) {
@@ -73,10 +74,15 @@ public abstract class BaseStatsActivity extends AppCompatActivity {
             LastStats.setLastStats(this, statisticsModel.getClone());
         }
     }
+    private boolean isClearLastSavedData = false;
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        LastStats.clear(this);
-//    }
+    public void setEnableOnDestroyMethod() {
+        this.isClearLastSavedData = true;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(isClearLastSavedData)
+            LastStats.clear(this);
+    }
 }

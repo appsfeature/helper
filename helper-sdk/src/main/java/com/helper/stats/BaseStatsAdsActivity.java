@@ -21,7 +21,7 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
     private StatisticsModel statisticsModel;
 
     public StatisticsModel getStatisticsModel() {
-        return statisticsModel.getClone();
+        return statisticsModel != null ? statisticsModel.getClone() : new StatisticsModel();
     }
 
     @Override
@@ -56,11 +56,12 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
         updateLastStats();
     }
 
-    public void addStatistics(StatisticsLevel statisticsLevel) {
+    public BaseStatsAdsActivity addStatistics(StatisticsLevel statisticsLevel) {
         if (statisticsModel != null) {
             statisticsModel.getLevels().add(statisticsLevel);
         }
         updateLastStats();
+        return this;
     }
 
     public void removeLastStatistics() {
@@ -75,10 +76,15 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
             LastStats.setLastStats(this, statisticsModel.getClone());
         }
     }
+    private boolean isClearLastSavedData = false;
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        LastStats.clear(this);
-//    }
+    public void setEnableOnDestroyMethod() {
+        this.isClearLastSavedData = true;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(isClearLastSavedData)
+            LastStats.clear(this);
+    }
 }

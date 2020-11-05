@@ -21,7 +21,7 @@ public abstract class BaseStatsFragment extends Fragment {
     private StatisticsModel statisticsModel;
 
     public StatisticsModel getStatisticsModel() {
-        return statisticsModel.getClone();
+        return statisticsModel != null ? statisticsModel.getClone() : new StatisticsModel();
     }
 
     @Override
@@ -57,11 +57,12 @@ public abstract class BaseStatsFragment extends Fragment {
         updateLastStats();
     }
 
-    public void addStatistics(StatisticsLevel statisticsLevel) {
+    public BaseStatsFragment addStatistics(StatisticsLevel statisticsLevel) {
         if (statisticsModel != null) {
             statisticsModel.getLevels().add(statisticsLevel);
         }
         updateLastStats();
+        return this;
     }
     public void removeLastStatistics() {
         if (statisticsModel != null && statisticsModel.getLevels().size() > 0) {
@@ -76,9 +77,15 @@ public abstract class BaseStatsFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        LastStats.clear(getActivity());
-//    }
+    private boolean isClearLastSavedData = false;
+
+    public void setEnableOnDestroyMethod() {
+        this.isClearLastSavedData = true;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(isClearLastSavedData)
+            LastStats.clear(getActivity());
+    }
 }
