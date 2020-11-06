@@ -10,28 +10,28 @@ public class StatisticsLevel implements Serializable, Cloneable {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private int id;
     @SerializedName("title")
     @Expose
     private String title;
     @SerializedName("level")
     @Expose
-    private String level;
+    private int level;
 
     public StatisticsLevel() {
     }
 
-    public StatisticsLevel(String id, String title, int level) {
+    public StatisticsLevel(int id, String title, int level) {
         this.id = id;
         this.title = title;
-        this.level = level + "";
+        this.level = level;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class StatisticsLevel implements Serializable, Cloneable {
         this.title = title;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

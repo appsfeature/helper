@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.adssdk.PageAdsAppCompactActivity;
 import com.helper.util.BaseConstants;
+import com.helper.util.EncryptData;
 
 /*  Usage
     @Override
@@ -36,24 +37,29 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
     }
 
     public StatisticsLevel getStatisticsLevel(int id, String title) {
-        return getStatisticsLevel(id + "", title);
-    }
-    public StatisticsLevel getStatisticsLevel(String id, String title) {
         return new StatisticsLevel(id, title, statisticsModel != null ? statisticsModel.getLevels().size() + 1 : 0);
     }
 
-    //call after addStatistics() method
     public String getStatistics() {
+        return getStatistics(true);
+    }
+    //call after addStatistics() method
+    public String getStatistics(boolean isEncrypt) {
         if (statisticsModel == null || statisticsModel.getLevels().size() == 0) {
             return "Empty";
         }
-        return StatsJsonCreator.toJson(statisticsModel);
+        if(isEncrypt) {
+            return EncryptData.encode(StatsJsonCreator.toJson(statisticsModel));
+        }else {
+            return StatsJsonCreator.toJson(statisticsModel);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateLastStats();
+        if(!isDisableOnResumeMethod)
+            updateLastStats();
     }
 
     public BaseStatsAdsActivity addStatistics(StatisticsLevel statisticsLevel) {
@@ -80,6 +86,12 @@ public class BaseStatsAdsActivity extends PageAdsAppCompactActivity {
 
     public void setEnableOnDestroyMethod() {
         this.isClearLastSavedData = true;
+    }
+
+    private boolean isDisableOnResumeMethod = false;
+
+    public void setDisableOnResumeMethod() {
+        this.isDisableOnResumeMethod = true;
     }
     @Override
     protected void onDestroy() {

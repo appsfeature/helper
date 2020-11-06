@@ -3,6 +3,7 @@ package com.helper.stats;
 import android.app.Activity;
 
 import com.helper.util.BaseConstants;
+import com.helper.util.EncryptData;
 
 public class AppStatistics {
 
@@ -24,22 +25,27 @@ public class AppStatistics {
     }
 
     public StatisticsLevel getStatisticsLevel(int id, String title) {
-        return getStatisticsLevel(id + "", title);
-    }
-    public StatisticsLevel getStatisticsLevel(String id, String title) {
         return new StatisticsLevel(id, title, statisticsModel != null ? statisticsModel.getLevels().size() + 1 : 0);
     }
 
-    //call after addStatistics() method
     public String getStatistics() {
+        return getStatistics(true);
+    }
+    //call after addStatistics() method
+    public String getStatistics(boolean isEncrypt) {
         if (statisticsModel == null || statisticsModel.getLevels().size() == 0) {
             return "Empty";
         }
-        return StatsJsonCreator.toJson(statisticsModel);
+        if(isEncrypt) {
+            return EncryptData.encode(StatsJsonCreator.toJson(statisticsModel));
+        }else {
+            return StatsJsonCreator.toJson(statisticsModel);
+        }
     }
 
     public void onResume() {
-        updateLastStats();
+        if(!isDisableOnResumeMethod)
+            updateLastStats();
     }
 
     public AppStatistics addStatistics(StatisticsLevel statisticsLevel) {
@@ -66,6 +72,12 @@ public class AppStatistics {
 
     public void setEnableOnDestroyMethod() {
         this.isClearLastSavedData = true;
+    }
+
+    private boolean isDisableOnResumeMethod = false;
+
+    public void setDisableOnResumeMethod() {
+        this.isDisableOnResumeMethod = true;
     }
 
     public void onDestroy() {

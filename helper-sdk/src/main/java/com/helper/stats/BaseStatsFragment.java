@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.helper.util.BaseConstants;
+import com.helper.util.EncryptData;
 
 /*  Usage
     @Override
@@ -37,24 +38,29 @@ public abstract class BaseStatsFragment extends Fragment {
     }
 
     public StatisticsLevel getStatisticsLevel(int id, String title) {
-        return getStatisticsLevel(id + "", title);
-    }
-    public StatisticsLevel getStatisticsLevel(String id, String title) {
         return new StatisticsLevel(id, title, statisticsModel != null ? statisticsModel.getLevels().size() + 1 : 0);
     }
 
-    //call after addStatistics() method
     public String getStatistics() {
+        return getStatistics(true);
+    }
+    //call after addStatistics() method
+    public String getStatistics(boolean isEncrypt) {
         if (statisticsModel == null || statisticsModel.getLevels().size() == 0) {
             return "Empty";
         }
-        return StatsJsonCreator.toJson(statisticsModel);
+        if(isEncrypt) {
+            return EncryptData.encode(StatsJsonCreator.toJson(statisticsModel));
+        }else {
+            return StatsJsonCreator.toJson(statisticsModel);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateLastStats();
+        if(!isDisableOnResumeMethod)
+            updateLastStats();
     }
 
     public BaseStatsFragment addStatistics(StatisticsLevel statisticsLevel) {
@@ -81,6 +87,12 @@ public abstract class BaseStatsFragment extends Fragment {
 
     public void setEnableOnDestroyMethod() {
         this.isClearLastSavedData = true;
+    }
+
+    private boolean isDisableOnResumeMethod = false;
+
+    public void setDisableOnResumeMethod() {
+        this.isDisableOnResumeMethod = true;
     }
     @Override
     public void onDestroy() {
