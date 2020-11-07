@@ -6,23 +6,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.helper.stats.BaseStatsActivity;
-import com.helper.stats.StatisticsLevel;
 import com.helper.task.TaskRunner;
 import com.helper.util.BaseUtil;
 import com.helper.util.StyleUtil;
 
 import java.util.concurrent.Callable;
 
-public class MainActivity extends BaseStatsActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StyleUtil.setStatusBarDarkMode(this, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addStatistics(new StatisticsLevel()).
-                setEnableOnDestroyMethod();
     }
 
     public void onOpenBrowser(View view) {
