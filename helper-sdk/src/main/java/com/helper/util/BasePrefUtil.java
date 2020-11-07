@@ -9,7 +9,6 @@ public class BasePrefUtil {
 
     private static final String TAG = "BasePrefUtil";
     private static final String DOWNLOAD_DIRECTORY = "DownloadDirectory";
-    private static final String LAST_STATS = "last_stats";
     private static SharedPreferences sharedPreferences;
 
 
@@ -131,13 +130,5 @@ public class BasePrefUtil {
 
     public static void setDownloadDirectory(Context context, String value) {
         setString(context, DOWNLOAD_DIRECTORY, value);
-    }
-
-    public static String getLastStats(Context context) {
-        return getString(context, LAST_STATS, "");
-    }
-
-    public static void setLastStats(Context context, String value) {
-        setString(context, LAST_STATS, value);
     }
 }

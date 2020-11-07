@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
 
-public class EncryptData {
+public class EncryptUtil {
 
 
     public static String encode(String value) {
