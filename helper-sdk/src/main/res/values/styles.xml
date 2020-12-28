@@ -26,6 +26,8 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
         <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
         <item name="android:spinnerStyle">@style/SpinnerStyle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
     </style>
 
     <!-- Light base activity theme -->
@@ -46,6 +48,13 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
         <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
         <item name="android:spinnerStyle">@style/SpinnerStyle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+    </style>
+
+    <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
