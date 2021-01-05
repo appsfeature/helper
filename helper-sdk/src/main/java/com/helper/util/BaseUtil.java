@@ -42,6 +42,10 @@ public class BaseUtil {
         toast.show();
     }
 
+    public static String getFormattedViews(int anInt) {
+        return anInt + "";
+    }
+
     public static boolean isConnected(Context context) {
         boolean isConnected = false;
         try {
