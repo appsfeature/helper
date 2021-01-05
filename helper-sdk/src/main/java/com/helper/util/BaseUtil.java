@@ -42,8 +42,51 @@ public class BaseUtil {
         toast.show();
     }
 
-    public static String getFormattedViews(int anInt) {
-        return anInt + "";
+    public static String getFormattedViews(int number) {
+        return convertNumberUSFormat(number);
+    }
+
+    //US format
+    public static String convertNumberUSFormat(int number){
+        try {
+            String[] suffix = new String[]{"K","M","B","T"};
+            int size = (number != 0) ? (int) Math.log10(number) : 0;
+            if (size >= 3){
+                while (size % 3 != 0) {
+                    size = size - 1;
+                }
+            }
+            double notation = Math.pow(10, size);
+            return (size >= 3) ? + (Math.round((number / notation) * 100) / 100.0d)+suffix[(size/3) - 1] : + number + "";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return number + "";
+        }
+    }
+
+
+    // indian format
+    private static String convertNumberINFormat(int n) {
+        try {
+            String[] c = new String[]{"K", "L", "Cr"};
+            int size = String.valueOf(n).length();
+            if (size>=4 && size<6) {
+                int value = (int) Math.pow(10, 1);
+                double d = (double) Math.round(n/1000.0 * value) / value;
+                return (double) Math.round(n/1000.0 * value) / value+" "+c[0];
+            } else if(size>5 && size<8) {
+                int value = (int) Math.pow(10, 1);
+                return (double) Math.round(n/100000.0 * value) / value+" "+c[1];
+            } else if(size>=8) {
+                int value = (int) Math.pow(10, 1);
+                return (double) Math.round(n/10000000.0 * value) / value+" "+c[2];
+            } else {
+                return n+"";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return n + "";
+        }
     }
 
     public static boolean isConnected(Context context) {
