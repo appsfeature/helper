@@ -13,6 +13,7 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -26,6 +27,11 @@ import com.helper.R;
 import com.helper.activity.BrowserActivity;
 import com.helper.callback.Response;
 import com.helper.widget.PopupProgress;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -64,9 +70,8 @@ public class BaseUtil {
         }
     }
 
-
     // indian format
-    private static String convertNumberINFormat(int n) {
+    public static String convertNumberINFormat(int n) {
         try {
             String[] c = new String[]{"K", "L", "Cr"};
             int size = String.valueOf(n).length();
@@ -165,7 +170,7 @@ public class BaseUtil {
         return DayNightPreference.isNightModeEnabled(context);
     }
 
-    private static void setNightMode(Context context, boolean isNightModeEnabled) {
+    public static void setNightMode(Context context, boolean isNightModeEnabled) {
         DayNightPreference.setNightMode(context, isNightModeEnabled);
     }
 
@@ -242,6 +247,29 @@ public class BaseUtil {
 
     public static boolean isEmptyOrNull(String s) {
         return (s == null || TextUtils.isEmpty(s));
+    }
+
+
+
+    public static String timeTaken(long time) {
+        return String.format(Locale.US, "%02d min, %02d sec",
+                TimeUnit.MILLISECONDS.toMinutes(time),
+                TimeUnit.MILLISECONDS.toSeconds(time) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time))
+        );
+    }
+    /**
+     * @param mileSecond enter time in millis
+     * @return Returns a string describing 'time' as a time relative to 'now'.
+     * Time spans in the past are formatted like "42 minutes ago". Time spans in the future are formatted like "In 42 minutes".
+     * i.e: 5 days ago, or 5 minutes ago.
+     */
+    public static CharSequence convertTimeStamp(String mileSecond){
+        return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSecond), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+    }
+
+    public static String getTimeStamp() {
+        return new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
     }
 
 }
