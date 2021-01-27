@@ -25,7 +25,7 @@ public class FileUtils {
     }
 
     public static Uri getUriFromFile(Context context, File file) {
-        String fileProvider = context.getPackageName()+".fileprovider";
+        String fileProvider = context.getPackageName() + BaseConstants.FILE_PROVIDER;
         return FileProvider.getUriForFile(context, fileProvider, file);
     }
 

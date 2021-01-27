@@ -119,7 +119,7 @@ public class ShareHtmlContent {
                 callback.onStopProgressBar();
             }
             String strUri = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
-            Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+            Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + BaseConstants.FILE_PROVIDER, file);
             intentShare(context, fileUri, strUri);
         } catch (Exception e) {
             e.printStackTrace();
