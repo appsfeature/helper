@@ -42,6 +42,11 @@ public abstract class AsyncThread<Params, Progress, Result> {
         });
     }
 
+    @MainThread
+    public final void executeOnExecutor(Object object, Params... params) {
+        execute(params);
+    }
+
     private Handler handler;
 
     public Handler getHandler() {
