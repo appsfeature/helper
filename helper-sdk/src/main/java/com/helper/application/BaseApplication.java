@@ -3,7 +3,7 @@ package com.helper.application;
 import com.helper.util.DayNightPreference;
 
 
-public abstract class BaseApplication extends ActivityTrackerApplication {
+public abstract class BaseApplication extends ActivityTrackingApplication {
 
     @Override
     public void onCreate() {

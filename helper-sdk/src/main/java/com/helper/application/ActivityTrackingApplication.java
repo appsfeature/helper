@@ -12,9 +12,9 @@ import androidx.annotation.RequiresApi;
 
 import com.helper.Helper;
 
-public abstract class ActivityTrackerApplication extends Application implements Application.ActivityLifecycleCallbacks {
+public abstract class ActivityTrackingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
-    private final String TAG = ActivityTrackerApplication.class.getSimpleName();
+    private final String TAG = ActivityTrackingApplication.class.getSimpleName();
 
     public abstract boolean isDebugMode();
 
