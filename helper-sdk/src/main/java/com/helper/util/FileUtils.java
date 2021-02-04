@@ -1,6 +1,8 @@
 package com.helper.util;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
@@ -13,6 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class FileUtils {
@@ -39,6 +43,59 @@ public class FileUtils {
         } else {
             return null;
         }
+    }
+
+    public static boolean isFileExists(Context context, String fileName) {
+        boolean isFileExixts = false;
+        try {
+            if (!TextUtils.isEmpty(fileName)) {
+                File apkStorage = null;
+                if (isSDCardPresent()) {
+                    apkStorage = getFileStoreDirectory(context);
+                }
+                if (apkStorage != null && apkStorage.exists()) {
+                    File outputFile = new File(apkStorage, fileName);
+                    isFileExixts = outputFile.exists();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isFileExixts;
+    }
+
+    public static void deleteFile(Context context, String fileName) {
+        try {
+            if (!TextUtils.isEmpty(fileName)) {
+                File apkStorage = null;
+                if (isSDCardPresent()) {
+                    apkStorage = getFileStoreDirectory(context);
+                }
+                if (apkStorage != null && apkStorage.exists()) {
+                    File outputFile = new File(apkStorage, fileName);
+                    if (outputFile.exists()) {
+                        outputFile.delete();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<String> getStorageFileList(Context context) {
+        List<String> result = null;
+        try {
+            File path = getFileStoreDirectory(context);
+            String[] storageFileList = path.list();
+            if (storageFileList != null) {
+                result = Arrays.asList(storageFileList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = null;
+        }
+        return result;
     }
 
     public static String getFileName(String filePath) {
@@ -108,6 +165,22 @@ public class FileUtils {
         }else {
             return context.getFilesDir();
         }
+    }
+
+    public static boolean shouldAskPermissions(Context context) {
+        if (isSupportLegacyExternalStorage()) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                return context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    public static boolean isSDCardPresent() {
+        return Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED);
     }
 
 }

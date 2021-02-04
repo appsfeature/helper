@@ -1,9 +1,9 @@
 package com.helper;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.helper.callback.Response;
-import com.helper.util.BaseConstants;
 import com.helper.util.BasePrefUtil;
 
 public class Helper {
@@ -12,6 +12,7 @@ public class Helper {
     private static volatile Helper helper;
     private boolean isEnableDebugMode = false;
     private Response.Helper mListener;
+    private Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks;
 
     private Helper() {
         if (helper != null) {
@@ -47,6 +48,15 @@ public class Helper {
 
     public Helper setListener(Response.Helper listener) {
         this.mListener = listener;
+        return this;
+    }
+
+    public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
+        return mActivityLifecycleCallbacks;
+    }
+
+    public Helper setActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks) {
+        this.mActivityLifecycleCallbacks = mActivityLifecycleCallbacks;
         return this;
     }
 

@@ -1,11 +1,9 @@
-package com.helper;
-
-import android.app.Application;
+package com.helper.application;
 
 import com.helper.util.DayNightPreference;
 
 
-public class BaseApplication extends Application {
+public abstract class BaseApplication extends ActivityTrackerApplication {
 
     @Override
     public void onCreate() {
