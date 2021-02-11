@@ -2,7 +2,6 @@ package com.helper.util;
 
 public interface BaseConstants {
 
-    String FILE_PROVIDER = ".fileprovider";
     String DEFAULT_KEY_IMAGE_PATH = "image_path";
     String DEFAULT_KEY_PDF_PATH = "pdf_path";
 

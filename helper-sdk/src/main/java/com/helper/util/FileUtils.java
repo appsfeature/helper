@@ -14,6 +14,8 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
+import com.helper.R;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +31,7 @@ public class FileUtils {
     }
 
     public static Uri getUriFromFile(Context context, File file) {
-        String fileProvider = context.getPackageName() + BaseConstants.FILE_PROVIDER;
+        String fileProvider = context.getPackageName() + context.getString(R.string.file_provider);
         return FileProvider.getUriForFile(context, fileProvider, file);
     }
 
