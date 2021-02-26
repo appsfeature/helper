@@ -1,5 +1,8 @@
 package com.helper.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.reflect.TypeToken;
 import com.helper.util.GsonParser;
 import com.helper.util.LoggerCommon;
@@ -9,6 +12,8 @@ import java.io.Serializable;
 
 public class HistoryModelResponse implements Serializable, Cloneable {
 
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "autoId")
     private int autoId;
     private int id;
     private String title;
