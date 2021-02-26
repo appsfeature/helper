@@ -48,4 +48,30 @@ public class GsonParser {
         }
     }
 
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
+    public static <T> String toJsonAll(Object item, TypeToken<T> typeCast) {
+        String toJson = "";
+        try {
+            toJson = new Gson().toJson(item, typeCast.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return toJson;
+    }
+
+
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
+    public static <T> T fromJsonAll(String jsonValue, TypeToken<T> typeCast) {
+        try {
+            return new Gson().fromJson(jsonValue, typeCast.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

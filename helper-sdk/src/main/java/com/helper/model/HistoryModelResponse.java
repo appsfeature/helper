@@ -1,5 +1,7 @@
 package com.helper.model;
 
+import com.google.gson.reflect.TypeToken;
+import com.helper.util.GsonParser;
 import com.helper.util.LoggerCommon;
 
 import java.io.Serializable;
@@ -90,6 +92,13 @@ public class HistoryModelResponse implements Serializable, Cloneable {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
+    public <T> T getJsonModel(TypeToken<T> typeCast) {
+        return GsonParser.fromJsonAll(jsonData, typeCast);
     }
 
     @Override
