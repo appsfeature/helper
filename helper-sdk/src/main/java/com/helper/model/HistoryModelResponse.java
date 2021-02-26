@@ -1,6 +1,8 @@
 package com.helper.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.reflect.TypeToken;
@@ -10,21 +12,64 @@ import com.helper.util.LoggerCommon;
 import java.io.Serializable;
 
 
+/**
+ * Room columnInfo used in pdf-viewer lib
+ * Don't add new variable with @ColumnInfo annotation.
+ * If you need to add new variable in this class than use @Ignore annotation.
+ */
 public class HistoryModelResponse implements Serializable, Cloneable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "autoId")
     private int autoId;
+
+    @ColumnInfo(name = "id")
     private int id;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "subTitle")
     private String subTitle;
+
+    @ColumnInfo(name = "itemType")
     private int itemType;
+
+    @ColumnInfo(name = "jsonData")
     private String jsonData;
+
+    @ColumnInfo(name = "itemState")
+    private String itemState;
+
+    @ColumnInfo(name = "catId")
     private int catId;
+
+    @ColumnInfo(name = "subCatId")
     private int subCatId;
+
+    @ColumnInfo(name = "createdAt")
     private String createdAt;
 
+    @Ignore
+    private String extraData;
+
     public HistoryModelResponse() {
+    }
+
+    public String getItemState() {
+        return itemState;
+    }
+
+    public void setItemState(String itemState) {
+        this.itemState = itemState;
+    }
+
+    public String getExtraData() {
+        return extraData;
+    }
+
+    public void setExtraData(String extraData) {
+        this.extraData = extraData;
     }
 
     public int getAutoId() {
@@ -107,6 +152,7 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     }
 
     @Override
+    @NonNull
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
