@@ -7,72 +7,89 @@ import java.io.Serializable;
 
 public class HistoryModelResponse implements Serializable, Cloneable {
 
+    private int autoId;
     private int id;
     private String title;
     private String subTitle;
     private int itemType;
     private String jsonData;
+    private int catId;
+    private int subCatId;
     private String createdAt;
 
     public HistoryModelResponse() {
     }
 
-    public static HistoryModelResponse Builder() {
-        return new HistoryModelResponse();
+    public int getAutoId() {
+        return autoId;
+    }
+
+    public void setAutoId(int autoId) {
+        this.autoId = autoId;
     }
 
     public int getId() {
         return id;
     }
 
-    public HistoryModelResponse setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public HistoryModelResponse setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
-        return this;
     }
 
     public String getSubTitle() {
         return subTitle;
     }
 
-    public HistoryModelResponse setSubTitle(String subTitle) {
+    public void setSubTitle(String subTitle) {
         this.subTitle = subTitle;
-        return this;
     }
 
     public int getItemType() {
         return itemType;
     }
 
-    public HistoryModelResponse setItemType(int itemType) {
+    public void setItemType(int itemType) {
         this.itemType = itemType;
-        return this;
     }
 
     public String getJsonData() {
         return jsonData;
     }
 
-    public HistoryModelResponse setJsonData(String jsonData) {
+    public void setJsonData(String jsonData) {
         this.jsonData = jsonData;
-        return this;
+    }
+
+    public int getCatId() {
+        return catId;
+    }
+
+    public void setCatId(int catId) {
+        this.catId = catId;
+    }
+
+    public int getSubCatId() {
+        return subCatId;
+    }
+
+    public void setSubCatId(int subCatId) {
+        this.subCatId = subCatId;
     }
 
     public String getCreatedAt() {
         return createdAt;
     }
 
-    public HistoryModelResponse setCreatedAt(String createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-        return this;
     }
 
     @Override
