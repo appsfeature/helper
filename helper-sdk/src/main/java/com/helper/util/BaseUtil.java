@@ -16,6 +16,9 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -271,5 +274,34 @@ public class BaseUtil {
     public static String getTimeStamp() {
         return new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
     }
+
+    public static void showKeyboard(View view) {
+        try {
+            if (view != null && view.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(imm!=null) {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void hideKeyboard(Activity activity) {
+        try {
+            if(activity != null) {
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                View f = activity.getCurrentFocus();
+                if (null != f && null != f.getWindowToken() && EditText.class.isAssignableFrom(f.getClass()))
+                    imm.hideSoftInputFromWindow(f.getWindowToken(), 0);
+                else
+                    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
