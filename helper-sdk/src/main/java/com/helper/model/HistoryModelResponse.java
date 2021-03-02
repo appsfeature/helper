@@ -51,9 +51,20 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     private String createdAt;
 
     @Ignore
+    private String formattedDate;
+
+    @Ignore
     private String extraData;
 
     public HistoryModelResponse() {
+    }
+
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
     }
 
     public String getItemState() {

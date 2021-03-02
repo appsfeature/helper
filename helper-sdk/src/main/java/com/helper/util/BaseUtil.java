@@ -14,6 +14,8 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +42,13 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class BaseUtil {
+
+    public static SpannableString spannableText(String sentence, int textColor, String... coloredTest) {
+        return spannableText(sentence, textColor, 0, coloredTest);
+    }
+    public static SpannableString spannableText(String sentence, int textColor, int textSizeInPx, String... coloredTest) {
+        return StyleUtil.spannableText(sentence, textColor, textSizeInPx, false, coloredTest);
+    }
 
     public static void showToast(Context context, String message) {
         showToastCentre(context, message);

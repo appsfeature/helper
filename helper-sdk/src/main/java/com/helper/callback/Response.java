@@ -57,6 +57,10 @@ public interface Response {
         void onDeleteClicked(View view, int position, T item);
     }
 
+    interface OnCustomClick {
+        void onCustomItemClick(int position);
+    }
+
     interface Progress {
         void onStartProgressBar();
 

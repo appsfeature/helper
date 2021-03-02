@@ -2,7 +2,12 @@ package com.helper.util;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsets;
@@ -11,6 +16,49 @@ import android.view.WindowManager;
 
 
 public class StyleUtil {
+
+    public static SpannableString spannableText(String sentence, int textColor, String... coloredTest) {
+        return spannableText(sentence, textColor, 0, false, coloredTest);
+    }
+    public static SpannableString spannableText(String sentence, int textColor, boolean isBold, String... coloredTest) {
+        return spannableText(sentence, textColor, 0, isBold, coloredTest);
+    }
+    public static SpannableString spannableText(String sentence, int textColor, int textSizeInDip, boolean isBold, String... coloredTest) {
+        SpannableString s = new SpannableString(sentence);
+        try {
+            for (String item : coloredTest){
+                int indexOf = sentence.indexOf(item);
+                if(indexOf > 0 && indexOf < sentence.length()) {
+                    s.setSpan(new ForegroundColorSpan(textColor), indexOf, indexOf + item.length(), 0);
+                    if(textSizeInDip != 0)
+                        s.setSpan(new AbsoluteSizeSpan(textSizeInDip, true), indexOf, indexOf + item.length(), 0);
+                    if(isBold)
+                        s.setSpan(new StyleSpan(Typeface.BOLD), indexOf, indexOf + item.length(), 0);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public static SpannableString spannableTextBold(String sentence, String... boldTest) {
+        return spannableTextBold(new StyleSpan(Typeface.BOLD), sentence, boldTest);
+    }
+    public static SpannableString spannableTextBold(StyleSpan styleSpan, String sentence, String... boldTest) {
+        SpannableString s = new SpannableString(sentence);
+        try {
+            for (String item : boldTest){
+                int indexOf = sentence.indexOf(item);
+                if(indexOf > 0 && indexOf < sentence.length())
+                    s.setSpan(styleSpan, indexOf, indexOf + item.length(), 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
     public static void setStatusBarDarkMode(Activity activity, boolean darkMode) {
         try {
             if (darkMode) {
