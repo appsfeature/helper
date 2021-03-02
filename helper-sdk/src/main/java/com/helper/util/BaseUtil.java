@@ -271,7 +271,8 @@ public class BaseUtil {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time))
         );
     }
-    public String getTimeSpanString(String serverDateFormat){
+
+    public static String getTimeSpanString(String serverDateFormat){
         try {
             Date mDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(serverDateFormat);
             if(mDate != null) {
