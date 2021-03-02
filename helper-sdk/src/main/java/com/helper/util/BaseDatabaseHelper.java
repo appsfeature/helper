@@ -82,18 +82,20 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    protected SimpleDateFormat simpleDateFormat;
+    protected SimpleDateFormat formatDDMMMYYYY;
 
     public String getDate(long time) {
-        if (simpleDateFormat == null)
-            simpleDateFormat = new SimpleDateFormat("dd MMM yyyy | hh:mm a", Locale.US);
-        return simpleDateFormat.format(new Date(time));
+        if (formatDDMMMYYYY == null)
+            formatDDMMMYYYY = new SimpleDateFormat("dd MMM yyyy | hh:mm a", Locale.US);
+        return formatDDMMMYYYY.format(new Date(time));
     }
 
+    protected SimpleDateFormat formatYYYYMMDD;
+
     public String getServerTimeStamp(long time) {
-        if (simpleDateFormat == null)
-            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        return simpleDateFormat.format(new Date(time));
+        if (formatYYYYMMDD == null)
+            formatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        return formatYYYYMMDD.format(new Date(time));
     }
 
     public String getTimeTaken(long time) {
@@ -153,15 +155,33 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
             return n + "";
         }
     }
+    public CharSequence getTimeSpanString(String serverDateFormat){
+        if (formatYYYYMMDD == null)
+            formatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        try {
+            Date mDate = formatYYYYMMDD.parse(serverDateFormat);
+            if(mDate != null) {
+                long timeInMilliseconds = mDate.getTime();
+                return DateUtils.getRelativeTimeSpanString(timeInMilliseconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+            }
 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return serverDateFormat;
+    }
 
+    public CharSequence convertTimeStamp(String mileSecond){
+        return convertTimeStamp(Long.parseLong(mileSecond));
+    }
     /**
      * @param mileSecond enter time in millis
      * @return Returns a string describing 'time' as a time relative to 'now'.
      * Time spans in the past are formatted like "42 minutes ago". Time spans in the future are formatted like "In 42 minutes".
      * i.e: 5 days ago, or 5 minutes ago.
      */
-    public CharSequence convertTimeStamp(String mileSecond){
-        return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSecond), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+    public CharSequence convertTimeStamp(long mileSecond){
+        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_TIME;
+        return DateUtils.getRelativeTimeSpanString(mileSecond, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, flags);
     }
 }
