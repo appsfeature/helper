@@ -155,14 +155,14 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
             return n + "";
         }
     }
-    public CharSequence getTimeSpanString(String serverDateFormat){
+    public String getTimeSpanString(String serverDateFormat){
         if (formatYYYYMMDD == null)
             formatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         try {
             Date mDate = formatYYYYMMDD.parse(serverDateFormat);
             if(mDate != null) {
                 long timeInMilliseconds = mDate.getTime();
-                return DateUtils.getRelativeTimeSpanString(timeInMilliseconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+                return DateUtils.getRelativeTimeSpanString(timeInMilliseconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
             }
 
         } catch (ParseException e) {
