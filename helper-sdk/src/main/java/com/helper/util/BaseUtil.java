@@ -33,6 +33,7 @@ import com.helper.activity.BrowserActivity;
 import com.helper.callback.Response;
 import com.helper.widget.PopupProgress;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -270,6 +271,20 @@ public class BaseUtil {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time))
         );
     }
+    public String getTimeSpanString(String serverDateFormat){
+        try {
+            Date mDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(serverDateFormat);
+            if(mDate != null) {
+                long timeInMilliseconds = mDate.getTime();
+                return DateUtils.getRelativeTimeSpanString(timeInMilliseconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return serverDateFormat;
+    }
+
     /**
      * @param mileSecond enter time in millis
      * @return Returns a string describing 'time' as a time relative to 'now'.
@@ -277,7 +292,8 @@ public class BaseUtil {
      * i.e: 5 days ago, or 5 minutes ago.
      */
     public static CharSequence convertTimeStamp(String mileSecond){
-        return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSecond), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_TIME;
+        return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSecond), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, flags);
     }
 
     public static String getTimeStamp() {
