@@ -35,6 +35,9 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     @ColumnInfo(name = "itemType")
     private int itemType;
 
+    @ColumnInfo(name = "viewCount")
+    private int viewCount;
+
     @ColumnInfo(name = "jsonData")
     private String jsonData;
 
@@ -56,7 +59,59 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     @Ignore
     private String extraData;
 
+    @Ignore
+    private String image;
+
+    @Ignore
+    private String video;
+
+    @Ignore
+    private String url;
+
+    @Ignore
+    private String viewCountFormatted = "";
+
     public HistoryModelResponse() {
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getViewCountFormatted() {
+        return viewCountFormatted;
+    }
+
+    public void setViewCountFormatted(String viewCountFormatted) {
+        this.viewCountFormatted = viewCountFormatted;
     }
 
     public String getFormattedDate() {
