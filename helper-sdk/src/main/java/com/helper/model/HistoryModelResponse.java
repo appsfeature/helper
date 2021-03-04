@@ -38,6 +38,9 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     @ColumnInfo(name = "viewCount")
     private int viewCount;
 
+    @ColumnInfo(name = "viewCountFormatted")
+    private String viewCountFormatted;
+
     @ColumnInfo(name = "jsonData")
     private String jsonData;
 
@@ -67,9 +70,6 @@ public class HistoryModelResponse implements Serializable, Cloneable {
 
     @Ignore
     private String url;
-
-    @Ignore
-    private String viewCountFormatted = "";
 
     public HistoryModelResponse() {
     }
