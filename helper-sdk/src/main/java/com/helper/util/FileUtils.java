@@ -152,8 +152,11 @@ public class FileUtils {
     }
 
     public static File getFileStoreDirectory(Context context) {
+        return getFileStoreDirectory(context, BasePrefUtil.getDownloadDirectory(context));
+    }
+    public static File getFileStoreDirectory(Context context, String folderName) {
         if(isSupportLegacyExternalStorage()) {
-            final String filePath = Environment.getExternalStorageDirectory() + "/" + BasePrefUtil.getDownloadDirectory(context);
+            final String filePath = Environment.getExternalStorageDirectory() + "/" + folderName;
             return new File(filePath);
         }else {
             return context.getFilesDir();
