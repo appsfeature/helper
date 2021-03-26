@@ -85,4 +85,8 @@ public interface Response {
         void onSlideUp();
         void onSlideDown();
     }
+
+    interface StatsListener {
+        void onStatsUpdated();
+    }
 }

@@ -1,11 +1,16 @@
 package com.helper.sample;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.helper.Helper;
+import com.helper.callback.ActivityLifecycleListener;
 import com.helper.task.TaskRunner;
 import com.helper.util.BaseUtil;
 import com.helper.util.StyleUtil;
@@ -19,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         StyleUtil.setStatusBarDarkMode(this, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Helper.getInstance().addActivityLifecycleListener(new ActivityLifecycleListener() {
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+            }
+        });
     }
 
     public void onOpenBrowser(View view) {

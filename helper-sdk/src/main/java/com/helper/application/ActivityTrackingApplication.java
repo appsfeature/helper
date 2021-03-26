@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.helper.Helper;
+import com.helper.callback.ActivityLifecycleListener;
 
 public abstract class ActivityTrackingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
@@ -30,66 +31,84 @@ public abstract class ActivityTrackingApplication extends Application implements
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, activity.getClass().getSimpleName());
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityCreated(activity, savedInstanceState);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityCreated(activity, savedInstanceState);
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityPreCreated(activity, savedInstanceState);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityPreCreated(activity, savedInstanceState);
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onActivityPostCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityPostCreated(activity, savedInstanceState);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityPostCreated(activity, savedInstanceState);
+            }
         }
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityStarted(activity);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityStarted(activity);
+            }
         }
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityResumed(activity);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityResumed(activity);
+            }
         }
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityPaused(activity);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityPaused(activity);
+            }
         }
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityStopped(activity);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityStopped(activity);
+            }
         }
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivitySaveInstanceState(activity, outState);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivitySaveInstanceState(activity, outState);
+            }
         }
     }
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleCallbacks() != null) {
-            Helper.getInstance().getActivityLifecycleCallbacks().onActivityDestroyed(activity);
+        if (Helper.getInstance().getActivityLifecycleListener() != null) {
+            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
+                listener.onActivityDestroyed(activity);
+            }
         }
     }
 

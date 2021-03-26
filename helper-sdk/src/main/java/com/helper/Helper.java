@@ -1,10 +1,12 @@
 package com.helper;
 
-import android.app.Application;
 import android.content.Context;
 
+import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
 import com.helper.util.BasePrefUtil;
+
+import java.util.ArrayList;
 
 public class Helper {
 
@@ -12,7 +14,6 @@ public class Helper {
     private static volatile Helper helper;
     private boolean isEnableDebugMode = false;
     private Response.Helper mListener;
-    private Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks;
 
     private Helper() {
         if (helper != null) {
@@ -51,13 +52,24 @@ public class Helper {
         return this;
     }
 
-    public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
-        return mActivityLifecycleCallbacks;
+
+    public ArrayList<ActivityLifecycleListener> getActivityLifecycleListener() {
+        return mActivityLifecycleListener;
     }
 
-    public Helper setActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks) {
-        this.mActivityLifecycleCallbacks = mActivityLifecycleCallbacks;
+    public Helper addActivityLifecycleListener(ActivityLifecycleListener listener) {
+        synchronized (mActivityLifecycleListener) {
+            mActivityLifecycleListener.add(listener);
+        }
         return this;
+    }
+
+    private final ArrayList<ActivityLifecycleListener> mActivityLifecycleListener = new ArrayList<>();
+
+    public void removeActivityLifecycleListener(ActivityLifecycleListener callback) {
+        synchronized (mActivityLifecycleListener) {
+            mActivityLifecycleListener.remove(callback);
+        }
     }
 
     public String getDownloadDirectory(Context context) {
