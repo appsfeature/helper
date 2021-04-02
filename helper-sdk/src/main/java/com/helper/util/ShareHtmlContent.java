@@ -180,6 +180,15 @@ public class ShareHtmlContent {
         }
     }
 
+    /**
+     * @implNote
+     *             shareHtmlContent.loadWebView(webView, htmlContent, new WebViewClient(){
+     *                 @Override
+     *                 public void onPageFinished(WebView view, String url) {
+     *                     super.onPageFinished(view, url);
+     *                 }
+     *             });
+     */
     public void loadWebView(WebView webView, String data, WebViewClient listener) {
         try {
             setDataWebView(webView, data, listener);
@@ -190,7 +199,7 @@ public class ShareHtmlContent {
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    public void setDataWebView(WebView webView, String data, WebViewClient listener) {
+    private void setDataWebView(WebView webView, String data, WebViewClient listener) {
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.getSettings().setJavaScriptEnabled(true);
 //        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
