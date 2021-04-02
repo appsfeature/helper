@@ -25,24 +25,26 @@ import java.io.File;
 
 
 public class ShareHtmlContent {
-    private static ShareHtmlContent instance;
     private final Context context;
     private final Handler handler;
     private static final String colorWhite = "#fff", colorBlack = "#000";
     private final Response.Progress callback;
+    private final boolean isDayMode;
+    private final String textColor, bgColor;
     private long delayTime = 400;
+    private boolean isDeletePreviousFile = false;
 
-    private ShareHtmlContent(Context context, Response.Progress callback) {
+    public ShareHtmlContent(Context context, Response.Progress callback) {
         this.context = context;
         this.callback = callback;
-        handler = new Handler(Looper.getMainLooper());
+        this.isDayMode = !DayNightPreference.isNightModeEnabled(context);
+        this.handler = new Handler(Looper.getMainLooper());
+        this.textColor = isDayMode ? colorBlack : colorWhite;
+        this.bgColor = isDayMode ? colorWhite : colorBlack;
     }
 
     public static ShareHtmlContent getInstance(Context context, Response.Progress callback) {
-        if (instance == null) {
-            instance = new ShareHtmlContent(context, callback);
-        }
-        return instance;
+        return new ShareHtmlContent(context, callback);
     }
 
     public static String getFileName(String prefix) {
@@ -104,12 +106,15 @@ public class ShareHtmlContent {
     private void saveWebPageToPDF(final String fileName, final WebView webView) throws Exception{
         if (!isRunning) {
             isRunning = true;
-//            final String filePath = Environment.getExternalStorageDirectory() + "/" + Helper.downloadDirectory;
-//            final File path = new File(filePath);
             final File path = FileUtils.getFileStoreDirectory(context);
             final String jobName = webView.getContext().getString(R.string.app_name);
-//        String deepLink = "Click here to open: <a href=\"" + strUri + "\">" + strUri + "</a>";
-            String deepLink = "";
+
+            if(isDeletePreviousFile) {
+                File myFile = new File(path, fileName);
+                if (myFile.exists()) {
+                    myFile.delete();
+                }
+            }
 
             handler.postDelayed(new Runnable() {
                 @Override
@@ -131,7 +136,7 @@ public class ShareHtmlContent {
         }
     }
 
-    private void share(Context context, File file) {
+    public void share(Context context, File file) {
         try {
             if (callback != null) {
                 callback.onStopProgressBar();
@@ -144,7 +149,7 @@ public class ShareHtmlContent {
         }
     }
 
-    private void shareApp(String s) {
+    public void shareApp(String s) {
         String app_link = s + "Download " + context.getString(R.string.app_name) + " app. \nLink : http://play.google.com/store/apps/details?id=";
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -159,7 +164,7 @@ public class ShareHtmlContent {
     }
 
 
-    private void intentShare(Context context, Uri uri, String deepLink) {
+    public void intentShare(Context context, Uri uri, String deepLink) {
         String text = "\nChick here to open : \n" + deepLink;
 
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -175,7 +180,7 @@ public class ShareHtmlContent {
         }
     }
 
-    private void loadWebView(WebView webView, String data, WebViewClient listener) {
+    public void loadWebView(WebView webView, String data, WebViewClient listener) {
         try {
             setDataWebView(webView, data, listener);
         } catch (Exception e) {
@@ -185,7 +190,7 @@ public class ShareHtmlContent {
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void setDataWebView(WebView webView, String data, WebViewClient listener) {
+    public void setDataWebView(WebView webView, String data, WebViewClient listener) {
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.getSettings().setJavaScriptEnabled(true);
 //        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
@@ -201,19 +206,19 @@ public class ShareHtmlContent {
         if (data.startsWith("http://") || data.startsWith("https://") || data.startsWith("www.")) {
             webView.loadUrl(data);
         } else {
-            String s = htmlData(data, colorBlack, colorWhite);
+            String s = htmlData(data, textColor, bgColor);
             webView.loadDataWithBaseURL("file:///android_asset/", s, "text/html", "UTF-8", null);
         }
     }
 
-    private String htmlData(String myContent, String text, String bg) {
+    public String htmlData(String myContent, String textColor, String bgColor) {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
                 "<html><head>" +
                 "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />"
                 + "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">"
                 + "<style type=\"text/css\">"
                 + "@font-face { font-family: 'roboto_regular'; src: url('rr.ttf'); } "
-                + "body{color: " + text + "; font-family:roboto_regular; background-color: " + bg + ";}img{display: inline;height: auto;max-width: 100%;}"
+                + "body{color: " + textColor + "; font-family:roboto_regular; background-color: " + bgColor + ";}img{display: inline;height: auto;max-width: 100%;}"
                 + "</style>"
                 + "<head><body>" + myContent + "</body></html>";
 
@@ -221,6 +226,11 @@ public class ShareHtmlContent {
 
     public ShareHtmlContent setDelayTime(long delayTime) {
         this.delayTime = delayTime;
+        return this;
+    }
+
+    public ShareHtmlContent setDeletePreviousFile(boolean deletePreviousFile) {
+        isDeletePreviousFile = deletePreviousFile;
         return this;
     }
 }

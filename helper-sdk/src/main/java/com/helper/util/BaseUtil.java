@@ -240,6 +240,7 @@ public class BaseUtil {
                 dialog = null;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -254,6 +255,7 @@ public class BaseUtil {
                         .setCancelable(isCancelable)
                         .show();
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
