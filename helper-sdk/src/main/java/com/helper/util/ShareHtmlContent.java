@@ -30,6 +30,7 @@ public class ShareHtmlContent {
     private final Handler handler;
     private static final String colorWhite = "#fff", colorBlack = "#000";
     private final Response.Progress callback;
+    private long delayTime = 400;
 
     private ShareHtmlContent(Context context, Response.Progress callback) {
         this.context = context;
@@ -50,21 +51,38 @@ public class ShareHtmlContent {
 
 
     public void share(final String fileName, String desc) {
+        share(fileName, null, desc);
+    }
+
+    public void share(final String fileName, WebView desc) {
+        share(fileName, desc, null);
+    }
+
+    private void share(final String fileName, WebView webView, String desc) {
         if (callback != null) {
             callback.onStartProgressBar();
         }
-        final WebView webView = new WebView(context);
-        loadWebView(webView, desc, new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                // do your stuff here`
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        shareWithPermission(fileName, webView);
-                    }
-                }, 400);
-            }
-        });
+        if(webView == null) {
+            WebView newWebView = new WebView(context);
+            loadWebView(newWebView, desc, new WebViewClient() {
+                public void onPageFinished(WebView view, String url) {
+                    // do your stuff here
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            shareWithPermission(fileName, newWebView);
+                        }
+                    }, delayTime);
+                }
+            });
+        }else {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    shareWithPermission(fileName, webView);
+                }
+            }, delayTime);
+        }
     }
 
     private void shareWithPermission(final String fileName, final WebView webView) {
@@ -201,4 +219,8 @@ public class ShareHtmlContent {
 
     }
 
+    public ShareHtmlContent setDelayTime(long delayTime) {
+        this.delayTime = delayTime;
+        return this;
+    }
 }

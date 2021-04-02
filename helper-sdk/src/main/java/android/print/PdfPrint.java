@@ -34,7 +34,7 @@ public class PdfPrint {
                                 @Override
                                 public void onWriteFinished(PageRange[] pages) {
                                     super.onWriteFinished(pages);
-                                    callback.onSaveFinished(true);
+                                    callback.onSaveFinished(pages != null && pages.length > 0);
                                 }
                             });
                         } else {
