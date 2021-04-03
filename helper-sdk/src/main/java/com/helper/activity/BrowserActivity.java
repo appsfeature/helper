@@ -122,25 +122,7 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
                 super.shouldOverrideUrlLoading(view, request);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     String requestUrl = request.getUrl().toString();
-                    if (request.getUrl().toString().endsWith("viewer.action=download")) {
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(requestUrl));
-                        startActivity(i);
-                        return false;
-                    }
-                    if (isUrlPdfType(request.getUrl().toString())) {
-                        openPDF(request.getUrl().toString());
-                        return false;
-                    }
-                    if (isUrlIntentType(request.getUrl().toString())) {
-                        SocialUtil.openIntentUrl(BrowserActivity.this, request.getUrl().toString());
-                        webView.stopLoading();
-                        progressBar.setVisibility(View.GONE);
-                        webView.goBack();
-                        return false;
-                    }
-                    view.loadUrl(request.getUrl().toString());
-                    return true;
+                    return filterUrl(view, requestUrl);
                 }
                 return false;
             }
@@ -149,27 +131,31 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 super.shouldOverrideUrlLoading(view, url);
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                    if (url.endsWith("viewer.action=download")) {
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
-                        return false;
-                    }
-                    if (isUrlPdfType(url)) {
-                        openPDF(url);
-                        return false;
-                    }
-                    if (isUrlIntentType(url)) {
-                        SocialUtil.openIntentUrl(BrowserActivity.this, url);
-                        progressBar.setVisibility(View.GONE);
-                        webView.stopLoading();
-                        webView.goBack();
-                        return false;
-                    }
-                    view.loadUrl(url);
-                    return true;
+                    return filterUrl(view, url);
                 }
                 return false;
+            }
+
+            private boolean filterUrl(WebView view, String url) {
+                if (url.endsWith("viewer.action=download")) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                    return false;
+                }
+                if (isUrlPdfType(url)) {
+                    openPDF(url);
+                    return false;
+                }
+                if (isUrlIntentType(url)) {
+                    SocialUtil.openIntentUrl(BrowserActivity.this, url);
+                    progressBar.setVisibility(View.GONE);
+                    webView.stopLoading();
+                    webView.goBack();
+                    return false;
+                }
+                view.loadUrl(url);
+                return true;
             }
 
 
@@ -298,9 +284,9 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
                         .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                         .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                         .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
-                File path = FileUtils.getFilePublic(this, jobName);
+//                File path = FileUtils.getFilePublic(this, jobName);
+                final File path = FileUtils.getFileStoreDirectory(this, jobName);
                 String fileName = "Result" + System.currentTimeMillis() + ".pdf";
-                final String fullPath = path + "/" + fileName;
                 PdfPrint pdfPrint = new PdfPrint(attributes);
                 pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, fileName, new PdfPrint.PDFSaveInterface() {
                     @Override
@@ -309,7 +295,7 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
                         //sharePDF(fullPath);
                         isRunning = false;
                         if (isSuccess) {
-                            showPDFSaveDialog("PDF saved to Documents", fullPath);
+                            showPDFSaveDialog("PDF saved to Documents", new File(path, fileName));
                         } else {
                             showPDFFailDialog();
                         }
@@ -343,12 +329,12 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
         }
     }
 
-    private void sharePDF(String fullPath) {
+    private void sharePDF(File fullPath) {
         Logger.e(TAG, "sharePDF Path : " + fullPath);
-        SocialUtil.shareImage(this, FileUtils.getUriFromFile(this, new File(fullPath)));
+        SocialUtil.sharePdf(this, fullPath);
     }
 
-    private void showPDFSaveDialog(String message, final String pdfPath) {
+    private void showPDFSaveDialog(String message, final File pdfPath) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
         alertDialogBuilder.setTitle("Alert");
 

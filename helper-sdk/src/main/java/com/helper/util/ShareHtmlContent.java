@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -190,8 +191,11 @@ public class ShareHtmlContent {
      *             });
      */
     public void loadWebView(WebView webView, String data, WebViewClient listener) {
+        loadWebView(webView, data, false, listener);
+    }
+    public void loadWebView(WebView webView, String data, boolean isEnableZoom, WebViewClient listener) {
         try {
-            setDataWebView(webView, data, listener);
+            setDataWebView(webView, data, isEnableZoom, listener);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -199,12 +203,16 @@ public class ShareHtmlContent {
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void setDataWebView(WebView webView, String data, WebViewClient listener) {
+    private void setDataWebView(WebView webView, String data, boolean isEnableZoom, WebViewClient listener) {
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.getSettings().setJavaScriptEnabled(true);
 //        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-//        webView.getSettings().setSupportZoom(true);
 //        webView.getSettings().setLoadWithOverviewMode(true);
+        if(isEnableZoom){
+            webView.getSettings().setSupportZoom(true);
+            webView.getSettings().setBuiltInZoomControls(true);
+            webView.getSettings().setDisplayZoomControls(true);
+        }
         webView.getSettings().setUseWideViewPort(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -231,6 +239,21 @@ public class ShareHtmlContent {
                 + "</style>"
                 + "<head><body>" + myContent + "</body></html>";
 
+    }
+
+    private boolean isFirstRequest = true;
+
+    public void resetZoom(WebView webView) {
+        if(isFirstRequest) {
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
+            webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
+            isFirstRequest = false;
+        }else {
+            webView.setInitialScale(50);
+            webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
+            webView.getSettings().setUseWideViewPort(true);
+        }
     }
 
     public ShareHtmlContent setDelayTime(long delayTime) {

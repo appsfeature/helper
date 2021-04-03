@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.core.content.FileProvider;
+
 import com.helper.R;
 import com.helper.activity.BrowserActivity;
 
@@ -31,6 +33,27 @@ public class SocialUtil {
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
         context.startActivity(Intent.createChooser(shareIntent, "Share image using"));
+    }
+
+    public static void sharePdf(Context context, File file) {
+        try {
+            Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + context.getString(R.string.file_provider), file);
+            sharePdf(context, fileUri);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sharePdf(Context context, Uri uri) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.setType("application/pdf");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void shareImageIntent(Context context, String imagePath) {
