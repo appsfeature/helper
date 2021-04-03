@@ -136,25 +136,26 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
                 return false;
             }
 
-            private boolean filterUrl(WebView view, String url) {
-                if (url.endsWith("viewer.action=download")) {
+            private boolean filterUrl(WebView view, String mUrl) {
+                url = mUrl;
+                if (mUrl.endsWith("viewer.action=download")) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
+                    i.setData(Uri.parse(mUrl));
                     startActivity(i);
                     return false;
                 }
-                if (isUrlPdfType(url)) {
-                    openPDF(url);
+                if (isUrlPdfType(mUrl)) {
+                    openPDF(mUrl);
                     return false;
                 }
-                if (isUrlIntentType(url)) {
-                    SocialUtil.openIntentUrl(BrowserActivity.this, url);
+                if (isUrlIntentType(mUrl)) {
+                    SocialUtil.openIntentUrl(BrowserActivity.this, mUrl);
                     progressBar.setVisibility(View.GONE);
                     webView.stopLoading();
                     webView.goBack();
                     return false;
                 }
-                view.loadUrl(url);
+                view.loadUrl(mUrl);
                 return true;
             }
 
@@ -212,12 +213,7 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
             onBackPressed();
             return true;
         } else if (id == R.id.action_share) {
-            //SubCategoriesActivity.share( this );
-            if (RunTimePermissionUtility.doWeHaveWriteExternalStoragePermission(BrowserActivity.this)) {
-                shareResult();
-            } else {
-                RunTimePermissionUtility.requestWriteExternalStoragePermission(BrowserActivity.this, WRITE_EXTERNAL_REQUEST_CODE_FOR_SHARE);
-            }
+            shareLink();
             return true;
         } else if (id == R.id.action_refresh) {
             progressBar.setVisibility(View.VISIBLE);
@@ -246,33 +242,26 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
 
         if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Logger.e(TAG, "WRITE_EXTERNAL permission has now been granted. Showing result.");
-            switch (requestCode) {
-                case WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF:
-                    try {
-                        saveWebPageToPDF(webView);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case WRITE_EXTERNAL_REQUEST_CODE_FOR_SHARE:
-                    shareResult();
-                    break;
+            if (requestCode == WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF) {
+                try {
+                    saveWebPageToPDF(webView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             Logger.e(TAG, "WRITE_EXTERNAL permission was NOT granted.");
-            switch (requestCode) {
-                case WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF:
-                    RunTimePermissionUtility.showReasonBoxForWriteExternalStoragePermission(this, WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF);
-                    break;
-                case WRITE_EXTERNAL_REQUEST_CODE_FOR_SHARE:
-                    RunTimePermissionUtility.showReasonBoxForWriteExternalStoragePermission(this, WRITE_EXTERNAL_REQUEST_CODE_FOR_SHARE);
-                    break;
+            if (requestCode == WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF) {
+                RunTimePermissionUtility.showReasonBoxForWriteExternalStoragePermission(this, WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF);
             }
         }
     }
 
     private boolean isRunning = false;
 
+    /**
+     * Alternate Class ShareHtmlContent
+     */
     private void saveWebPageToPDF(WebView webView) throws Exception {
         //FBAnalytics.fbLogStringValue(BaseConstants.FBAnalyticsEvent.CREATE_PDF, url);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -359,20 +348,9 @@ public class BrowserActivity extends PageAdsAppCompactActivity {
         alertDialog.show();
     }
 
-    private void shareResult() {
-        if (webView != null) {
-            final String fileName = ShareHtmlContent.getFileName("Article");
-            ShareHtmlContent.getInstance(webView.getContext(), new Response.Progress() {
-                @Override
-                public void onStartProgressBar() {
-                    BaseUtil.showDialog(BrowserActivity.this, "Processing, Please wait...", true);
-                }
-
-                @Override
-                public void onStopProgressBar() {
-                    BaseUtil.hideDialog();
-                }
-            }).share(fileName, url);
+    private void shareLink() {
+        if (url != null) {
+            SocialUtil.shareText(this, url);
         }
     }
 
