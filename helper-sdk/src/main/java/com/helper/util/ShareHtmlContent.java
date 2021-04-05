@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -34,6 +35,9 @@ public class ShareHtmlContent {
     private final String textColor, bgColor;
     private long delayTime = 400;
     private boolean isDeletePreviousFile = false;
+    private boolean isAddDownloadLink = true;
+    private String extraText;
+    private String downloadMessage;
 
     public ShareHtmlContent(Context context, Response.Progress callback) {
         this.context = context;
@@ -142,19 +146,24 @@ public class ShareHtmlContent {
             if (callback != null) {
                 callback.onStopProgressBar();
             }
-            String strUri = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
+            String downloadUrl = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
+            String downloadMessage = "\nChick here to open : \n" + downloadUrl;
             Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + context.getString(R.string.file_provider), file);
-            intentShare(context, fileUri, strUri);
+            intentShare(context, fileUri, downloadMessage);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void shareApp(String s) {
-        String app_link = s + "Download " + context.getString(R.string.app_name) + " app. \nLink : http://play.google.com/store/apps/details?id=";
+        String downloadUrl = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
+        String downloadMessage = s + "Download " + context.getString(R.string.app_name) + " app. \n" + downloadUrl;
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, app_link + context.getPackageName());
+        String mExtraText = getExtraText(downloadMessage);
+        if(!TextUtils.isEmpty(mExtraText)) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mExtraText);
+        }
         sendIntent.setType("text/plain");
         sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -165,11 +174,13 @@ public class ShareHtmlContent {
     }
 
 
-    public void intentShare(Context context, Uri uri, String deepLink) {
-        String text = "\nChick here to open : \n" + deepLink;
+    public void intentShare(Context context, Uri uri, String downloadMessage) {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, text);
+        String mExtraText = getExtraText(downloadMessage);
+        if(!TextUtils.isEmpty(mExtraText)) {
+            intent.putExtra(Intent.EXTRA_TEXT, mExtraText);
+        }
 //        intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         intent.setType("application/pdf");
@@ -179,6 +190,21 @@ public class ShareHtmlContent {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getExtraText(String mDownloadMessage) {
+        String mExtraText = null;
+        try {
+            mExtraText = extraText;
+            if(downloadMessage != null){
+                mExtraText = mExtraText == null ? downloadMessage : mExtraText  + downloadMessage;
+            }else if(isAddDownloadLink) {
+                mExtraText = mExtraText == null ? mDownloadMessage : mExtraText  + mDownloadMessage;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mExtraText;
     }
 
     /**
@@ -263,6 +289,21 @@ public class ShareHtmlContent {
 
     public ShareHtmlContent setDeletePreviousFile(boolean deletePreviousFile) {
         isDeletePreviousFile = deletePreviousFile;
+        return this;
+    }
+
+    public ShareHtmlContent setAddDownloadLink(boolean addDownloadLink) {
+        isAddDownloadLink = addDownloadLink;
+        return this;
+    }
+
+    public ShareHtmlContent setExtraText(String extraText) {
+        this.extraText = extraText;
+        return this;
+    }
+
+    public ShareHtmlContent setDownloadMessage(String downloadMessage) {
+        this.downloadMessage = downloadMessage;
         return this;
     }
 }
