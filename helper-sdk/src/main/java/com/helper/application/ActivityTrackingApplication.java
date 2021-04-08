@@ -112,4 +112,7 @@ public abstract class ActivityTrackingApplication extends Application implements
         }
     }
 
+    public void addActivityLifecycleListener(ActivityLifecycleListener listener) {
+        Helper.getInstance().addActivityLifecycleListener(listener);
+    }
 }
