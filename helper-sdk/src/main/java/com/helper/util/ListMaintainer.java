@@ -22,6 +22,7 @@ public class ListMaintainer {
     public static <T> void saveData(Context context, T item) {
         saveData(context, KEY_DEFAULT, item);
     }
+
     /**
      * @param key  : unique key for save data
      * @param item : list item
@@ -41,6 +42,7 @@ public class ListMaintainer {
     public static <T> void saveData(Context context, int listSize, T item, String title) {
         saveData(context, KEY_DEFAULT, listSize, item, title);
     }
+
     /**
      * @param key      : unique key for save data
      * @param listSize : list size
@@ -55,12 +57,13 @@ public class ListMaintainer {
     }
 
     /**
-     * @param typeCast : new TypeToken<List<ModelName>>() {}
+     * @param typeCast : new TypeToken<List<ModelName>>() {} or  new TypeToken<ArrayList<ModelName>>() {}
      */
     @Nullable
     public static <T> T getData(Context context, TypeToken<T> typeCast) {
         return getData(context, KEY_DEFAULT, typeCast);
     }
+
     @Nullable
     public static <T> T getData(Context context, String key, TypeToken<T> typeCast) {
         return GsonParser.fromJson(BasePrefUtil.getRecentFeatureData(context, key), typeCast);
@@ -70,6 +73,7 @@ public class ListMaintainer {
     public static String getData(Context context) {
         return getData(context, KEY_DEFAULT);
     }
+
     @MainThread
     public static String getData(Context context, String key) {
         return BasePrefUtil.getRecentFeatureData(context, key);
@@ -79,6 +83,7 @@ public class ListMaintainer {
     public static void clear(Context context) {
         clear(context, KEY_DEFAULT);
     }
+
     @MainThread
     public static void clear(Context context, String key) {
         BasePrefUtil.setRecentFeatureData(context, key, "");
@@ -134,6 +139,28 @@ public class ListMaintainer {
                 });
             }
         }
+    }
+
+    /**
+     * @param key  : unique key for save data
+     * @param list : input List or ArrayList
+     */
+    public static <T> void saveList(Context context, String key, List<T> list) {
+        if (context != null && list != null && list.size() > 0) {
+            String previousData = GsonParser.toJson(list, new TypeToken<List<T>>() {
+            });
+            if (!TextUtils.isEmpty(previousData)) {
+                BasePrefUtil.setRecentFeatureData(context, key, previousData);
+            }
+        }
+    }
+
+    /**
+     * @param typeCast : new TypeToken<List<ModelName>>() {} or  new TypeToken<ArrayList<ModelName>>() {}
+     */
+    @Nullable
+    public static <T> T getList(Context context, String key, TypeToken<T> typeCast) {
+        return GsonParser.fromJson(BasePrefUtil.getRecentFeatureData(context, key), typeCast);
     }
 
 }
