@@ -47,7 +47,10 @@ public class AppApplication extends Application {
 
 ```
 
-## Stats ChangeLog
+## ChangeLog
+
+#### Version 1.3-beta01:
+* Update Tracking class and usage methods.
 
 #### Version 1.0:
 * Initial build
