@@ -22,6 +22,7 @@ import java.util.List;
 public abstract class ActivityTrackingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
     private final String TAG = ActivityTrackingApplication.class.getSimpleName();
+    private long waitingTime = 800;
 
     public abstract boolean isDebugMode();
 
@@ -53,7 +54,7 @@ public abstract class ActivityTrackingApplication extends Application implements
                             }
                         }
                     }
-                }, 1500);
+                }, waitingTime);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,7 +140,13 @@ public abstract class ActivityTrackingApplication extends Application implements
         }
     }
 
-    public void addActivityLifecycleListener(ActivityLifecycleListener listener) {
+    public ActivityTrackingApplication addActivityLifecycleListener(ActivityLifecycleListener listener) {
         Helper.getInstance().addActivityLifecycleListener(listener);
+        return this;
+    }
+
+    public ActivityTrackingApplication setWaitingTime(long waitingTime) {
+        this.waitingTime = waitingTime;
+        return this;
     }
 }
