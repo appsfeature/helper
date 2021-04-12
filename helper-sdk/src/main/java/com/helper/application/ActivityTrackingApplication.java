@@ -4,14 +4,20 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
+
+import java.util.List;
 
 public abstract class ActivityTrackingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
@@ -19,18 +25,39 @@ public abstract class ActivityTrackingApplication extends Application implements
 
     public abstract boolean isDebugMode();
 
+    private Handler handler;
+
     @Override
     public void onCreate() {
         super.onCreate();
         if (isDebugMode()) {
             Helper.getInstance().setDebugMode(isDebugMode());
             registerActivityLifecycleCallbacks(this);
+            handler = new Handler();
         }
     }
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, activity.getClass().getSimpleName());
+        try {
+            Log.d(TAG, activity.getClass().getSimpleName());
+            if (handler != null) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (activity instanceof AppCompatActivity) {
+                            FragmentManager fm = ((AppCompatActivity) activity).getSupportFragmentManager();
+                            List<Fragment> fragments = fm.getFragments();
+                            for (Fragment fragment : fragments) {
+                                Log.d(TAG, activity.getClass().getSimpleName() + " -> Attached (" +fragment.getClass().getSimpleName() + ")");
+                            }
+                        }
+                    }
+                }, 1500);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (Helper.getInstance().getActivityLifecycleListener() != null) {
             for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
                 listener.onActivityCreated(activity, savedInstanceState);

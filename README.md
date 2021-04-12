@@ -46,3 +46,8 @@ public class AppApplication extends Application {
     }
 
 ```
+
+## Stats ChangeLog
+
+#### Version 1.0:
+* Initial build
