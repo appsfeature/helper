@@ -163,8 +163,25 @@ public class BaseUtil {
     }
 
     public static String getColorValue(Context context, int colorResource) {
+        return getColorValue(context, "", colorResource);
+    }
+    public static String getColorValue(Context context, String transparentLevel, int colorResource) {
         try {
-            return "#" + Integer.toHexString(ContextCompat.getColor(context, colorResource) & 0x00ffffff);
+            String colorValue = Integer.toHexString(ContextCompat.getColor(context, colorResource) & 0x00ffffff);
+            if(colorValue.length() < 6){
+                switch (colorValue.length()){
+                    case 5:
+                        colorValue = "0" + colorValue;
+                        break;
+                    case 4:
+                        colorValue = "00" + colorValue;
+                        break;
+                    case 3:
+                        colorValue = "000" + colorValue;
+                        break;
+                }
+            }
+            return "#" + transparentLevel + colorValue;
         } catch (Exception e) {
             e.printStackTrace();
             return "#ffffff";
