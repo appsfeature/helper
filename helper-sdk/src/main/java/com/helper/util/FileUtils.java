@@ -23,7 +23,7 @@ import java.util.List;
 
 public class FileUtils {
     /**
-     * @deprecated  As of release 1.5, replaced by {@link #getUriFromFile(Context, File)}
+     * @deprecated As of release 1.5, replaced by {@link #getUriFromFile(Context, File)}
      */
     @Deprecated
     public static Uri getUriForFile(Context context, File file) {
@@ -155,20 +155,21 @@ public class FileUtils {
     public static File getFileStoreDirectory(Context context) {
         return getFileStoreDirectory(context, BasePrefUtil.getDownloadDirectory(context));
     }
+
     public static File getFileStoreDirectory(Context context, String folderName) {
-        if(isSupportLegacyExternalStorage()) {
+        if (isSupportLegacyExternalStorage()) {
             final String filePath = Environment.getExternalStorageDirectory() + "/" + folderName;
             return new File(filePath);
-        }else {
+        } else {
             return context.getFilesDir();
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static File getFileStoreDirectoryPublic(Context context) {
-        if(isSupportLegacyExternalStorage()) {
+        if (isSupportLegacyExternalStorage()) {
             return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        }else {
+        } else {
             return context.getFilesDir();
         }
     }
