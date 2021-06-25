@@ -15,10 +15,15 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import com.helper.R;
+import com.helper.task.TaskRunner;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 
 public class FileUtils {
@@ -98,6 +103,50 @@ public class FileUtils {
             result = null;
         }
         return result;
+    }
+
+    public static void initStorageFileMigrationOnApiLevel29(Context context) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+            if(!BasePrefUtil.isStorageMigrationCompleted(context)) {
+                TaskRunner.getInstance().executeAsync(new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        copyFiles(context);
+                        BasePrefUtil.setStorageMigrationCompleted(context, true);
+                        return null;
+                    }
+                });
+            }
+        }else {
+            BasePrefUtil.setStorageMigrationCompleted(context, true);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static void copyFiles(Context context) {
+        File destination = getFileStoreDirectory(context);
+        boolean isDeleteFile = !TextUtils.isEmpty(BasePrefUtil.getDownloadDirectory(context));
+        final String filePath = Environment.getExternalStorageDirectory() + "/" + BasePrefUtil.getDownloadDirectory(context);
+        File sourceDirectory = new File(filePath);
+        File[] files = sourceDirectory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if(file.isFile()) {
+                    File mDestination = new File(destination, file.getName());
+                    try {
+                        android.os.FileUtils.copy(new FileInputStream(file), new FileOutputStream(mDestination));
+                        if (isDeleteFile && file.exists()) {
+                            file.delete();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if (isDeleteFile && sourceDirectory.exists()) {
+                sourceDirectory.delete();
+            }
+        }
     }
 
     public static String getFileName(String filePath) {

@@ -10,6 +10,7 @@ public class BasePrefUtil {
     private static final String TAG = "BasePrefUtil";
     private static final String DOWNLOAD_DIRECTORY = "DownloadDirectory";
     private static final String RECENT_FEATURE_DATA = "recent_feature_data";
+    private static final String STORAGE_MIGRATION_COMPLETED = "helper_storage_migration_completed";
     private static SharedPreferences sharedPreferences;
 
 
@@ -96,7 +97,7 @@ public class BasePrefUtil {
         if(context != null) {
             final SharedPreferences.Editor editor = getDefaultSharedPref(context).edit();
             editor.putBoolean(key, value);
-            editor.apply();
+            editor.commit();
         }
     }
 
@@ -139,5 +140,13 @@ public class BasePrefUtil {
 
     public static void setRecentFeatureData(Context context, String key, String value) {
         setString(context, RECENT_FEATURE_DATA + key, value);
+    }
+
+    public static void setStorageMigrationCompleted(Context context, boolean value) {
+        setBoolean(context, STORAGE_MIGRATION_COMPLETED, value);
+    }
+
+    public static boolean isStorageMigrationCompleted(Context context) {
+        return getBoolean(context, STORAGE_MIGRATION_COMPLETED,false);
     }
 }
