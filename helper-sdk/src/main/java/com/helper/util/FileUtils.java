@@ -131,7 +131,8 @@ public class FileUtils {
     }
 
     public static boolean isSupportLegacyExternalStorage() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.R;
+//        return Build.VERSION.SDK_INT < Build.VERSION_CODES.R;
+        return Build.VERSION.SDK_INT < 29;
     }
 
     public static File getFile(Context context, String fileName) {
