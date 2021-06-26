@@ -15,4 +15,6 @@
         <item name="textColorAlertDialogListItem">@color/themeTextColor</item>
     </style>
 
+    <style name="SpinnerStyleDropDown" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
 </resources>

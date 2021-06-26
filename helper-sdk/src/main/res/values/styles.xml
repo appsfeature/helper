@@ -79,6 +79,7 @@
         <item name="android:textColor">@color/themeTextColor</item>
     </style>
 
+    <style name="SpinnerStyleDropDown" parent="@style/ThemeOverlay.AppCompat.Light"/>
 
     <style name="PopupMenuStyle" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
