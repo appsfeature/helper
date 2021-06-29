@@ -156,7 +156,23 @@ public class ListMaintainer {
     }
 
     /**
-     * @param typeCast : new TypeToken<List<ModelName>>() {} or  new TypeToken<ArrayList<ModelName>>() {}
+     * @param key  : unique key for save data
+     * @param hashMap : input HashMap
+     */
+    public static <T> void saveList(Context context, String key, T hashMap) {
+        if (context != null && hashMap != null) {
+            String previousData = GsonParser.toJson(hashMap, new TypeToken<T>() {
+            });
+            if (!TextUtils.isEmpty(previousData)) {
+                BasePrefUtil.setRecentFeatureData(context, key, previousData);
+            }
+        }
+    }
+
+    /**
+     * @param typeCast : new TypeToken<List<ModelName>>() {}
+     *                 or  new TypeToken<ArrayList<ModelName>>() {}
+     *                 or new TypeToken<HashMap<Integer, PropertyModel>>() {}
      */
     @Nullable
     public static <T> T getList(Context context, String key, TypeToken<T> typeCast) {
