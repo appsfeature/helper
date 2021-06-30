@@ -15,6 +15,34 @@ import com.helper.callback.Response;
 
 public class BaseAnimationUtil {
 
+    public static int getViewWidth(View view) {
+        if(view == null){
+            return 0;
+        }
+        return view.getMeasuredWidth();
+    }
+
+    public static int getViewParentWidth(View view) {
+        if(view == null){
+            return 0;
+        }
+        return ((View) view.getParent()).getMeasuredWidth();
+    }
+
+    public static int getViewHeight(View view) {
+        if(view == null){
+            return 0;
+        }
+        return view.getMeasuredHeight();
+    }
+
+    public static int getViewParentHeight(View view) {
+        if(view == null){
+            return 0;
+        }
+        return ((View) view.getParent()).getMeasuredHeight();
+    }
+
 
     public static void alphaAnimation(View view, int visibility) {
         alphaAnimation(view, visibility, 400, null);
@@ -25,6 +53,9 @@ public class BaseAnimationUtil {
     }
 
     public static void alphaAnimation(View view, int visibility, int duration, Response.AnimatorListener animatorListener) {
+        if(view == null){
+            return;
+        }
         AlphaAnimation alphaAnim;
         if (visibility == View.VISIBLE) {
             alphaAnim = new AlphaAnimation(0.0f, 1.0f);
@@ -60,7 +91,7 @@ public class BaseAnimationUtil {
     }
 
 
-    public static void viewExpandAnimation(View view, int fromWidth, int toWidth, Response.AnimatorListener animatorListener) {
+    public static void viewExpandAnimation(View view, int visibility, int duration, int fromWidth, int toWidth, Response.AnimatorListener animatorListener) {
         if (view != null) {
             ValueAnimator widthAnimation = ValueAnimator.ofInt(fromWidth, toWidth);
             widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -75,7 +106,7 @@ public class BaseAnimationUtil {
             });
 
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setDuration(3000);
+            animatorSet.setDuration(duration);
             animatorSet.playTogether(widthAnimation);
             widthAnimation.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -83,12 +114,11 @@ public class BaseAnimationUtil {
                     if (animatorListener != null) {
                         animatorListener.onAnimationStart(animation);
                     }
-                    view.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    view.setVisibility(View.VISIBLE);
+                    view.setVisibility(visibility);
                     if (animatorListener != null) {
                         animatorListener.onAnimationEnd(animation);
                     }
@@ -102,13 +132,11 @@ public class BaseAnimationUtil {
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
-            view.setVisibility(View.VISIBLE);
-
             widthAnimation.start();
         }
     }
 
-    public static void viewCollapseAnimation(View view, int fromWidth, int toWidth, Response.AnimatorListener animatorListener) {
+    public static void viewCollapseAnimation(View view, int visibility, int duration, int fromWidth, int toWidth, Response.AnimatorListener animatorListener) {
         if (view != null) {
             ValueAnimator widthAnimation = ValueAnimator.ofInt(fromWidth, toWidth);
             widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -122,7 +150,7 @@ public class BaseAnimationUtil {
                 }
             });
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setDuration(3000);
+            animatorSet.setDuration(duration);
             animatorSet.playTogether(widthAnimation);
             widthAnimation.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -134,10 +162,10 @@ public class BaseAnimationUtil {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(visibility);
                     if (animatorListener != null) {
                         animatorListener.onAnimationEnd(animation);
                     }
-                    view.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -152,7 +180,7 @@ public class BaseAnimationUtil {
         }
     }
 
-    public static void viewIncreaseAnimation(View view, int fromWidth, int toWidth, Response.AnimatorListener animatorListener) {
+    public static void viewIncreaseAnimation(View view, int visibility, int duration, int fromWidth, int toWidth, Response.AnimatorListener animatorListener) {
         if (view != null) {
             ValueAnimator valueAnimator = ValueAnimator.ofInt(fromWidth, toWidth);
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -167,7 +195,7 @@ public class BaseAnimationUtil {
                 }
             });
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setDuration(100);
+            animatorSet.setDuration(duration);
             animatorSet.playTogether(valueAnimator);
             valueAnimator.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -179,10 +207,10 @@ public class BaseAnimationUtil {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(visibility);
                     if (animatorListener != null) {
                         animatorListener.onAnimationEnd(animation);
                     }
-                    view.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -197,22 +225,28 @@ public class BaseAnimationUtil {
         }
     }
 
-
-    public static Animation slideDown(View llMainView) {
-        int height = llMainView.getMeasuredHeight();
-
-        Animation anim = new TranslateAnimation(0, 0, 0, height);
-        anim.setDuration(300);
+    public static Animation slideVertical(View view, int duration, int fromHeight, int toHeight, int visibility, Response.AnimatorListener animatorListener) {
+        if(view == null){
+            return null;
+        }
+        Animation anim = new TranslateAnimation(0, 0, fromHeight, toHeight);
+        anim.setDuration(duration);
         anim.setInterpolator(new AccelerateInterpolator());
-        llMainView.startAnimation(anim);
+        view.startAnimation(anim);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                if (animatorListener != null) {
+                    animatorListener.onAnimationStart(null);
+                }
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                llMainView.setVisibility(View.GONE);
+                view.setVisibility(visibility);
+                if (animatorListener != null) {
+                    animatorListener.onAnimationEnd(null);
+                }
             }
 
             @Override
@@ -223,20 +257,27 @@ public class BaseAnimationUtil {
         return anim;
     }
 
-    public static Animation slideUp(View llMainView) {
-        int height = llMainView.getMeasuredHeight();
-
-        Animation anim = new TranslateAnimation(0, 0, height, 0);
+    public static Animation slideHorizontal(View view, int duration, int fromWidth, int toWidth, int visibility, Response.AnimatorListener animatorListener) {
+        if(view == null){
+            return null;
+        }
+        Animation anim = new TranslateAnimation(fromWidth, toWidth, 0, 0);
         anim.setInterpolator(new AccelerateInterpolator());
-        anim.setDuration(300);
+        anim.setDuration(duration);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                if (animatorListener != null) {
+                    animatorListener.onAnimationStart(null);
+                }
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                llMainView.setVisibility(View.VISIBLE);
+                view.setVisibility(visibility);
+                if (animatorListener != null) {
+                    animatorListener.onAnimationEnd(null);
+                }
             }
 
             @Override
@@ -244,7 +285,7 @@ public class BaseAnimationUtil {
 
             }
         });
-        llMainView.startAnimation(anim);
+        view.startAnimation(anim);
         return anim;
     }
 
