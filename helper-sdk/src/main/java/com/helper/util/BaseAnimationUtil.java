@@ -13,7 +13,7 @@ import android.view.animation.TranslateAnimation;
 
 import com.helper.callback.Response;
 
-public class AnimationUtil {
+public class BaseAnimationUtil {
 
 
     public static void alphaAnimation(View view, int visibility) {
