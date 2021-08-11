@@ -61,7 +61,26 @@ public class AppApplication extends Application {
     <string name="url_public_short_host_postfix">invite</string>
     <string name="url_public_domain_host_manifest">appName.page.link</string>
 ```
-#### Step:3 Create new class with name DynamicUrlCreator.class
+#### Step:3 Add this in your AndroidManifest.xml file
+```xml
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data
+                android:host="@string/url_public_domain_host_manifest"
+                android:scheme="https"/>
+        </intent-filter>
+
+    </activity>
+```
+#### Step:4 Create new class with name DynamicUrlCreator.class
 ```java
 import android.app.Activity;
 import android.content.Context;
@@ -141,7 +160,7 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
     }
 }
 ```
-#### Step:4 DynamicUrl Usage methods
+#### Step:5 DynamicUrl Usage methods
 ```java
 public class MainActivity extends AppCompatActivity implements DynamicUrlCreator.DynamicUrlResult {
 
