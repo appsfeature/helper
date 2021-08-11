@@ -16,9 +16,6 @@ public class Helper {
     private Response.Helper mListener;
 
     private Helper() {
-        if (helper != null) {
-            throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
-        }
     }
 
     public static Helper getInstance() {
