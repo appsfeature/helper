@@ -48,13 +48,13 @@ public class AppApplication extends Application {
 ```
 # DynamicUrl Integration
 
-### Step:1 Add dependency in your gradle file.
+#### Step:1 Add dependency in your gradle file.
 ```gradle
  dependencies {
      implementation 'com.google.firebase:firebase-dynamic-links:20.1.1'
  }
 ```
-### Step:2 Create new class with name DynamicUrlCreator.class
+#### Step:2 Create new class with name DynamicUrlCreator.class
 ```java
 import android.app.Activity;
 import android.content.Context;
@@ -134,7 +134,7 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
     }
 }
 ```
-### Step:3 DynamicUrl Usage methods
+#### Step:3 DynamicUrl Usage methods
 ```java
 public class MainActivity extends AppCompatActivity implements DynamicUrlCreator.DynamicUrlResult {
 
