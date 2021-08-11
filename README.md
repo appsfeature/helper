@@ -54,7 +54,14 @@ public class AppApplication extends Application {
      implementation 'com.google.firebase:firebase-dynamic-links:20.1.1'
  }
 ```
-#### Step:2 Create new class with name DynamicUrlCreator.class
+#### Step:2 Add this in your string.xml file
+```xml
+    <integer name="url_min_app_version">01</integer>
+    <string name="url_public_short_host">https://appName.page.link</string>
+    <string name="url_public_short_host_postfix">invite</string>
+    <string name="url_public_domain_host_manifest">appName.page.link</string>
+```
+#### Step:3 Create new class with name DynamicUrlCreator.class
 ```java
 import android.app.Activity;
 import android.content.Context;
@@ -134,7 +141,7 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
     }
 }
 ```
-#### Step:3 DynamicUrl Usage methods
+#### Step:4 DynamicUrl Usage methods
 ```java
 public class MainActivity extends AppCompatActivity implements DynamicUrlCreator.DynamicUrlResult {
 
