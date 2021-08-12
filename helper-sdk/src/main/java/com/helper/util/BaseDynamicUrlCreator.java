@@ -42,11 +42,12 @@ public abstract class BaseDynamicUrlCreator {
     }
 
     public void generate(HashMap<String, String> deepLinkParams, String extraData, int minVersion, DynamicUrlCallback callback) {
-        if (deepLinkParams != null && context != null) {
-            Uri.Builder builder = new Uri.Builder()
-                    .scheme("https")
-                    .authority(context.getString(R.string.url_public_domain_host_manifest))
-                    .appendPath(context.getString(R.string.url_public_short_host_postfix));
+        Uri.Builder builder = getDynamicUri();
+        if (deepLinkParams != null && context != null && builder != null) {
+            String path = context.getString(R.string.url_public_short_host_postfix);
+            if(!TextUtils.isEmpty(path)){
+                builder.appendPath(path);
+            }
             for (Map.Entry<String, String> entry : deepLinkParams.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
@@ -62,6 +63,21 @@ public abstract class BaseDynamicUrlCreator {
             onBuildDeepLink(deepLink, minVersion, context, callback);
         } else {
             callback.onError(new Exception("Invalid deepLink"));
+        }
+    }
+
+    public String getDynamicUrl() {
+        Uri.Builder dynamicUri = getDynamicUri();
+        return dynamicUri != null ? dynamicUri.toString() : null;
+    }
+
+    public Uri.Builder getDynamicUri() {
+        if(!TextUtils.isEmpty(context.getString(R.string.url_public_domain_host_manifest))) {
+            return new Uri.Builder()
+                    .scheme("https")
+                    .authority(context.getString(R.string.url_public_domain_host_manifest));
+        }else {
+            return null;
         }
     }
 
@@ -132,7 +148,7 @@ public abstract class BaseDynamicUrlCreator {
 //
 //    @Override
 //    protected void onBuildDeepLink(@NonNull Uri deepLink, int minVersion, Context context, BaseDynamicUrlCreator.DynamicUrlCallback callback) {
-//        String uriPrefix = context.getResources().getString(R.string.url_public_short_host);
+//        String uriPrefix = getDynamicUrl();
 //        if (!TextUtils.isEmpty(uriPrefix)) {
 //            DynamicLink.Builder builder = FirebaseDynamicLinks.getInstance()
 //                    .createDynamicLink()
@@ -185,6 +201,5 @@ public abstract class BaseDynamicUrlCreator {
 //    }
 //}
 //<integer name="url_min_app_version">01</integer>
-//<string name="url_public_short_host">https://appName.page.link</string>
 //<string name="url_public_short_host_postfix">invite</string>
 //<string name="url_public_domain_host_manifest">appName.page.link</string>

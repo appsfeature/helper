@@ -57,7 +57,6 @@ public class AppApplication extends Application {
 #### Step:2 Add this in your string.xml file
 ```xml
     <integer name="url_min_app_version">01</integer>
-    <string name="url_public_short_host">https://appName.page.link</string>
     <string name="url_public_short_host_postfix">invite</string>
     <string name="url_public_domain_host_manifest">appName.page.link</string>
 ```
@@ -107,7 +106,7 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 
     @Override
     protected void onBuildDeepLink(@NonNull Uri deepLink, int minVersion, Context context, BaseDynamicUrlCreator.DynamicUrlCallback callback) {
-        String uriPrefix = context.getResources().getString(R.string.url_public_short_host);
+        String uriPrefix = getDynamicUrl();
         if (!TextUtils.isEmpty(uriPrefix)) {
             DynamicLink.Builder builder = FirebaseDynamicLinks.getInstance()
                     .createDynamicLink()
