@@ -178,6 +178,15 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
                 .register(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            dynamicShare = new DynamicUrlCreator(this)
+                            .register(this);
+        }
+    }
+
     public void onShareClicked(View view) {
         HashMap<String, String> param = new HashMap<>();
         param.put("id", "995");
