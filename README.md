@@ -62,7 +62,7 @@ public class AppApplication extends Application {
 ```
 #### Step:3 Add this in your AndroidManifest.xml file
 ```xml
-    <activity android:name=".MainActivity">
+    <activity android:name=".SplashActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -78,6 +78,10 @@ public class AppApplication extends Application {
         </intent-filter>
 
     </activity>
+
+    <activity
+        android:name=".activity.MainActivity"
+        android:launchMode="singleTop" />
 ```
 #### Step:4 Create new class with name DynamicUrlCreator.class
 ```java

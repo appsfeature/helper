@@ -17,9 +17,10 @@ import java.util.Map;
 public abstract class BaseDynamicUrlCreator {
 
     public static final String PARAM_EXTRA_DATA = "extras";
+    public static final String ACTION_TYPE = "action_type";
     private static final int DEEP_LINK_MAX_LENGTH_SUPPORT = 7168;
     protected DynamicUrlResult resultCallBack;
-    private final Context context;
+    protected final Context context;
 
     protected abstract void onBuildDeepLink(@NonNull Uri deepLink, int minVersion, Context context, DynamicUrlCallback callback);
 
