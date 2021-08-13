@@ -168,22 +168,20 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 public class MainActivity extends AppCompatActivity implements DynamicUrlCreator.DynamicUrlResult {
 
     private static final String TAG = "DynamicUrlCreator";
-    private BaseDynamicUrlCreator dynamicShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dynamicShare = new DynamicUrlCreator(this)
-                .register(this);
+        onNewIntent(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent != null) {
-            dynamicShare = new DynamicUrlCreator(this)
-                            .register(this);
+            new DynamicUrlCreator(this)
+                    .register(this);
         }
     }
 
@@ -192,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
         param.put("id", "995");
         param.put("type", "1005");
         String extraData = "{Large data in form of Json or anything else}";
-        dynamicShare.generate(param, extraData, 1, new DynamicUrlCreator.DynamicUrlCallback() {
+        new DynamicUrlCreator(this).generate(param, extraData, 1, new DynamicUrlCreator.DynamicUrlCallback() {
             @Override
             public void onDynamicUrlGenerate(String url) {
                 Log.d(TAG, "Url:" + url);
