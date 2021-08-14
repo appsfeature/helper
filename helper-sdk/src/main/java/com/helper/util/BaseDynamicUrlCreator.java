@@ -248,9 +248,13 @@ public abstract class BaseDynamicUrlCreator {
 //                    .addOnSuccessListener(activity, new OnSuccessListener<PendingDynamicLinkData>() {
 //                        @Override
 //                        public void onSuccess(PendingDynamicLinkData linkData) {
-//                            if (resultCallBack != null && linkData != null && linkData.getLink() != null) {
-//                                resultCallBack.onDynamicUrlResult(linkData.getLink()
-//                                        , BaseDynamicUrlCreator.EncryptData.decode(linkData.getLink().getQueryParameter(PARAM_EXTRA_DATA)));
+//                            if(resultCallBack != null) {
+//                                if (linkData != null && linkData.getLink() != null) {
+//                                    resultCallBack.onDynamicUrlResult(linkData.getLink()
+//                                            , BaseDynamicUrlCreator.EncryptData.decode(linkData.getLink().getQueryParameter(PARAM_EXTRA_DATA)));
+//                                } else {
+//                                    resultCallBack.onError(new Exception("Invalid Dynamic Url"));
+//                                }
 //                            }
 //                        }
 //                    })
