@@ -2,12 +2,15 @@ package com.helper.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.reflect.TypeToken;
 import com.helper.R;
 
 import java.io.UnsupportedEncodingException;
@@ -21,6 +24,7 @@ public abstract class BaseDynamicUrlCreator {
     private static final int DEEP_LINK_MAX_LENGTH_SUPPORT = 7168;
     protected DynamicUrlResult resultCallBack;
     protected final Context context;
+    protected int appMinVersion;
 
     protected abstract void onBuildDeepLink(@NonNull Uri deepLink, int minVersion, Context context, DynamicUrlCallback callback);
 
@@ -28,6 +32,7 @@ public abstract class BaseDynamicUrlCreator {
 
     public BaseDynamicUrlCreator(Context context) {
         this.context = context;
+        this.appMinVersion = context.getResources().getInteger(R.integer.url_min_app_version);
     }
 
     public BaseDynamicUrlCreator register(DynamicUrlResult callback) {
@@ -38,32 +43,46 @@ public abstract class BaseDynamicUrlCreator {
         return this;
     }
 
-    public void generate(HashMap<String, String> deepLinkParams, int minVersion, DynamicUrlCallback callback) {
-        generate(deepLinkParams, null, minVersion, callback);
+    public void generate(HashMap<String, String> deepLinkParams, DynamicUrlCallback callback) {
+        generate(deepLinkParams, null, callback);
+    }
+
+    public void generate(String extraData, DynamicUrlCallback callback) {
+        HashMap<String, String> deepLinkParams = new HashMap<>();
+        deepLinkParams.put(ACTION_TYPE, "1");
+        generate(deepLinkParams, extraData, callback);
+    }
+
+    public void generate(HashMap<String, String> deepLinkParams, String extraData, DynamicUrlCallback callback) {
+        generate(deepLinkParams, extraData, appMinVersion, callback);
     }
 
     public void generate(HashMap<String, String> deepLinkParams, String extraData, int minVersion, DynamicUrlCallback callback) {
         Uri.Builder builder = getDynamicUri();
-        if (deepLinkParams != null && context != null && builder != null) {
-            String path = context.getString(R.string.url_public_short_host_postfix);
-            if(!TextUtils.isEmpty(path)){
-                builder.appendPath(path);
-            }
-            for (Map.Entry<String, String> entry : deepLinkParams.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                builder.appendQueryParameter(key, value);
-            }
-            if (!TextUtils.isEmpty(extraData)) {
-                String encodedExtraData = EncryptData.encode(extraData);
-                if((builder.toString().length() + encodedExtraData.length()) < DEEP_LINK_MAX_LENGTH_SUPPORT) {
-                    builder.appendQueryParameter(PARAM_EXTRA_DATA, encodedExtraData);
+        if(BaseUtil.isConnected(context)) {
+            if (deepLinkParams != null && context != null && builder != null) {
+                String path = context.getString(R.string.url_public_short_host_postfix);
+                if (!TextUtils.isEmpty(path)) {
+                    builder.appendPath(path);
                 }
+                for (Map.Entry<String, String> entry : deepLinkParams.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    builder.appendQueryParameter(key, value);
+                }
+                if (!TextUtils.isEmpty(extraData)) {
+                    String encodedExtraData = EncryptData.encode(extraData);
+                    if ((builder.toString().length() + encodedExtraData.length()) < DEEP_LINK_MAX_LENGTH_SUPPORT) {
+                        builder.appendQueryParameter(PARAM_EXTRA_DATA, encodedExtraData);
+                    }
+                }
+                Uri deepLink = builder.build();
+                onBuildDeepLink(deepLink, minVersion, context, callback);
+            } else {
+                callback.onError(new Exception("Invalid deepLink params"));
             }
-            Uri deepLink = builder.build();
-            onBuildDeepLink(deepLink, minVersion, context, callback);
-        } else {
-            callback.onError(new Exception("Invalid deepLink"));
+        }else {
+            callback.onError(new Exception(BaseConstants.NO_INTERNET_CONNECTION));
         }
     }
 
@@ -82,7 +101,7 @@ public abstract class BaseDynamicUrlCreator {
         }
     }
 
-    public interface DynamicUrlCallback {
+    protected interface DynamicUrlCallback {
         void onDynamicUrlGenerate(String url);
         void onError(Exception e);
     }
@@ -95,6 +114,21 @@ public abstract class BaseDynamicUrlCreator {
     public String getUrlParamValue(String url, String key) {
         Uri uri = Uri.parse(url);
         return uri.getQueryParameter(key);
+    }
+
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
+    public static <T> String toJson(Object item, TypeToken<T> typeCast) {
+        return GsonParser.toJsonAll(item, typeCast);
+    }
+
+
+    /**
+     * @param typeCast : new TypeToken<ModelName>() {}
+     */
+    public static <T> T fromJson(String jsonValue, TypeToken<T> typeCast) {
+        return GsonParser.fromJsonAll(jsonValue, typeCast);
     }
 
     protected static class EncryptData {
@@ -143,8 +177,38 @@ public abstract class BaseDynamicUrlCreator {
 //
 //public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 //
+//    public static final String TYPE_YOUR_MODULE_NAME = "your_module_name";
+//    private Response.Progress progressListener;
+//
 //    public DynamicUrlCreator(Context context) {
 //        super(context);
+//    }
+//
+//    public void share(String id, String extraData) {
+//        HashMap<String, String> param = new HashMap<>();
+//        param.put("id", id);
+//        param.put(ACTION_TYPE, TYPE_YOUR_MODULE_NAME);
+//        if (progressListener != null) {
+//            progressListener.onStartProgressBar();
+//        }
+//        generate(param, extraData, new DynamicUrlCreator.DynamicUrlCallback() {
+//            @Override
+//            public void onDynamicUrlGenerate(String url) {
+//                if (progressListener != null) {
+//                    progressListener.onStopProgressBar();
+//                }
+//                Log.d(DynamicUrlCreator.class.getSimpleName(), "Url:" + url);
+//                shareMe(url);
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                if (progressListener != null) {
+//                    progressListener.onStopProgressBar();
+//                }
+//                Log.d(DynamicUrlCreator.class.getSimpleName(), "onError:" + e.toString());
+//            }
+//        });
 //    }
 //
 //    @Override
@@ -199,6 +263,18 @@ public abstract class BaseDynamicUrlCreator {
 //                        }
 //                    });
 //        }
+//    }
+//
+//    public void addProgressListener(Response.Progress progressListener) {
+//        this.progressListener = progressListener;
+//    }
+//
+//    private void shareMe(String deepLink) {
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("text/plain");
+//        intent.putExtra(Intent.EXTRA_SUBJECT, "Firebase Deep Link");
+//        intent.putExtra(Intent.EXTRA_TEXT, deepLink);
+//        context.startActivity(intent);
 //    }
 //}
 //<integer name="url_min_app_version">01</integer>

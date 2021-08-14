@@ -104,8 +104,38 @@ import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 
+    public static final String TYPE_YOUR_MODULE_NAME = "your_module_name";
+    private Response.Progress progressListener;
+
     public DynamicUrlCreator(Context context) {
         super(context);
+    }
+
+    public void share(String id, String extraData) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("id", id);
+        param.put(ACTION_TYPE, TYPE_YOUR_MODULE_NAME);
+        if (progressListener != null) {
+            progressListener.onStartProgressBar();
+        }
+        generate(param, extraData, new DynamicUrlCreator.DynamicUrlCallback() {
+            @Override
+            public void onDynamicUrlGenerate(String url) {
+                if (progressListener != null) {
+                    progressListener.onStopProgressBar();
+                }
+                Log.d(DynamicUrlCreator.class.getSimpleName(), "Url:" + url);
+                shareMe(url);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                if (progressListener != null) {
+                    progressListener.onStopProgressBar();
+                }
+                Log.d(DynamicUrlCreator.class.getSimpleName(), "onError:" + e.toString());
+            }
+        });
     }
 
     @Override
@@ -161,6 +191,18 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
                     });
         }
     }
+
+    public void addProgressListener(Response.Progress progressListener) {
+        this.progressListener = progressListener;
+    }
+
+    private void shareMe(String deepLink) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Firebase Deep Link");
+        intent.putExtra(Intent.EXTRA_TEXT, deepLink);
+        context.startActivity(intent);
+    }
 }
 ```
 #### Step:5 DynamicUrl Usage methods
@@ -186,23 +228,10 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
     }
 
     public void onShareClicked(View view) {
-        HashMap<String, String> param = new HashMap<>();
-        param.put("id", "995");
-        param.put("type", "1005");
-        String extraData = "{Large data in form of Json or anything else}";
-        new DynamicUrlCreator(this).generate(param, extraData, 1, new DynamicUrlCreator.DynamicUrlCallback() {
-            @Override
-            public void onDynamicUrlGenerate(String url) {
-                Log.d(TAG, "Url:" + url);
-                shareMe(url);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.d(TAG, "onError:" + e.toString());
-            }
-        });
-    }
+            String id = "01";
+            String extraData = "{Large data in form of Json or anything else}";
+            new DynamicUrlCreator(this).share(id, extraData);
+        }
 
     @Override
     public void onDynamicUrlResult(Uri uri, String extraData) {
@@ -215,14 +244,6 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
     @Override
     public void onError(Exception e) {
         Log.d(TAG, "onError:" + e.toString());
-    }
-
-    private void shareMe(String deepLink) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Firebase Deep Link");
-        intent.putExtra(Intent.EXTRA_TEXT, deepLink);
-        startActivity(intent);
     }
 }
 ```
