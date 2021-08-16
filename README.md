@@ -87,12 +87,13 @@ public class AppApplication extends Application {
 ```java
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.helper.util.BaseDynamicUrlCreator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -101,6 +102,11 @@ import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.helper.callback.Response;
+import com.helper.util.BaseDynamicUrlCreator;
+import com.pdfviewer.util.PDFDynamicShare;
+
+import java.util.HashMap;
 
 public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 
@@ -109,6 +115,19 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 
     public DynamicUrlCreator(Context context) {
         super(context);
+    }
+
+    public static void openActivity(Activity activity, Uri url, String extraData) {
+        if(url != null){
+            if(url.getQueryParameter(PDFDynamicShare.ACTION_TYPE).equals(PDFDynamicShare.TYPE_PDF)) {
+                PDFDynamicShare.open(activity, url, extraData);
+            }
+        }
+    }
+
+    public static boolean isValidIntent(Activity activity) {
+        return activity.getIntent().getData() != null
+                && activity.getIntent().getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest));
     }
 
     public void share(String id, String extraData) {
