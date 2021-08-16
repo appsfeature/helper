@@ -2,11 +2,9 @@ package com.helper.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -89,6 +87,11 @@ public abstract class BaseDynamicUrlCreator {
     public String getDynamicUrl() {
         Uri.Builder dynamicUri = getDynamicUri();
         return dynamicUri != null ? dynamicUri.toString() : null;
+    }
+
+    public static boolean isValidIntent(Activity activity) {
+        return activity != null && activity.getIntent().getData() != null && activity.getIntent().getData().getAuthority() != null
+                && activity.getIntent().getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest));
     }
 
     public Uri.Builder getDynamicUri() {
