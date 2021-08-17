@@ -119,39 +119,34 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 
     public static void openActivity(Activity activity, Uri url, String extraData) {
         if(url != null){
-            if(url.getQueryParameter(PDFDynamicShare.ACTION_TYPE).equals(PDFDynamicShare.TYPE_PDF)) {
+            if(url.getQueryParameter(ACTION_TYPE).equals(PDFDynamicShare.TYPE_PDF)) {
                 PDFDynamicShare.open(activity, url, extraData);
             }
         }
     }
 
     public static boolean isValidIntent(Activity activity) {
-        return activity.getIntent().getData() != null
-                && activity.getIntent().getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest));
+        Intent intent = activity.getIntent();
+        return intent.getData() != null
+                && intent.getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest));
     }
 
-    public void share(String id, String extraData) {
+    public void share(String id, String extraData, String description) {
         HashMap<String, String> param = new HashMap<>();
         param.put("id", id);
         param.put(ACTION_TYPE, TYPE_YOUR_MODULE_NAME);
-        if (progressListener != null) {
-            progressListener.onStartProgressBar();
-        }
+        showProgress(View.VISIBLE);
         generate(param, extraData, new DynamicUrlCreator.DynamicUrlCallback() {
             @Override
             public void onDynamicUrlGenerate(String url) {
-                if (progressListener != null) {
-                    progressListener.onStopProgressBar();
-                }
+                showProgress(View.GONE);
                 Log.d(DynamicUrlCreator.class.getSimpleName(), "Url:" + url);
-                shareMe(url);
+                shareMe(description, url);
             }
 
             @Override
             public void onError(Exception e) {
-                if (progressListener != null) {
-                    progressListener.onStopProgressBar();
-                }
+                showProgress(View.GONE);
                 Log.d(DynamicUrlCreator.class.getSimpleName(), "onError:" + e.toString());
             }
         });
@@ -215,16 +210,32 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
         }
     }
 
+    private void showProgress(int visibility) {
+        if (progressListener != null) {
+            if(visibility == View.VISIBLE) {
+                progressListener.onStartProgressBar();
+            }else {
+                progressListener.onStopProgressBar();
+            }
+        }
+    }
+
     public void addProgressListener(Response.Progress progressListener) {
         this.progressListener = progressListener;
     }
 
-    private void shareMe(String deepLink) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Firebase Deep Link");
-        intent.putExtra(Intent.EXTRA_TEXT, deepLink);
-        context.startActivity(intent);
+    private void shareMe(String description, String deepLink) {
+        if (BaseUtil.isValidUrl(deepLink)) {
+            String openLink = "\nChick here to open : \n" + deepLink;
+
+            String extraText = description + "\n\n" + openLink;
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, extraText);
+            intent.setType("text/plain");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(Intent.createChooser(intent, "Share With"));
+        }
     }
 }
 ```
