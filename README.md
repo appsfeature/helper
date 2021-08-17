@@ -121,14 +121,10 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
         if(url != null){
             if(url.getQueryParameter(ACTION_TYPE).equals(PDFDynamicShare.TYPE_PDF)) {
                 PDFDynamicShare.open(activity, url, extraData);
+            }else if(url.getQueryParameter(ACTION_TYPE).equals(TYPE_YOUR_MODULE_NAME)) {
+                 //Handle your module event here.
             }
         }
-    }
-
-    public static boolean isValidIntent(Activity activity) {
-        Intent intent = activity.getIntent();
-        return intent.getData() != null
-                && intent.getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest));
     }
 
     public void share(String id, String extraData, String description) {
@@ -256,8 +252,10 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent != null) {
-            new DynamicUrlCreator(this)
+            if(DynamicUrlCreator.isValidIntent(this)) {
+                new DynamicUrlCreator(this)
                     .register(this);
+            }
         }
     }
 
