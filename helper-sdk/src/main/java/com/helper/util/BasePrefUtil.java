@@ -11,6 +11,7 @@ public class BasePrefUtil {
     private static final String DOWNLOAD_DIRECTORY = "DownloadDirectory";
     private static final String RECENT_FEATURE_DATA = "recent_feature_data";
     private static final String STORAGE_MIGRATION_COMPLETED = "helper_storage_migration_completed";
+    public static final String ADS_ENABLED = "ads_enabled";
     private static SharedPreferences sharedPreferences;
 
 
@@ -19,6 +20,15 @@ public class BasePrefUtil {
             sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 
         return sharedPreferences;
+    }
+
+
+    public static boolean isAdsEnabled(Context context) {
+        return getBoolean( context , ADS_ENABLED);
+    }
+
+    public static void setAdsEnabled(Context context, boolean value) {
+        setBoolean( context , ADS_ENABLED , value );
     }
 
     public static void setString(Context context, String key, String value) {
