@@ -24,7 +24,7 @@ public class BasePrefUtil {
 
 
     public static boolean isAdsEnabled(Context context) {
-        return getBoolean( context , ADS_ENABLED);
+        return getBoolean( context , ADS_ENABLED , true);
     }
 
     public static void setAdsEnabled(Context context, boolean value) {
