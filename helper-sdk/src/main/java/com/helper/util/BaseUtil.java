@@ -1,5 +1,8 @@
 package com.helper.util;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,8 +17,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,7 +28,6 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
-import com.adssdk.AdsSDK;
 import com.helper.R;
 import com.helper.activity.BrowserActivity;
 import com.helper.callback.Response;
@@ -38,9 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 public class BaseUtil {
 
@@ -215,9 +212,9 @@ public class BaseUtil {
         }
     }
     public static void loadBanner(final RelativeLayout view , Activity activity) {
-        if ( view != null && activity != null && AdsSDK.getInstance() != null ){
-            AdsSDK.getInstance().setAdoptiveBannerAdsOnView(view , activity);
-        }
+//        if ( view != null && activity != null && AdsSDK.getInstance() != null ){
+//            AdsSDK.getInstance().setAdoptiveBannerAdsOnView(view , activity);
+//        }
     }
 
     public static void openLinkInAppBrowser(Context context, String title, String webUrl) {

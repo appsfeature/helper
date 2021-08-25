@@ -2,11 +2,10 @@ package com.helper.model.base;
 
 import androidx.room.Ignore;
 
-import com.adssdk.BaseAdModelClass;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BaseDataModel extends BaseAdModelClass {
+public class BaseDataModel extends BaseHelperAdModelClass {
 
     @Expose
     @SerializedName(value="image_path", alternate={"whiteboard_image_path"})

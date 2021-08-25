@@ -22,8 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.adssdk.PageAdsAppCompactActivity;
 import com.helper.Helper;
 import com.helper.R;
 import com.helper.callback.Response;
@@ -38,7 +38,7 @@ import com.helper.util.SocialUtil;
 import java.io.File;
 
 
-public class BrowserActivity extends PageAdsAppCompactActivity {
+public class BrowserActivity extends AppCompatActivity {
 
     private String TAG = "BrowserActivity";
     private String url;

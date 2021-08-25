@@ -36,5 +36,4 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.ext.material"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit_version"
     implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
-    implementation "org.bitbucket.amitresearchdev:adssdkmaster:$rootProject.ext.adssdkmaster_version"
 }
