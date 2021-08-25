@@ -21,7 +21,7 @@ Add this to your project build.gradle
 [![](https://jitpack.io/v/org.bitbucket.android-dennislabs/helper.svg)](https://jitpack.io/#org.bitbucket.android-dennislabs/helper)
 ```gradle
 dependencies {
-        implementation 'org.bitbucket.android-dennislabs:helper:1.2'
+        implementation 'org.bitbucket.android-dennislabs:helper:1.3'
 }
 ```
 
