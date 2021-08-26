@@ -231,8 +231,13 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
         this.progressListener = progressListener;
     }
 
-    private void shareMe(String description, String deepLink) {
+    public void shareMe(String description, String deepLink) {
+        shareMe(description, deepLink, null);
+    }
+
+    public void shareMe(String description, String deepLink, Uri imageUri) {
         if (BaseUtil.isValidUrl(deepLink)) {
+            Log.d(TAG, deepLink);
             String openLink = "\nChick here to open : \n" + deepLink;
 
             String extraText = description + "\n\n" + openLink;
@@ -240,6 +245,10 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, extraText);
             intent.setType("text/plain");
+            if(imageUri != null) {
+                intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                intent.setType("image/*");
+            }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(Intent.createChooser(intent, "Share With"));
         }
