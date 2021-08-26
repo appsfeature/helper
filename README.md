@@ -123,6 +123,8 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
                 PDFDynamicShare.open(activity, url, extraData);
             }else if(url.getQueryParameter(ACTION_TYPE).equals(TYPE_YOUR_MODULE_NAME)) {
                  //Handle your module event here.
+                ModelName modelName = fromJson(extraData, new TypeToken<ModelName>(){});
+                SupportUtil.openItem(activity, modelName);
             }
         }
     }
@@ -132,7 +134,9 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
         param.put("id", id);
         param.put(ACTION_TYPE, TYPE_YOUR_MODULE_NAME);
         showProgress(View.VISIBLE);
-        generate(param, extraData, new DynamicUrlCreator.DynamicUrlCallback() {
+        String extraDataJson = toJson(extraData, new TypeToken<ModelName>() {
+               });
+        generate(param, extraDataJson, new DynamicUrlCreator.DynamicUrlCallback() {
             @Override
             public void onDynamicUrlGenerate(String url) {
                 showProgress(View.GONE);
@@ -267,15 +271,40 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
 
     @Override
     public void onDynamicUrlResult(Uri uri, String extraData) {
-        Log.d(TAG, "url:" + uri.toString());
-        Log.d(TAG, "id:" + uri.getQueryParameter("id"));
-        Log.d(TAG, "type:" + uri.getQueryParameter("type"));
-        Log.d(TAG, "extraData:" + extraData);
+        DynamicUrlCreator.openActivity(this, uri, extraData);
     }
 
     @Override
     public void onError(Exception e) {
         Log.d(TAG, "onError:" + e.toString());
+    }
+}
+```
+#### Step:5 DynamicUrl Usage methods
+```java
+public class  SplashActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ...
+        goToHomeActivity();
+    }
+
+    private void goToHomeActivity() {
+        Intent intent = getIntent();
+        intent.setClass(this, HomeDashboard.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    finishAffinity();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 500);
     }
 }
 ```
