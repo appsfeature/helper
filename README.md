@@ -239,7 +239,35 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
     }
 }
 ```
-#### Step:5 DynamicUrl Usage methods
+#### Step:5 DynamicUrl Usage methods in SplashActivity
+```java
+public class  SplashActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ...
+        goToHomeActivity();
+    }
+
+    private void goToHomeActivity() {
+        Intent intent = getIntent();
+        intent.setClass(this, HomeDashboard.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    finishAffinity();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 500);
+    }
+}
+```
+#### Step:6 DynamicUrl Usage methods in MainActivity
 ```java
 public class MainActivity extends AppCompatActivity implements DynamicUrlCreator.DynamicUrlResult {
 
@@ -277,34 +305,6 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
     @Override
     public void onError(Exception e) {
         Log.d(TAG, "onError:" + e.toString());
-    }
-}
-```
-#### Step:5 DynamicUrl Usage methods
-```java
-public class  SplashActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ...
-        goToHomeActivity();
-    }
-
-    private void goToHomeActivity() {
-        Intent intent = getIntent();
-        intent.setClass(this, HomeDashboard.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-        startActivity(intent);
-        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    finishAffinity();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 500);
     }
 }
 ```
