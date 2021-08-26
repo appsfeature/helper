@@ -124,7 +124,9 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
             }else if(url.getQueryParameter(ACTION_TYPE).equals(TYPE_YOUR_MODULE_NAME)) {
                  //Handle your module event here.
                 ModelName modelName = fromJson(extraData, new TypeToken<ModelName>(){});
-                SupportUtil.openItem(activity, modelName);
+                if (modelName != null) {
+                    SupportUtil.openItem(activity, modelName);
+                }
             }
         }
     }
@@ -148,6 +150,7 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
             public void onError(Exception e) {
                 showProgress(View.GONE);
                 Log.d(DynamicUrlCreator.class.getSimpleName(), "onError:" + e.toString());
+                shareMe(description, getPlayStoreLink());
             }
         });
     }
@@ -208,6 +211,10 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
                         }
                     });
         }
+    }
+
+    private String getPlayStoreLink() {
+        return "http://play.google.com/store/apps/details?id=" + context.getPackageName();
     }
 
     private void showProgress(int visibility) {
@@ -271,8 +278,6 @@ public class  SplashActivity extends AppCompatActivity {
 ```java
 public class MainActivity extends AppCompatActivity implements DynamicUrlCreator.DynamicUrlResult {
 
-    private static final String TAG = "DynamicUrlCreator";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -304,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
 
     @Override
     public void onError(Exception e) {
-        Log.d(TAG, "onError:" + e.toString());
+        Log.d("DynamicUrlCreator", "onError:" + e.toString());
     }
 }
 ```
