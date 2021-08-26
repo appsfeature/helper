@@ -91,6 +91,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
@@ -104,6 +105,7 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.helper.callback.Response;
 import com.helper.util.BaseDynamicUrlCreator;
+import com.helper.util.BaseUtil;
 import com.pdfviewer.util.PDFDynamicShare;
 
 import java.util.HashMap;
@@ -218,11 +220,17 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
     }
 
     private void showProgress(int visibility) {
-        if (progressListener != null) {
-            if(visibility == View.VISIBLE) {
+        if(visibility == View.VISIBLE) {
+            if (progressListener != null) {
                 progressListener.onStartProgressBar();
             }else {
+                BaseUtil.showDialog(context, "Processing, Please wait...", false);
+            }
+        }else {
+            if (progressListener != null) {
                 progressListener.onStopProgressBar();
+            }else {
+                BaseUtil.hideDialog();
             }
         }
     }
