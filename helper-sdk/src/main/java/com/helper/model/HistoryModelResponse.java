@@ -56,6 +56,9 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     @ColumnInfo(name = "createdAt")
     private String createdAt;
 
+    @ColumnInfo(name = "rowCount")
+    private int rowCount;
+
     @Ignore
     private String formattedDate;
 
@@ -70,9 +73,6 @@ public class HistoryModelResponse implements Serializable, Cloneable {
 
     @Ignore
     private String url;
-
-    @Ignore
-    private int rowCount;
 
     @Ignore
     private String extraString1;
