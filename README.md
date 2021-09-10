@@ -138,8 +138,7 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
         param.put("id", id);
         param.put(ACTION_TYPE, TYPE_YOUR_MODULE_NAME);
         showProgress(View.VISIBLE);
-        String extraDataJson = toJson(extraData, new TypeToken<ModelName>() {
-               });
+        String extraDataJson = toJson(extraData, new TypeToken<ModelName>() {});
         generate(param, extraDataJson, new DynamicUrlCreator.DynamicUrlCallback() {
             @Override
             public void onDynamicUrlGenerate(String url) {
@@ -332,6 +331,9 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
 ```
 
 ## ChangeLog
+
+#### Version 1.4-alpha01:
+* Removed AdsSdkMaster library
 
 #### Version 1.3-beta01:
 * Update Tracking class and usage methods.

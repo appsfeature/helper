@@ -71,6 +71,18 @@ public class HistoryModelResponse implements Serializable, Cloneable {
     @Ignore
     private String url;
 
+    @Ignore
+    private int rowCount;
+
+    @Ignore
+    private String extraString1;
+    @Ignore
+    private String extraString2;
+    @Ignore
+    private int extraInteger1;
+    @Ignore
+    private int extraInteger2;
+
     public HistoryModelResponse() {
     }
 
@@ -208,6 +220,46 @@ public class HistoryModelResponse implements Serializable, Cloneable {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
+    public String getExtraString1() {
+        return extraString1;
+    }
+
+    public void setExtraString1(String extraString1) {
+        this.extraString1 = extraString1;
+    }
+
+    public String getExtraString2() {
+        return extraString2;
+    }
+
+    public void setExtraString2(String extraString2) {
+        this.extraString2 = extraString2;
+    }
+
+    public int getExtraInteger1() {
+        return extraInteger1;
+    }
+
+    public void setExtraInteger1(int extraInteger1) {
+        this.extraInteger1 = extraInteger1;
+    }
+
+    public int getExtraInteger2() {
+        return extraInteger2;
+    }
+
+    public void setExtraInteger2(int extraInteger2) {
+        this.extraInteger2 = extraInteger2;
     }
 
     /**
