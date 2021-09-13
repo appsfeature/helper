@@ -6,6 +6,7 @@ import android.view.View;
 
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -54,6 +55,7 @@ public interface Response {
 
     interface OnListClickListener<T> {
         void onItemClicked(View view, T item);
+        default void onUpdateListItem(View view, int position, T item) { }
         void onDeleteClicked(View view, int position, T item);
     }
 
