@@ -14,20 +14,20 @@ import com.helper.util.BaseUtil;
 
 public abstract class BaseHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    protected Response.OnListUpdateListener<HistoryModelResponse> onUpdateUiListener;
-    protected Response.OnListClickListener<HistoryModelResponse> onClickOverrideListener;
+    public Response.OnListUpdateListener<HistoryModelResponse> onUpdateUiListener;
+    public Response.OnListClickListener<HistoryModelResponse> onClickOverrideListener;
 
-    protected HistoryModelResponse mItem;
-    protected TextView tvTitle;
-    protected TextView tvSubTitle;
-    protected TextView tvTime;
-    protected View ivDelete;
-    protected TextView tvStatus;
-    protected TextView tvType;
-    protected TextView tvViewCount;
-    protected boolean isVisibleDelete = true;
-    protected TextView tvWatched;
-    protected View llWatched;
+    public HistoryModelResponse mItem;
+    public TextView tvTitle;
+    public TextView tvSubTitle;
+    public TextView tvTime;
+    public View ivDelete;
+    public TextView tvStatus;
+    public TextView tvType;
+    public TextView tvViewCount;
+    public boolean isVisibleDelete = true;
+    public TextView tvWatched;
+    public View llWatched;
 
     public abstract boolean isEnableViewCount();
     public abstract void initViews(View itemView);
