@@ -15,6 +15,8 @@ import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
+import com.helper.model.HistoryModelResponse;
+
 public interface Response {
 
     //Useage : function(@Response.Visibility int visibility)
@@ -57,6 +59,11 @@ public interface Response {
         void onItemClicked(View view, T item);
         default void onUpdateListItem(View view, int position, T item) { }
         void onDeleteClicked(View view, int position, T item);
+    }
+
+    interface OnListUpdateListener<T> {
+        void onUpdateListItem(View view, int position, T item);
+        void onRemovedListItem(View view, int position, T item);
     }
 
     interface OnDeleteListener{

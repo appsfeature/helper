@@ -40,4 +40,7 @@
     <color name="themeButtonShapeSelectedColor">#A3A3A5</color>
     <color name="themeButtonShapeNotSelectedColor">@color/themeBackgroundCardColor</color>
     <!--App Default Theme Colors-->
+
+    <color name="color_history_watched_view">#1DB98D</color>
+
 </resources>

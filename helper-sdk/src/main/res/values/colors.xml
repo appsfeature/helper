@@ -39,4 +39,7 @@
     <color name="themeButtonShapeSelectedColor">@color/colorPrimaryDark</color>
     <color name="themeButtonShapeNotSelectedColor">#F5F5F5</color>
     <!--App Default Theme Colors-->
+
+    <color name="color_history_watched_view">#1DB98D</color>
+
 </resources>
