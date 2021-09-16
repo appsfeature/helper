@@ -71,19 +71,19 @@
                         android:text="10 seconds ago"
                         android:textColor="@color/themeHintColor" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:background="@color/themeHintColor"
-                        android:layout_height="match_parent"/>
-
                     <LinearLayout
                         android:id="@+id/ll_view_watched"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_weight="1">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@color/themeHintColor"
+                            android:layout_height="match_parent"/>
 
                         <ImageView
                             android:layout_width="20dp"

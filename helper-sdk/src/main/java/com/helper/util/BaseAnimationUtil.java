@@ -44,6 +44,18 @@ public class BaseAnimationUtil {
     }
 
 
+    public static void rotateAnimation(View view, int rotationValue, int duration) {
+        view.animate().rotation(rotationValue).setDuration(duration).start();
+    }
+
+    public static void flipAnimationVertical(View view, int rotationValue, int duration) {
+        view.animate().rotationX(rotationValue).setDuration(duration).start();
+    }
+
+    public static void flipAnimationHorizontal(View view, int rotationValue, int duration) {
+        view.animate().rotationY(rotationValue).setDuration(duration).start();
+    }
+
     public static void alphaAnimation(View view, int visibility) {
         alphaAnimation(view, visibility, 400, null);
     }
