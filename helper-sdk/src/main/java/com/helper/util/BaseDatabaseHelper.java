@@ -84,6 +84,9 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
         return output;
     }
 
+    public String getDatabaseDateTime() {
+        return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())).format(new Date());
+    }
 
     protected SimpleDateFormat formatDDMMMYYYY;
 
