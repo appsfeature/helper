@@ -1,6 +1,5 @@
 package com.helper.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -11,7 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.helper.model.base.BaseDataModel;
 import com.helper.util.GsonParser;
 
-public class BaseCategoryProperty extends BaseDataModel implements Cloneable{
+public class BaseCategoryProperty extends BaseDataModel{
 
     @SerializedName(value = "id", alternate = {"child_id"})
     @Expose
@@ -153,19 +152,5 @@ public class BaseCategoryProperty extends BaseDataModel implements Cloneable{
      */
     public <T> T getPropertyModel(TypeToken<T> typeCast) {
         return GsonParser.fromJson(propertyJson, typeCast);
-    }
-
-    @NonNull
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    public BaseCategoryProperty getClone() {
-        try {
-            return (BaseCategoryProperty) clone();
-        } catch (CloneNotSupportedException e) {
-            return new BaseCategoryProperty();
-        }
     }
 }

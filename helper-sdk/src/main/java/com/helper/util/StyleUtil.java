@@ -1,6 +1,7 @@
 package com.helper.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -95,5 +96,9 @@ public class StyleUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static float dpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 }
