@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        card_view:cardBackgroundColor="@color/themeBackgroundCardColor"
+        card_view:cardBackgroundColor="?attr/themeBackgroundCardColor"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="2dp">
 
@@ -31,7 +31,7 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/themeTextColor"
+                    android:textColor="?attr/themeTextColor"
                     android:layout_marginRight="12dp"
                     android:textSize="16sp" />
 
@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/themeHintColor" />
+                    android:textColor="?attr/themeHintColor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                         android:text="Status"
                         android:visibility="gone"
                         android:layout_marginRight="8dp"
-                        android:textColor="@color/themeTextColorLite" />
+                        android:textColor="?attr/themeTextColorLite" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -69,7 +69,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_height="wrap_content"
                         android:text="10 seconds ago"
-                        android:textColor="@color/themeHintColor" />
+                        android:textColor="?attr/themeHintColor" />
 
                     <LinearLayout
                         android:id="@+id/ll_view_watched"
@@ -82,7 +82,7 @@
                             android:layout_width="1dp"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
-                            android:background="@color/themeHintColor"
+                            android:background="?attr/themeHintColor"
                             android:layout_height="match_parent"/>
 
                         <ImageView
@@ -90,7 +90,7 @@
                             android:layout_height="20dp"
                             android:padding="2dp"
                             android:layout_marginRight="4dp"
-                            android:tint="@color/color_history_watched_view" />
+                            card_view:tint="@color/color_history_watched_view" />
 
                         <TextView
                             android:id="@+id/tv_view_watched"
@@ -132,7 +132,7 @@
                 android:text="View Count"
                 android:layout_marginBottom="6dp"
                 android:layout_marginRight="8dp"
-                android:textColor="@color/themeHintColor" />
+                android:textColor="?attr/themeHintColor" />
         </RelativeLayout>
 
 

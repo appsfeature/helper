@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="colorTextColor" format="color" />
-    <attr name="colorTitleColor" format="color" />
-    <attr name="colorTextColorLite" format="color" />
-    <attr name="colorHintColor" format="color" />
-    <attr name="colorButtonShapeColor" format="color" />
-    <attr name="colorDividerColor" format="color" />
-    <attr name="colorDividerColorDark" format="color" />
-    <attr name="colorWindowBackground" format="color" />
-    <attr name="colorThemeBackgroundCard" format="color" />
-    <attr name="colorPlaceHolderBackgroundCard" format="color" />
+    <attr name="themeTextColor" format="color" />
+    <attr name="themeTitleColor" format="color" />
+    <attr name="themeTextColorLite" format="color" />
+    <attr name="themeHintColor" format="color" />
+    <attr name="themeButtonShapeColor" format="color" />
+    <attr name="themeDividerColor" format="color" />
+    <attr name="themeDividerColorDark" format="color" />
+    <attr name="themeWindowBackground" format="color" />
+    <attr name="themeBackgroundCardColor" format="color" />
+    <attr name="themePlaceHolderBackgroundCardColor" format="color" />
 </resources>

@@ -29,16 +29,16 @@
         <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <!--  Adding Custom Styles   -->
-        <item name="colorTextColor">@color/themeTextColor</item>
-        <item name="colorTitleColor">@color/themeTitleColor</item>
-        <item name="colorTextColorLite">@color/themeTextColorLite</item>
-        <item name="colorHintColor">@color/themeHintColor</item>
-        <item name="colorButtonShapeColor">@color/themeButtonShapeColor</item>
-        <item name="colorDividerColor">@color/themeDividerColor</item>
-        <item name="colorDividerColorDark">@color/themeDividerColorDark</item>
-        <item name="colorWindowBackground">@color/themeWindowBackground</item>
-        <item name="colorThemeBackgroundCard">@color/themeBackgroundCardColor</item>
-        <item name="colorPlaceHolderBackgroundCard">@color/themePlaceHolderBackgroundCardColor</item>
+        <item name="themeTextColor">@color/themeTextColor</item>
+        <item name="themeTitleColor">@color/themeTitleColor</item>
+        <item name="themeTextColorLite">@color/themeTextColorLite</item>
+        <item name="themeHintColor">@color/themeHintColor</item>
+        <item name="themeButtonShapeColor">@color/themeButtonShapeColor</item>
+        <item name="themeDividerColor">@color/themeDividerColor</item>
+        <item name="themeDividerColorDark">@color/themeDividerColorDark</item>
+        <item name="themeWindowBackground">@color/themeWindowBackground</item>
+        <item name="themeBackgroundCardColor">@color/themeBackgroundCardColor</item>
+        <item name="themePlaceHolderBackgroundCardColor">@color/themePlaceHolderBackgroundCardColor</item>
     </style>
 
     <!-- Light base activity theme -->
@@ -62,16 +62,16 @@
         <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <!--  Adding Custom Styles   -->
-        <item name="colorTextColor">@color/themeTextColor</item>
-        <item name="colorTitleColor">@color/themeTitleColor</item>
-        <item name="colorTextColorLite">@color/themeTextColorLite</item>
-        <item name="colorHintColor">@color/themeHintColor</item>
-        <item name="colorButtonShapeColor">@color/themeButtonShapeColor</item>
-        <item name="colorDividerColor">@color/themeDividerColor</item>
-        <item name="colorDividerColorDark">@color/themeDividerColorDark</item>
-        <item name="colorWindowBackground">@color/themeWindowBackground</item>
-        <item name="colorThemeBackgroundCard">@color/themeBackgroundCardColor</item>
-        <item name="colorPlaceHolderBackgroundCard">@color/themePlaceHolderBackgroundCardColor</item>
+        <item name="themeTextColor">@color/themeTextColor</item>
+        <item name="themeTitleColor">@color/themeTitleColor</item>
+        <item name="themeTextColorLite">@color/themeTextColorLite</item>
+        <item name="themeHintColor">@color/themeHintColor</item>
+        <item name="themeButtonShapeColor">@color/themeButtonShapeColor</item>
+        <item name="themeDividerColor">@color/themeDividerColor</item>
+        <item name="themeDividerColorDark">@color/themeDividerColorDark</item>
+        <item name="themeWindowBackground">@color/themeWindowBackground</item>
+        <item name="themeBackgroundCardColor">@color/themeBackgroundCardColor</item>
+        <item name="themePlaceHolderBackgroundCardColor">@color/themePlaceHolderBackgroundCardColor</item>
     </style>
 
     <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
