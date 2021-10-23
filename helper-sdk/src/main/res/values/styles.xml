@@ -28,6 +28,14 @@
         <item name="android:spinnerStyle">@style/SpinnerStyle</item>
         <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <!--  Adding Custom Styles   -->
+        <item name="colorTextColor">@color/themeTextColor</item>
+        <item name="colorHintColor">@color/themeHintColor</item>
+        <item name="colorDividerColor">@color/themeDividerColor</item>
+        <item name="colorDividerColorDark">@color/themeDividerColorDark</item>
+        <item name="colorWindowBackground">@color/themeWindowBackground</item>
+        <item name="colorThemeBackgroundCard">@color/themeBackgroundCardColor</item>
+        <item name="colorPlaceHolderBackgroundCard">@color/themePlaceHolderBackgroundCardColor</item>
     </style>
 
     <!-- Light base activity theme -->
@@ -50,6 +58,14 @@
         <item name="android:spinnerStyle">@style/SpinnerStyle</item>
         <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <!--  Adding Custom Styles   -->
+        <item name="colorTextColor">@color/themeTextColor</item>
+        <item name="colorHintColor">@color/themeHintColor</item>
+        <item name="colorDividerColor">@color/themeDividerColor</item>
+        <item name="colorDividerColorDark">@color/themeDividerColorDark</item>
+        <item name="colorWindowBackground">@color/themeWindowBackground</item>
+        <item name="colorThemeBackgroundCard">@color/themeBackgroundCardColor</item>
+        <item name="colorPlaceHolderBackgroundCard">@color/themePlaceHolderBackgroundCardColor</item>
     </style>
 
     <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
