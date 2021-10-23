@@ -30,7 +30,10 @@
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <!--  Adding Custom Styles   -->
         <item name="colorTextColor">@color/themeTextColor</item>
+        <item name="colorTitleColor">@color/themeTitleColor</item>
+        <item name="colorTextColorLite">@color/themeTextColorLite</item>
         <item name="colorHintColor">@color/themeHintColor</item>
+        <item name="colorButtonShapeColor">@color/themeButtonShapeColor</item>
         <item name="colorDividerColor">@color/themeDividerColor</item>
         <item name="colorDividerColorDark">@color/themeDividerColorDark</item>
         <item name="colorWindowBackground">@color/themeWindowBackground</item>
@@ -60,7 +63,10 @@
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
         <!--  Adding Custom Styles   -->
         <item name="colorTextColor">@color/themeTextColor</item>
+        <item name="colorTitleColor">@color/themeTitleColor</item>
+        <item name="colorTextColorLite">@color/themeTextColorLite</item>
         <item name="colorHintColor">@color/themeHintColor</item>
+        <item name="colorButtonShapeColor">@color/themeButtonShapeColor</item>
         <item name="colorDividerColor">@color/themeDividerColor</item>
         <item name="colorDividerColorDark">@color/themeDividerColorDark</item>
         <item name="colorWindowBackground">@color/themeWindowBackground</item>

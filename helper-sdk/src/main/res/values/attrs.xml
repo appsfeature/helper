@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorTextColor" format="color" />
+    <attr name="colorTitleColor" format="color" />
+    <attr name="colorTextColorLite" format="color" />
     <attr name="colorHintColor" format="color" />
+    <attr name="colorButtonShapeColor" format="color" />
     <attr name="colorDividerColor" format="color" />
     <attr name="colorDividerColorDark" format="color" />
     <attr name="colorWindowBackground" format="color" />
