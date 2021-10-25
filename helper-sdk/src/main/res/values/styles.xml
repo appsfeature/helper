@@ -39,6 +39,9 @@
         <item name="themeWindowBackground">@color/themeWindowBackground</item>
         <item name="themeBackgroundCardColor">@color/themeBackgroundCardColor</item>
         <item name="themePlaceHolderBackgroundCardColor">@color/themePlaceHolderBackgroundCardColor</item>
+        <item name="themeNavBackgroundColor">@color/themeNavBackgroundColor</item>
+        <item name="themeNavItemColor">@color/themeNavItemColor</item>
+        <item name="themeNavItemColorSelected">@color/themeNavItemColorSelected</item>
     </style>
 
     <!-- Light base activity theme -->
@@ -72,6 +75,9 @@
         <item name="themeWindowBackground">@color/themeWindowBackground</item>
         <item name="themeBackgroundCardColor">@color/themeBackgroundCardColor</item>
         <item name="themePlaceHolderBackgroundCardColor">@color/themePlaceHolderBackgroundCardColor</item>
+        <item name="themeNavBackgroundColor">@color/themeNavBackgroundColor</item>
+        <item name="themeNavItemColor">@color/themeNavItemColor</item>
+        <item name="themeNavItemColorSelected">@color/themeNavItemColorSelected</item>
     </style>
 
     <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">

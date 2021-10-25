@@ -10,4 +10,7 @@
     <attr name="themeWindowBackground" format="color" />
     <attr name="themeBackgroundCardColor" format="color" />
     <attr name="themePlaceHolderBackgroundCardColor" format="color" />
+    <attr name="themeNavBackgroundColor" format="color" />
+    <attr name="themeNavItemColor" format="color" />
+    <attr name="themeNavItemColorSelected" format="color" />
 </resources>
