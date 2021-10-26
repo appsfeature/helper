@@ -99,6 +99,7 @@ public class BaseAnimationUtil {
             }
 
         });
+        view.setVisibility(View.VISIBLE);
         view.startAnimation(alphaAnim);
     }
 
@@ -144,6 +145,7 @@ public class BaseAnimationUtil {
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
+            view.setVisibility(View.VISIBLE);//adding this for starting or showing animation
             widthAnimation.start();
         }
     }
@@ -188,6 +190,7 @@ public class BaseAnimationUtil {
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
+            view.setVisibility(View.VISIBLE);//adding this for starting or showing animation
             widthAnimation.start();
         }
     }
@@ -233,6 +236,7 @@ public class BaseAnimationUtil {
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
+            view.setVisibility(View.VISIBLE);//adding this for starting or showing animation
             valueAnimator.start();
         }
     }
@@ -244,7 +248,6 @@ public class BaseAnimationUtil {
         Animation anim = new TranslateAnimation(0, 0, fromHeight, toHeight);
         anim.setDuration(duration);
         anim.setInterpolator(new AccelerateInterpolator());
-        view.startAnimation(anim);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -266,6 +269,8 @@ public class BaseAnimationUtil {
 
             }
         });
+        view.setVisibility(View.VISIBLE);//adding this for starting or showing animation
+        view.startAnimation(anim);
         return anim;
     }
 
@@ -297,6 +302,7 @@ public class BaseAnimationUtil {
 
             }
         });
+        view.setVisibility(View.VISIBLE);//adding this for starting or showing animation
         view.startAnimation(anim);
         return anim;
     }
