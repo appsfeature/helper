@@ -121,37 +121,48 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
 
     public static void openActivity(Activity activity, Uri url, String extraData) {
         if(url != null){
-            if(url.getQueryParameter(ACTION_TYPE).equals(PDFDynamicShare.TYPE_PDF)) {
-                PDFDynamicShare.open(activity, url, extraData);
-            }else if(url.getQueryParameter(ACTION_TYPE).equals(TYPE_YOUR_MODULE_NAME)) {
-                 //Handle your module event here.
-                ModelName modelName = fromJson(extraData, new TypeToken<ModelName>(){});
-                if (modelName != null) {
-                    SupportUtil.openItem(activity, modelName);
+            if (url.toString().contains(ACTION_TYPE)) {
+                if(url.getQueryParameter(ACTION_TYPE).equals(PDFDynamicShare.TYPE_PDF)) {
+                    PDFDynamicShare.open(activity, url, extraData);
+                }else if(url.getQueryParameter(ACTION_TYPE).equals(TYPE_YOUR_MODULE_NAME)) {
+                     //Handle your module event here.
+                    DynamicUrlProperty mItem = fromJson(extraData, new TypeToken<DynamicUrlProperty>(){});
+                    if (mItem != null) {
+                        SupportUtil.openItem(activity, mItem);
+                    }
                 }
+            }else{
+
             }
         }
     }
 
-    public void share(String id, String extraData, String description) {
+    public void share(String id, String description, DynamicUrlProperty extraData) {
         HashMap<String, String> param = new HashMap<>();
         param.put("id", id);
         param.put(ACTION_TYPE, TYPE_YOUR_MODULE_NAME);
         showProgress(View.VISIBLE);
-        String extraDataJson = toJson(extraData, new TypeToken<ModelName>() {});
+        String extraDataJson = toJson(extraData, new TypeToken<DynamicUrlProperty>() {});
+        String extraText = context.getString(gk.mokerlib.paid.R.string.app_name)
+                    + "\n"
+                    + property.getTitle()
+                    + "\n"
+                    + "Click here on link to read the full article. \nLink : ";
         generate(param, extraDataJson, new DynamicUrlCreator.DynamicUrlCallback() {
             @Override
             public void onDynamicUrlGenerate(String url) {
                 showProgress(View.GONE);
                 Log.d(DynamicUrlCreator.class.getSimpleName(), "Url:" + url);
-                shareMe(description, url);
+                if (BaseUtil.isValidUrl(url)) {
+                    share(extraText + url);
+                }
             }
 
             @Override
             public void onError(Exception e) {
                 showProgress(View.GONE);
                 Log.d(DynamicUrlCreator.class.getSimpleName(), "onError:" + e.toString());
-                shareMe(description, getPlayStoreLink());
+                shareLink(description, getPlayStoreLink());
             }
         });
     }
@@ -238,27 +249,28 @@ public class DynamicUrlCreator extends BaseDynamicUrlCreator {
         this.progressListener = progressListener;
     }
 
-    public void shareMe(String description, String deepLink) {
-        shareMe(description, deepLink, null);
-    }
-
-    public void shareMe(String description, String deepLink, Uri imageUri) {
+    public void shareLink(String description, String deepLink) {
         if (BaseUtil.isValidUrl(deepLink)) {
-            Log.d(TAG, deepLink);
             String openLink = "\nChick here to open : \n" + deepLink;
 
             String extraText = description + "\n\n" + openLink;
-
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, extraText);
-            intent.setType("text/plain");
-            if(imageUri != null) {
-                intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                intent.setType("image/*");
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(Intent.createChooser(intent, "Share With"));
+            share(extraText, null);
         }
+    }
+
+    public void share(String extraText) {
+        share(extraText, null);
+    }
+    public void share(String extraText, Uri imageUri) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, extraText);
+        intent.setType("text/plain");
+        if (imageUri != null) {
+            intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+            intent.setType("image/*");
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(intent, "Share With"));
     }
 }
 ```
@@ -298,6 +310,18 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MenuItem mDayNight = navigationView.getMenu().findItem(R.id.nav_day_night);
+        Switch dayNight = (Switch) mDayNight.getActionView();
+        dayNight.setChecked(DayNightPreference.isNightModeEnabled(this));
+        dayNight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppApplication.getInstance().setEnableOpenDynamicLink(false);
+                DayNightPreference.setNightMode(MainActivity.this, isChecked);
+            }
+        });
+
         onNewIntent(getIntent());
     }
 
@@ -306,26 +330,48 @@ public class MainActivity extends AppCompatActivity implements DynamicUrlCreator
         super.onNewIntent(intent);
         if (intent != null) {
             if(DynamicUrlCreator.isValidIntent(this)) {
-                new DynamicUrlCreator(this)
-                    .register(this);
+                registerDynamicLinks();
             }
         }
     }
 
-    public void onShareClicked(View view) {
-            String id = "01";
-            String extraData = "{Large data in form of Json or anything else}";
-            new DynamicUrlCreator(this).share(id, extraData);
-        }
+    private void registerDynamicLinks() {
+        if (AppApplication.getInstance().isEnableOpenDynamicLink()) {
+            new DynamicUrlCreator(this)
+                    .register(new BaseDynamicUrlCreator.DynamicUrlResult() {
+                        @Override
+                        public void onDynamicUrlResult(Uri uri, String extraData) {
+                            DynamicUrlCreator.openActivity(HomeActivity.this, uri, extraData);
+                        }
 
-    @Override
-    public void onDynamicUrlResult(Uri uri, String extraData) {
-        DynamicUrlCreator.openActivity(this, uri, extraData);
+                        @Override
+                        public void onError(Exception e) {
+                            Log.d("PDFDynamicShare", "onError" + e.toString());
+                        }
+                    });
+        }
+        AppApplication.getInstance().setEnableOpenDynamicLink(true);
     }
 
-    @Override
-    public void onError(Exception e) {
-        Log.d("DynamicUrlCreator", "onError:" + e.toString());
+    public void onShareClicked(View view) {
+        String id = "01";
+        String extraData = "{Large data in form of Json or anything else}";
+        new DynamicUrlCreator(this).share(id, extraData);
+    }
+}
+```
+#### Step:7 DynamicUrl Usage methods in AppApplication
+```java
+public class AppApplication extends Application{
+
+    private boolean isEnableOpenDynamicLink = true;
+
+    public void setEnableOpenDynamicLink(boolean fromNightMode) {
+        isEnableOpenDynamicLink = fromNightMode;
+    }
+
+    public boolean isEnableOpenDynamicLink() {
+        return isEnableOpenDynamicLink;
     }
 }
 ```
