@@ -18,7 +18,7 @@
     <color name="themePlaceHolderBackgroundCardColor">#FFFFFF</color>
     <color name="themeBackgroundCardColor">#FFFFFF</color>
     <color name="themeWindowBackground">#e6e8e8</color>
-    <color name="themeDividerColor">#F2F2F3</color>
+    <color name="themeDividerColor">#10000000</color>
     <color name="themeDividerColorDark">#E1E1E2</color>
     <color name="themeColorFilter">@color/colorPrimary</color>
     <color name="themeTextColor">#292929</color>
