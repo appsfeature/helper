@@ -132,5 +132,16 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="Toolbar.TextAppearance.Large" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">@dimen/actionBarSizeLarge</item>
+    </style>
+
+    <style name="Toolbar.TextAppearance.Medium" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">@dimen/actionBarSizeMedium</item>
+    </style>
+
+    <style name="Toolbar.TextAppearance.Small" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">@dimen/actionBarSizeSmall</item>
+    </style>
 
 </resources>
