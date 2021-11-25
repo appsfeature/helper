@@ -118,7 +118,8 @@ public class WebViewHelper {
     }
 
     private String htmlData(String myContent, String color) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+        return "<!DOCTYPE html>" +
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
                 "<html><head>" +
                 "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />"
                 + "<style type=\"text/css\">body{color: " + color + "; font-size:large; font-family:roboto_regular;"
