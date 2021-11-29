@@ -64,6 +64,29 @@ public class Logger {
         }
     }
 
+    /**
+     * @apiNote throw new IllegalArgumentException();
+     */
+    public static void logIntegration(String tag, String message){
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".   \\ |  | /");
+        Log.e(tag, ".    \\    /");
+        Log.e(tag, ".     \\  /");
+        Log.e(tag, ".      \\/");
+        Log.e(tag, ".");
+        Log.e(tag, message);
+        Log.e(tag, ".");
+        Log.e(tag, ".      /\\");
+        Log.e(tag, ".     /  \\");
+        Log.e(tag, ".    /    \\");
+        Log.e(tag, ".   / |  | \\");
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".");
+    }
+
 //    public static void e(String q, String s) {
 //        if (Helper.getInstance().isEnableDebugMode()) {
 //            Log.d(TAG, LINE_BREAK_START);
