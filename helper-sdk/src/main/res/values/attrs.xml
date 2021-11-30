@@ -13,4 +13,9 @@
     <attr name="themeNavBackgroundColor" format="color" />
     <attr name="themeNavItemColor" format="color" />
     <attr name="themeNavItemColorSelected" format="color" />
+
+    <declare-styleable name="PHTextView">
+        <attr name="placeHolderColor" format="color" />
+    </declare-styleable>
+
 </resources>
