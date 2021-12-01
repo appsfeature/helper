@@ -5,6 +5,7 @@
 
     <application>
         <activity android:name=".activity.BrowserActivity"
+            android:exported="false"
             android:theme="@style/ActivityTheme.ActionBar"/>
 
     </application>
