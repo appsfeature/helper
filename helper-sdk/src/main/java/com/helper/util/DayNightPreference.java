@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 public class DayNightPreference extends BasePrefUtil{
 
-    private static final String DAY_MODE = "dayMode";
     public static final String NIGHT_MODE = "NIGHT_MODE";
 
+    public static boolean isDayMode() {
+        return AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES;
+    }
 
     public static boolean isNightModeEnabled(Context context) {
         return getBoolean(context, NIGHT_MODE, false);
