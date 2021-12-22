@@ -14,7 +14,7 @@ public class BasePrefUtil {
     private static SharedPreferences sharedPreferences;
 
 
-    private static SharedPreferences getDefaultSharedPref(Context context) {
+    public static SharedPreferences getDefaultSharedPref(Context context) {
         if (sharedPreferences == null && context != null)
             sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 
