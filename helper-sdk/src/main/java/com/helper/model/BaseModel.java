@@ -31,7 +31,7 @@ public class BaseModel extends BaseHelperAdModelClass implements Serializable{
     private int itemType;
 
     @Expose
-    @SerializedName(value="view_count")
+    @SerializedName(value="view_count", alternate={"viewCount"})
     private int viewCount;
 
     private String viewCountFormatted;
