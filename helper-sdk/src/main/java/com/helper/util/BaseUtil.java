@@ -39,6 +39,7 @@ import com.helper.widget.PopupProgress;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -372,5 +373,24 @@ public class BaseUtil {
         }
 //        Log.e("printHashKey", "keyHash : " + keyHash);
         return keyHash;
+    }
+
+    public static String convertServerDateTime(String inputDate) {
+        return convertServerDateTime(inputDate, "dd-MMM-yy hh:mm:a");
+    }
+
+    public static String convertServerDateTime(String inputDate, String outputFormat) {
+        try {
+            if(TextUtils.isEmpty(inputDate)){
+                return inputDate;
+            }
+            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(inputDate);
+            if(date != null) {
+                return new SimpleDateFormat(outputFormat, Locale.US).format(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inputDate;
     }
 }
