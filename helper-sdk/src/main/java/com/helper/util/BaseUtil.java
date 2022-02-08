@@ -352,29 +352,6 @@ public class BaseUtil {
         }
     }
 
-    public static String getSecurityCode(Context ctx) {
-        String keyHash = null;
-        try {
-            Signature[] signatures;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                PackageInfo info = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), PackageManager.GET_SIGNING_CERTIFICATES);
-                signatures = info.signingInfo.getSigningCertificateHistory();
-            } else {
-                PackageInfo info = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), PackageManager.GET_SIGNATURES);
-                signatures = info.signatures;
-            }
-            for (Signature signature : signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                keyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-        } catch (NoSuchAlgorithmException e) {
-        }
-//        Log.e("printHashKey", "keyHash : " + keyHash);
-        return keyHash;
-    }
-
     public static String convertServerDateTime(String inputDate) {
         return convertServerDateTime(inputDate, "dd-MMM-yy hh:mm:a");
     }

@@ -1,10 +1,6 @@
 package com.helper.network;
 
-import android.content.Context;
-
 import com.google.gson.JsonSyntaxException;
-import com.helper.Helper;
-import com.helper.callback.ApiRequestType;
 import com.helper.model.base.BaseDataModel;
 import com.helper.util.BaseConstants;
 import com.helper.util.BaseUtil;
@@ -15,25 +11,10 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
 public class BaseNetworkManager {
     public static String keyImagePath = BaseConstants.DEFAULT_KEY_IMAGE_PATH;
     public static String keyPdfPath = BaseConstants.DEFAULT_KEY_PDF_PATH;
-    private final RetrofitApiInterface apiInterface;
-
-    public BaseNetworkManager() {
-        this.apiInterface = null;
-    }
-
-    public BaseNetworkManager(Context context, String baseUrl) {
-        apiInterface = RetrofitBuilder.getClient(baseUrl, BaseUtil.getSecurityCode(context), Helper.getInstance().isEnableDebugMode())
-                .create(RetrofitApiInterface.class);
-    }
-    public BaseNetworkManager(Context context, String baseUrl, String securityCode) {
-        apiInterface = RetrofitBuilder.getClient(baseUrl, securityCode, Helper.getInstance().isEnableDebugMode())
-                .create(RetrofitApiInterface.class);
-    }
 
     public interface ParserConfigData<T> {
         void onSuccess(T t, String imagePath, String pdfPath);
@@ -119,21 +100,6 @@ public class BaseNetworkManager {
         } catch (JSONException e) {
             e.printStackTrace();
             callback.onFailure(e);
-        }
-    }
-
-    public void getData(@ApiRequestType int reqType, String endPoint, Map<String, String> params, NetworkResponseCallBack.OnNetworkCall callback) {
-        if(apiInterface != null) {
-            if (reqType == ApiRequestType.POST) {
-                apiInterface.requestPost(endPoint, params)
-                        .enqueue(new NetworkResponseCallBack(callback));
-            } else if (reqType == ApiRequestType.POST_FORM) {
-                apiInterface.requestPostDataForm(endPoint, params)
-                        .enqueue(new NetworkResponseCallBack(callback));
-            } else {
-                apiInterface.requestGet(endPoint, params)
-                        .enqueue(new NetworkResponseCallBack(callback));
-            }
         }
     }
 }
