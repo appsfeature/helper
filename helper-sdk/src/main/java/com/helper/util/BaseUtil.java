@@ -307,51 +307,6 @@ public class BaseUtil {
         }
     }
 
-    /**
-     * @deprecated replaced by {@link #getTimeInReadableFormat(String, String)}
-     */
-    @Deprecated
-    public static String convertServerDateTime(String inputDate) {
-        return getTimeInReadableFormat(inputDate);
-    }
-
-    /**
-     * @deprecated replaced by {@link #getTimeInReadableFormat(String, String)}
-     */
-    @Deprecated
-    public static String convertServerDateTime(String inputDate, String outputFormat) {
-        return getTimeInReadableFormat(inputDate, outputFormat);
-    }
-    /**
-     * @deprecated replaced by {@link #getTimeInDaysAgoFormatFromMileSecond(String)}
-     */
-    @Deprecated
-    public static CharSequence convertTimeStamp(String mileSecond){
-        return getTimeInDaysAgoFormatFromMileSecond(mileSecond);
-    }
-
-    /**
-     * @deprecated replaced by {@link #getTimeTaken(long)}
-     */
-    @Deprecated
-    public static String timeTaken(long time) {
-        return getTimeTaken(time);
-    }
-    /**
-     * @deprecated replaced by {@link #getTimeInDaysAgoFormat(String)}
-     */
-    @Deprecated
-    public static String getTimeSpanString(String serverDateFormat){
-        return getTimeInDaysAgoFormat(serverDateFormat);
-    }
-    /**
-     * @deprecated replaced by {@link #getTimeInDaysAgoFormatFromMileSecond(String)}
-     */
-    @Deprecated
-    public static CharSequence getTimeStamp(String timeInMileSecond){
-        return getTimeInDaysAgoFormatFromMileSecond(timeInMileSecond);
-    }
-
     public static String getTimeInReadableFormat(String inputDate) {
         return getTimeInReadableFormat(inputDate, "dd-MMM-yy hh:mm:a");
     }
@@ -418,5 +373,54 @@ public class BaseUtil {
 
     public static String getTimeStamp() {
         return new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+    }
+
+
+
+
+
+    /**
+     * @deprecated replaced by {@link #getTimeInReadableFormat(String, String)}
+     */
+    @Deprecated
+    public static String convertServerDateTime(String inputDate) {
+        return getTimeInReadableFormat(inputDate);
+    }
+
+    /**
+     * @deprecated replaced by {@link #getTimeInReadableFormat(String, String)}
+     */
+    @Deprecated
+    public static String convertServerDateTime(String inputDate, String outputFormat) {
+        return getTimeInReadableFormat(inputDate, outputFormat);
+    }
+    /**
+     * @deprecated replaced by {@link #getTimeInDaysAgoFormatFromMileSecond(String)}
+     */
+    @Deprecated
+    public static CharSequence convertTimeStamp(String mileSecond){
+        return getTimeInDaysAgoFormatFromMileSecond(mileSecond);
+    }
+
+    /**
+     * @deprecated replaced by {@link #getTimeTaken(long)}
+     */
+    @Deprecated
+    public static String timeTaken(long time) {
+        return getTimeTaken(time);
+    }
+    /**
+     * @deprecated replaced by {@link #getTimeInDaysAgoFormat(String)}
+     */
+    @Deprecated
+    public static String getTimeSpanString(String serverDateFormat){
+        return getTimeInDaysAgoFormat(serverDateFormat);
+    }
+    /**
+     * @deprecated replaced by {@link #getTimeInDaysAgoFormatFromMileSecond(String)}
+     */
+    @Deprecated
+    public static CharSequence getTimeStamp(String timeInMileSecond){
+        return getTimeInDaysAgoFormatFromMileSecond(timeInMileSecond);
     }
 }
