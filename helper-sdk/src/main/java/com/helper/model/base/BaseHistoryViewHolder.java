@@ -112,7 +112,7 @@ public abstract class BaseHistoryViewHolder extends RecyclerView.ViewHolder impl
         if(!TextUtils.isEmpty(mItem.getFormattedDate())){
             tvTime.setText(mItem.getFormattedDate());
         }else {
-            tvTime.setText(BaseUtil.getTimeSpanString(mItem.getCreatedAt()));
+            tvTime.setText(BaseUtil.getTimeInDaysAgoFormat(mItem.getCreatedAt()));
         }
         tvType.setText(itemType);
         if(isEnableViewCount() && !TextUtils.isEmpty(mItem.getViewCountFormatted())) {

@@ -7,9 +7,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -20,7 +17,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,9 +33,6 @@ import com.helper.activity.BrowserActivity;
 import com.helper.callback.Response;
 import com.helper.widget.PopupProgress;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -286,44 +279,6 @@ public class BaseUtil {
     }
 
 
-
-    public static String timeTaken(long time) {
-        return String.format(Locale.US, "%02d min, %02d sec",
-                TimeUnit.MILLISECONDS.toMinutes(time),
-                TimeUnit.MILLISECONDS.toSeconds(time) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time))
-        );
-    }
-
-    public static String getTimeSpanString(String serverDateFormat){
-        try {
-            Date mDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(serverDateFormat);
-            if(mDate != null) {
-                long timeInMilliseconds = mDate.getTime();
-                return DateUtils.getRelativeTimeSpanString(timeInMilliseconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return serverDateFormat;
-    }
-
-    /**
-     * @param mileSecond enter time in millis
-     * @return Returns a string describing 'time' as a time relative to 'now'.
-     * Time spans in the past are formatted like "42 minutes ago". Time spans in the future are formatted like "In 42 minutes".
-     * i.e: 5 days ago, or 5 minutes ago.
-     */
-    public static CharSequence convertTimeStamp(String mileSecond){
-        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_TIME;
-        return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSecond), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, flags);
-    }
-
-    public static String getTimeStamp() {
-        return new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-    }
-
     public static void showKeyboard(View view) {
         try {
             if (view != null && view.requestFocus()) {
@@ -352,11 +307,56 @@ public class BaseUtil {
         }
     }
 
+    /**
+     * @deprecated replaced by {@link #getTimeInReadableFormat(String, String)}
+     */
+    @Deprecated
     public static String convertServerDateTime(String inputDate) {
-        return convertServerDateTime(inputDate, "dd-MMM-yy hh:mm:a");
+        return getTimeInReadableFormat(inputDate);
     }
 
+    /**
+     * @deprecated replaced by {@link #getTimeInReadableFormat(String, String)}
+     */
+    @Deprecated
     public static String convertServerDateTime(String inputDate, String outputFormat) {
+        return getTimeInReadableFormat(inputDate, outputFormat);
+    }
+    /**
+     * @deprecated replaced by {@link #getTimeInDaysAgoFormatFromMileSecond(String)}
+     */
+    @Deprecated
+    public static CharSequence convertTimeStamp(String mileSecond){
+        return getTimeInDaysAgoFormatFromMileSecond(mileSecond);
+    }
+
+    /**
+     * @deprecated replaced by {@link #getTimeTaken(long)}
+     */
+    @Deprecated
+    public static String timeTaken(long time) {
+        return getTimeTaken(time);
+    }
+    /**
+     * @deprecated replaced by {@link #getTimeInDaysAgoFormat(String)}
+     */
+    @Deprecated
+    public static String getTimeSpanString(String serverDateFormat){
+        return getTimeInDaysAgoFormat(serverDateFormat);
+    }
+    /**
+     * @deprecated replaced by {@link #getTimeInDaysAgoFormatFromMileSecond(String)}
+     */
+    @Deprecated
+    public static CharSequence getTimeStamp(String timeInMileSecond){
+        return getTimeInDaysAgoFormatFromMileSecond(timeInMileSecond);
+    }
+
+    public static String getTimeInReadableFormat(String inputDate) {
+        return getTimeInReadableFormat(inputDate, "dd-MMM-yy hh:mm:a");
+    }
+
+    public static String getTimeInReadableFormat(String inputDate, String outputFormat) {
         try {
             if(TextUtils.isEmpty(inputDate)){
                 return inputDate;
@@ -369,5 +369,54 @@ public class BaseUtil {
             e.printStackTrace();
         }
         return inputDate;
+    }
+
+    public static String getTimeInDaysAgoFormat(String serverDateFormat){
+        try {
+            Date mDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(serverDateFormat);
+            if(mDate != null) {
+                long timeInMilliseconds = mDate.getTime();
+                return getTimeInDaysAgoFormat(timeInMilliseconds).toString();
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return serverDateFormat;
+    }
+
+    public static String getTimeInDaysAgoFormatFromMileSecond(String mileSecond){
+        try {
+            return !TextUtils.isEmpty(mileSecond) ? getTimeInDaysAgoFormat(Long.parseLong(mileSecond)).toString() : "";
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    /**
+     * @param mileSecond enter time in millis
+     * @return Returns a string describing 'time' as a time relative to 'now'.
+     * Time spans in the past are formatted like "42 minutes ago". Time spans in the future are formatted like "In 42 minutes".
+     * i.e: 5 days ago, or 5 minutes ago.
+     */
+    public static CharSequence getTimeInDaysAgoFormat(long mileSecond){
+        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_TIME;
+        return getTimeInDaysAgoFormat(mileSecond, flags);
+    }
+
+    public static CharSequence getTimeInDaysAgoFormat(long mileSecond, int flags){
+        return DateUtils.getRelativeTimeSpanString(mileSecond, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, flags);
+    }
+
+    public static String getTimeTaken(long timeInMileSecond) {
+        return String.format(Locale.US, "%02d min, %02d sec",
+                TimeUnit.MILLISECONDS.toMinutes(timeInMileSecond),
+                TimeUnit.MILLISECONDS.toSeconds(timeInMileSecond) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeInMileSecond))
+        );
+    }
+
+    public static String getTimeStamp() {
+        return new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
     }
 }
