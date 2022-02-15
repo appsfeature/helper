@@ -183,6 +183,7 @@ public class BaseUtil {
                 public void onClick(View view) {
                     BaseAnimationUtil.alphaAnimation(layoutRetry, View.GONE);
                     BaseAnimationUtil.alphaAnimation(pbProgress, View.VISIBLE);
+                    tvNoData.setVisibility(View.GONE);
                     if (progress != null) progress.onStartProgressBar();
                     if (retryCallback != null) {
                         retryCallback.onRetry();
