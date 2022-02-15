@@ -21,7 +21,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ import androidx.core.content.ContextCompat;
 
 import com.helper.R;
 import com.helper.activity.BrowserActivity;
+import com.helper.callback.NetworkListener;
 import com.helper.callback.Response;
 import com.helper.widget.PopupProgress;
 
@@ -136,14 +139,14 @@ public class BaseUtil {
                 }
                 if (tvNoData != null) {
                     tvNoData.setVisibility(VISIBLE);
-                    if (!isConnected(view.getContext())) {
-                        tvNoData.setText(BaseConstants.NO_INTERNET_CONNECTION);
-                    } else {
-                        tvNoData.setText(BaseConstants.NO_DATA);
-                    }
+                    tvNoData.setText(getNoDataMessage(view.getContext()));
                 }
             }
         }
+    }
+
+    private static String getNoDataMessage(Context context) {
+        return !isConnected(context) ? BaseConstants.NO_INTERNET_CONNECTION : BaseConstants.NO_DATA;
     }
 
     public static void showNoDataProgress(View view) {
@@ -156,6 +159,36 @@ public class BaseUtil {
             if (tvNoData != null) {
                 tvNoData.setVisibility(GONE);
             }
+        }
+    }
+
+    public static void showNoDataRetry(View view, NetworkListener.Retry retryCallback) {
+        showNoDataRetry(view, retryCallback, null);
+    }
+
+    public static void showNoDataRetry(View view, NetworkListener.Retry retryCallback, Response.Progress progress) {
+        if (view != null) {
+            view.setVisibility(View.VISIBLE);
+            TextView tvNoData = view.findViewById(R.id.tv_no_data);
+            View layoutRetry = view.findViewById(R.id.layout_retry);
+            Button btnRetry = view.findViewById(R.id.btn_retry);
+            ProgressBar pbProgress = view.findViewById(R.id.player_progressbar);
+
+            BaseAnimationUtil.alphaAnimation(layoutRetry, View.VISIBLE);
+            BaseAnimationUtil.alphaAnimation(pbProgress, View.GONE);
+            tvNoData.setVisibility(View.GONE);
+            if (progress != null) progress.onStopProgressBar();
+            if (btnRetry != null) btnRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BaseAnimationUtil.alphaAnimation(layoutRetry, View.GONE);
+                    BaseAnimationUtil.alphaAnimation(pbProgress, View.VISIBLE);
+                    if (progress != null) progress.onStartProgressBar();
+                    if (retryCallback != null) {
+                        retryCallback.onRetry();
+                    }
+                }
+            });
         }
     }
 
