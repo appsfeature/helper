@@ -4,14 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @apiNote Usage: RecyclerView.addOnScrollListener(new HidingScrollListener(){});
+ * @apiNote Usage: RecyclerView.addOnScrollListener(new HidingScrollListener(5){});
  */
 public abstract class HidingScrollListener extends RecyclerView.OnScrollListener {
 
-    private static final int minItemCount = 4;
+    private int minItemCount = 4;
     private static final int HIDE_THRESHOLD = 20;
     private int scrolledDistance = 0;
     private boolean controlsVisible = true;
+
+    public HidingScrollListener() {}
+
+    public HidingScrollListener(int minItemCount) {
+        this.minItemCount = minItemCount;
+    }
 
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
