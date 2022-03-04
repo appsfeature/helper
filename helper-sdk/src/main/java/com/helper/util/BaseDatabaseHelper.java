@@ -1,5 +1,6 @@
 package com.helper.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.helper.model.DatabaseModel;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +24,13 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
+
+    public String CLASSID = "class_id";
+    public static String COLUMN_CAT_ID = "cat_id";
+    public String ID = "id";
+    public static String COLUMN_ID = "id";
+    public String TABLE_SUBJECTS = "subjects";
+    public static final String TABLE_CATEGORY = "category";
 
     public BaseDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -195,15 +205,16 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * @apiNote : Usage Method
-     *     if(ids.contains(item.getId())) {
-     *         //Update table query under try catch block
-     *     }else {
-     *         //Insert table query under try catch block
-     *     }
+     * if(ids.contains(item.getId())) {
+     * //Update table query under try catch block
+     * }else {
+     * //Insert table query under try catch block
+     * }
      */
     public List<Integer> getListOfIdsFromTable(@NonNull String tableName, @NonNull String columnName) {
         return getListOfIdsFromTable(tableName, columnName, null);
     }
+
     public List<Integer> getListOfIdsFromTable(@NonNull String tableName, @NonNull String columnName, @Nullable String selection) {
         List<Integer> mList = new ArrayList<>();
         try {
@@ -223,4 +234,105 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
         }
         return mList;
     }
+
+    public ArrayList<Integer> getCategoryLocalIds(int catId, String tableName, String catColumnName, String itemIdColumn) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (getWritableDatabase() != null) {
+            @SuppressLint("Recycle") Cursor cursor = getWritableDatabase().query(tableName, null, catColumnName + " = " + catId, null, null, null, ID + " DESC");
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                do {
+                    list.add(cursor.getInt(cursor.getColumnIndex(itemIdColumn)));
+                } while (cursor.moveToNext());
+            }
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return list;
+    }
+
+    public enum DataType {
+        SUBJECT,
+        CATEGORY
+    }
+
+    public <T> void deleteExtraCategory(List<T> data, int catId, DataType dataType) {
+        ArrayList<Integer> integers = new ArrayList<>(data.size());
+        for (T model : data) {
+            if (dataType == DataType.SUBJECT) {
+                integers.add(((DatabaseModel) model).getId());
+            } else if (dataType == DataType.CATEGORY) {
+                integers.add(((DatabaseModel) model).getId());
+            }
+        }
+        deleteExtraCategoryLocal(integers, catId, dataType);
+    }
+
+    private void deleteExtraCategoryLocal(ArrayList<Integer> newIds, int catId, DataType dataType) {
+        try {
+            Logger.e("deleteExtraCategory", "Called");
+            if (newIds == null || newIds.size() < 1)
+                return;
+
+            Logger.e("deleteExtraCategory", "newIds : " + newIds.toString());
+            String tableName = getTableNameForDataType(dataType);
+            String columnName = getColumnNameForDataType(dataType);
+            String columnNameItem = getColumnNameItemForDataType(dataType);
+            ArrayList<Integer> localIds = getCategoryLocalIds(catId, tableName, columnName, columnNameItem);
+
+            Logger.e("deleteExtraCategory", "localIds : " + localIds.toString());
+            ArrayList<Integer> deleteIds = new ArrayList<>();
+            for (int i : localIds) {
+                if (!newIds.contains(i)) {
+                    deleteIds.add(i);
+                }
+            }
+
+            Logger.e("deleteExtraCategory", "deleteIds : " + deleteIds.toString());
+            if (deleteIds.size() > 0) {
+                String ids = deleteIds.toString().replace("[", "(").replace("]", ")");
+                String where = columnNameItem + " IN " + ids;
+                deleteLocalExtraData(tableName, where);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void deleteLocalExtraData(String tableName, String query) {
+        if (getWritableDatabase() != null) {
+            try {
+                int counts = getWritableDatabase().delete(tableName, query, null);
+                Logger.e("deleteLocalExtraData", "Deleted Rows : " + counts);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String getColumnNameForDataType(DataType dataType) {
+        switch (dataType) {
+            case SUBJECT:
+                return CLASSID;
+        }
+        return COLUMN_CAT_ID;
+    }
+
+    private String getColumnNameItemForDataType(DataType dataType) {
+        switch (dataType) {
+            case SUBJECT:
+                return ID;
+        }
+        return COLUMN_ID;
+    }
+
+    private String getTableNameForDataType(DataType dataType) {
+        switch (dataType) {
+            case SUBJECT:
+                return TABLE_SUBJECTS;
+        }
+        return TABLE_CATEGORY;
+    }
+
 }
