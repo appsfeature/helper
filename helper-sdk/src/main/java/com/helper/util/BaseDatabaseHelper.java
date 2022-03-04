@@ -261,6 +261,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
      */
     public <T> void deleteExtraCategory(List<T> data, int catId, DataType dataType) {
         if(data != null && data.size() > 0) {
+            String className = data.get(0).getClass().getSimpleName();
             ArrayList<Integer> integers = new ArrayList<>();
             for (T model : data) {
                 if (model instanceof DatabaseModel) {
@@ -268,7 +269,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
                 }
             }
             if (integers.size() <= 0) {
-                String message = "Integration error : SubjectModel, CategoryBean extend DatabaseModel and remove id field from both model.";
+                String message = "Integration error : Make sure " + className + " extends DatabaseModel and remove id field from both model.";
                 Logger.logIntegration("deleteExtraCategory", message);
             }
             deleteExtraCategoryLocal(integers, catId, dataType);
