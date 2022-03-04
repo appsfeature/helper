@@ -260,13 +260,19 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
      * @apiNote : SubjectModel, CategoryBean extend DatabaseModel and remove id field from both model.
      */
     public <T> void deleteExtraCategory(List<T> data, int catId, DataType dataType) {
-        ArrayList<Integer> integers = new ArrayList<>(data.size());
-        for (T model : data) {
-            if(model instanceof DatabaseModel){
-                integers.add(((DatabaseModel) model).getId());
+        if(data != null && data.size() > 0) {
+            ArrayList<Integer> integers = new ArrayList<>();
+            for (T model : data) {
+                if (model instanceof DatabaseModel) {
+                    integers.add(((DatabaseModel) model).getId());
+                }
             }
+            if (integers.size() <= 0) {
+                String message = "Integration error : SubjectModel, CategoryBean extend DatabaseModel and remove id field from both model.";
+                Logger.logIntegration("deleteExtraCategory", message);
+            }
+            deleteExtraCategoryLocal(integers, catId, dataType);
         }
-        deleteExtraCategoryLocal(integers, catId, dataType);
     }
 
     private void deleteExtraCategoryLocal(ArrayList<Integer> newIds, int catId, DataType dataType) {
