@@ -262,9 +262,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
     public <T> void deleteExtraCategory(List<T> data, int catId, DataType dataType) {
         ArrayList<Integer> integers = new ArrayList<>(data.size());
         for (T model : data) {
-            if (dataType == DataType.SUBJECT) {
-                integers.add(((DatabaseModel) model).getId());
-            } else if (dataType == DataType.CATEGORY) {
+            if(model instanceof DatabaseModel){
                 integers.add(((DatabaseModel) model).getId());
             }
         }
