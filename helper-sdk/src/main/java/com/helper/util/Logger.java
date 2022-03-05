@@ -68,9 +68,9 @@ public class Logger {
      * @apiNote throw new IllegalArgumentException();
      */
     public static void logIntegration(String tag, String message){
-        Log.e(tag, ".      |  |");
-        Log.e(tag, ".      |  |");
-        Log.e(tag, ".      |  |");
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".     |  |");
+        Log.e(tag, ".     |  |");
         Log.e(tag, ".   \\ |  | /");
         Log.e(tag, ".    \\    /");
         Log.e(tag, ".     \\  /");
