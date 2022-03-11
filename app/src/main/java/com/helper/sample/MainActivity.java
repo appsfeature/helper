@@ -13,6 +13,7 @@ import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.task.TaskRunner;
 import com.helper.util.BaseUtil;
+import com.helper.util.SocialUtil;
 import com.helper.util.StyleUtil;
 
 import java.util.concurrent.Callable;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onOpenBrowser(View view) {
 //        BaseUtil.openLinkInAppBrowser(this,"","");
+
+        SocialUtil.openLinkInAppBrowser(this , "title" , "");
+/*
         TaskRunner.getInstance().executeAsync(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+*/
     }
 
     @Override
