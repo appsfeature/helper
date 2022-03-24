@@ -341,6 +341,17 @@ public class BaseUtil {
         }
     }
 
+    public static void hideKeyboard(View editText) {
+        try {
+            if (editText != null) {
+                InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String getTimeInReadableFormat(String inputDate) {
         return getTimeInReadableFormat(inputDate, "dd-MMM-yy hh:mm:a");
     }
