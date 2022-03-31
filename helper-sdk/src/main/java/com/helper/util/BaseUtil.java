@@ -141,6 +141,8 @@ public class BaseUtil {
                     tvNoData.setVisibility(VISIBLE);
                     tvNoData.setText(getNoDataMessage(view.getContext()));
                 }
+                View layoutRetry = view.findViewById(R.id.layout_retry);
+                if (layoutRetry != null) layoutRetry.setVisibility(GONE);
             }
         }
     }
@@ -156,9 +158,10 @@ public class BaseUtil {
                 view.findViewById(com.helper.R.id.player_progressbar).setVisibility(VISIBLE);
             }
             TextView tvNoData = view.findViewById(com.helper.R.id.tv_no_data);
-            if (tvNoData != null) {
-                tvNoData.setVisibility(GONE);
-            }
+            if (tvNoData != null) tvNoData.setVisibility(GONE);
+
+            View layoutRetry = view.findViewById(R.id.layout_retry);
+            if (layoutRetry != null) layoutRetry.setVisibility(GONE);
         }
     }
 
