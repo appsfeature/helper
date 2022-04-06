@@ -130,6 +130,10 @@ public class BaseUtil {
     }
 
     public static void showNoData(View view, @Response.Visibility int visibility) {
+        showNoData(view, BaseConstants.NO_DATA, visibility);
+    }
+
+    public static void showNoData(View view, String message, @Response.Visibility int visibility) {
         if (view != null) {
             view.setVisibility(visibility);
             if(visibility == VISIBLE) {
@@ -139,7 +143,7 @@ public class BaseUtil {
                 }
                 if (tvNoData != null) {
                     tvNoData.setVisibility(VISIBLE);
-                    tvNoData.setText(getNoDataMessage(view.getContext()));
+                    tvNoData.setText(getNoDataMessage(view.getContext(), message));
                 }
                 View layoutRetry = view.findViewById(R.id.layout_retry);
                 if (layoutRetry != null) layoutRetry.setVisibility(GONE);
@@ -147,8 +151,8 @@ public class BaseUtil {
         }
     }
 
-    private static String getNoDataMessage(Context context) {
-        return !isConnected(context) ? BaseConstants.NO_INTERNET_CONNECTION : BaseConstants.NO_DATA;
+    private static String getNoDataMessage(Context context, String message) {
+        return !isConnected(context) ? BaseConstants.NO_INTERNET_CONNECTION : message;
     }
 
     public static void showNoDataProgress(View view) {
