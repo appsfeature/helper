@@ -215,6 +215,13 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
         return getListOfIdsFromTable(tableName, columnName, null);
     }
 
+    /**
+     * @param tableName : YOUR TABLE NAME
+     * @param columnName : COLUMN_ID
+     * List<String> ids = new ArrayList<>(items.size());
+     * @param selection : String where = COLUMN_ID + " IN "+ Arrays.toString(ids.toArray()).replace("[","(").replace("]",")");
+     * @return : List of ids available in database
+     */
     public List<Integer> getListOfIdsFromTable(@NonNull String tableName, @NonNull String columnName, @Nullable String selection) {
         List<Integer> mList = new ArrayList<>();
         try {
