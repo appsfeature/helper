@@ -9,4 +9,5 @@
     <integer name="url_min_app_version">01</integer>
     <string name="url_public_short_host_postfix"/>
     <string name="url_public_domain_host_manifest">appName.page.link</string>
+    <string name="url_public_domain_host_manifest_share">appName.page.link</string>
 </resources>

@@ -93,7 +93,8 @@ public abstract class BaseDynamicUrlCreator {
     public static boolean isValidIntent(Activity activity) {
         Intent intent = activity.getIntent();
         return intent != null && intent.getData() != null && intent.getData().getAuthority() != null
-                && intent.getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest));
+                && ( intent.getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest) )
+                || intent.getData().getAuthority().equals(activity.getString(R.string.url_public_domain_host_manifest_share) ) ) ;
     }
 
     public Uri.Builder getDynamicUri() {

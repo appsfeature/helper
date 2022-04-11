@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public void onOpenBrowser(View view) {
 //        BaseUtil.openLinkInAppBrowser(this,"","");
 
-        SocialUtil.openLinkInAppBrowser(this , "title" , "");
+        SocialUtil.openLinkInAppBrowser(this , "title" , "https://topcoaching.in/show-live-test-proof/1/2");
 /*
         TaskRunner.getInstance().executeAsync(new Callable<Void>() {
             @Override
