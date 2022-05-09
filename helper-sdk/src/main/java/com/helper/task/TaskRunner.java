@@ -80,4 +80,12 @@ public class TaskRunner {
             }
         });
     }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public Executor getExecutor() {
+        return executor;
+    }
 }

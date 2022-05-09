@@ -65,4 +65,19 @@ public class UriBuilder {
     public static boolean isContainsParam(Uri uri, String key) {
         return uri.toString().contains(key);
     }
+
+    public static Uri getUriFromUrl(String url) {
+        if(!BaseUtil.isValidUrl(url)) return null;
+        Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
+        return uriBuilder.build();
+    }
+
+    public static String getUrlPrefix(String url) {
+        if(!BaseUtil.isValidUrl(url)) return url;
+        return url.substring(0, url.lastIndexOf("/") + 1);
+    }
+
+    public static String getFileName(String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
 }
