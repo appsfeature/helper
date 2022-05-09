@@ -32,7 +32,7 @@ public class StyleUtil {
                 if(indexOf > 0 && indexOf < sentence.length()) {
                     s.setSpan(new ForegroundColorSpan(textColor), indexOf, indexOf + item.length(), 0);
                     if(textSizeInDip != 0)
-                        s.setSpan(new AbsoluteSizāeSpan(textSizeInDip, true), indexOf, indexOf + item.length(), 0);
+                        s.setSpan(new AbsoluteSizeSpan(textSizeInDip, true), indexOf, indexOf + item.length(), 0);
                     if(isBold)
                         s.setSpan(new StyleSpan(Typeface.BOLD), indexOf, indexOf + item.length(), 0);
                 }
