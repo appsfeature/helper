@@ -138,6 +138,9 @@ public class ShareHtmlContent {
                         @Override
                         public void onSaveFinished(boolean isSuccess) {
                             isRunning = false;
+                            if (callback != null) {
+                                callback.onStopProgressBar();
+                            }
                             if(mResponseCallback != null){
                                 mResponseCallback.onPDFGenerated(context, FileUtils.getFile(context, fileName));
                             }else {
@@ -152,9 +155,6 @@ public class ShareHtmlContent {
 
     public void share(Context context, File file) {
         try {
-            if (callback != null) {
-                callback.onStopProgressBar();
-            }
             String downloadUrl = "http://play.google.com/store/apps/details?id=" + context.getPackageName();
             String downloadMessage = "\nChick here to open : \n" + downloadUrl;
             Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName() + context.getString(R.string.file_provider), file);
