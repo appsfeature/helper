@@ -38,6 +38,11 @@ public class ShareHtmlContent {
     private boolean isAddDownloadLink = true;
     private String extraText;
     private String downloadMessage;
+    private Callback mResponseCallback;
+
+    public interface Callback{
+        void onPDFGenerated(Context context, File file);
+    }
 
     public ShareHtmlContent(Context context, Response.Progress callback) {
         this.context = context;
@@ -133,7 +138,11 @@ public class ShareHtmlContent {
                         @Override
                         public void onSaveFinished(boolean isSuccess) {
                             isRunning = false;
-                            share(webView.getContext(), FileUtils.getFile(context, fileName));
+                            if(mResponseCallback != null){
+                                mResponseCallback.onPDFGenerated(context, FileUtils.getFile(context, fileName));
+                            }else {
+                                share(context, FileUtils.getFile(context, fileName));
+                            }
                         }
                     });
                 }
@@ -305,6 +314,11 @@ public class ShareHtmlContent {
 
     public ShareHtmlContent setDownloadMessage(String downloadMessage) {
         this.downloadMessage = downloadMessage;
+        return this;
+    }
+
+    public ShareHtmlContent setResponseCallback(Callback responseCallback) {
+        this.mResponseCallback = responseCallback;
         return this;
     }
 }
