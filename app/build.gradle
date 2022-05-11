@@ -1,12 +1,14 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion 30
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.helper.sample"
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdk 19
+        targetSdk 32
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
