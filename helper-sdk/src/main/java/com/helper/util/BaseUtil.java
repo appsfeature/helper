@@ -6,7 +6,6 @@ import static android.view.View.VISIBLE;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -31,7 +30,6 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 import com.helper.R;
-import com.helper.activity.BrowserActivity;
 import com.helper.callback.NetworkListener;
 import com.helper.callback.Response;
 import com.helper.widget.PopupProgress;
@@ -259,17 +257,16 @@ public class BaseUtil {
     }
 
     public static void openLinkInAppBrowser(Context context, String title, String webUrl) {
-        try {
-            Intent intent = new Intent(context, BrowserActivity.class);
-            intent.putExtra(BaseConstants.WEB_VIEW_URL, webUrl);
-            intent.putExtra(BaseConstants.TITLE, title);
-            context.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            BaseUtil.showToast(context, "No option available for take action.");
-        }
+        SocialUtil.openLinkInBrowserApp(context, title, webUrl);
     }
 
+    public static void openLinkInBrowserChrome(Context context, String webUrl) {
+        SocialUtil.openLinkInBrowserChrome(context, webUrl);
+    }
+
+    public static void openLinkInBrowser(Context context, String webUrl) {
+        SocialUtil.openLinkInBrowser(context, webUrl);
+    }
 
     public static void showProgressDialog(boolean isShow, Context context) {
         showProgressDialog(context, isShow, context.getString(R.string.helper_loading));

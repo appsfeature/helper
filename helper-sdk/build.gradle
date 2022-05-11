@@ -37,4 +37,5 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit_version"
     implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
     implementation "com.google.firebase:firebase-config:$rootProject.ext.fbs_library_version_config"
+    implementation "androidx.browser:browser:$rootProject.ext.browser"
 }

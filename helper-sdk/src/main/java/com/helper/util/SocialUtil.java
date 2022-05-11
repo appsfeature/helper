@@ -1,5 +1,8 @@
 package com.helper.util;
 
+import static android.content.ContentValues.TAG;
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -7,7 +10,11 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.helper.R;
@@ -16,9 +23,6 @@ import com.helper.activity.BrowserActivity;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Objects;
-
-import static android.content.ContentValues.TAG;
-import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class SocialUtil {
 
@@ -77,7 +81,15 @@ public class SocialUtil {
         }
     }
 
+    /**
+     * @deprecated Use {@link SocialUtil#openLinkInBrowserApp(Context context, String title, String webUrl)} directly.
+     */
+    @Deprecated
     public static void openLinkInAppBrowser(Context context, String title, String webUrl) {
+        openLinkInBrowserApp(context, title, webUrl);
+    }
+
+    public static void openLinkInBrowserApp(Context context, String title, String webUrl) {
         try {
             Intent intent = new Intent(context, BrowserActivity.class);
             intent.putExtra(BaseConstants.WEB_VIEW_URL, webUrl);
@@ -89,9 +101,30 @@ public class SocialUtil {
         }
     }
 
-    private static void openLinkInBrowser(Context context, String webUrl) {
+    public static void openLinkInBrowserChrome(Context context, String webUrl) {
         try {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl)));
+            if(context == null || TextUtils.isEmpty(webUrl)){
+                return;
+            }
+            int colorInt = ContextCompat.getColor(context, R.color.colorPrimary); //red
+            CustomTabColorSchemeParams defaultColors = new CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(colorInt)
+                    .build();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setDefaultColorSchemeParams(defaultColors);
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context, Uri.parse(webUrl));
+        } catch (Exception e) {
+            e.printStackTrace();
+            openLinkInBrowser(context, webUrl);
+        }
+    }
+
+    public static void openLinkInBrowser(Context context, String webUrl) {
+        try {
+            if (context != null && !TextUtils.isEmpty(webUrl)) {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             BaseUtil.showToast(context, "No option available for take action.");
