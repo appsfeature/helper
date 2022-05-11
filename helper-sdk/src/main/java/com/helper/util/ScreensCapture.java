@@ -82,7 +82,7 @@ public class ScreensCapture {
         }, callback);
     }
 
-    private static String getFileName(String fileName) {
+    public static String getFileName(String fileName) {
         if (!TextUtils.isEmpty(fileName)) {
             fileName = fileName.replaceAll(" ", "_") + "_" + BaseUtil.getTimeStamp();
         }else {
@@ -91,14 +91,15 @@ public class ScreensCapture {
         return fileName;
     }
 
+
     public static Bitmap getBitmapFromView(View view, int width, int height) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null)
+        if (bgDrawable != null) {
             bgDrawable.draw(canvas);
-        else
-            canvas.drawColor(Color.WHITE);
+        }
+        canvas.drawColor(Color.WHITE);
         view.draw(canvas);
         return bitmap;
     }
@@ -113,7 +114,7 @@ public class ScreensCapture {
         int convertHighet = (int) hight, convertWidth = (int) width;
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 2).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
