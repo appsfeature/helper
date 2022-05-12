@@ -54,9 +54,11 @@ public class BaseUtil {
     }
 
     public static void showToastCentre(Context context, String msg) {
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        if(context != null && !TextUtils.isEmpty(msg)) {
+            Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 
     public static String getFormattedViews(int number) {
@@ -203,6 +205,9 @@ public class BaseUtil {
     }
     public static String getColorValue(Context context, String transparentLevel, int colorResource) {
         try {
+            if(context == null){
+                return "#fff";
+            }
             String colorValue = Integer.toHexString(ContextCompat.getColor(context, colorResource) & 0x00ffffff);
             if(colorValue.length() < 6){
                 switch (colorValue.length()){
@@ -301,7 +306,7 @@ public class BaseUtil {
     }
 
     public static void showDialog(Context context, String msg, boolean isCancelable) {
-        if (dialog == null) {
+        if (dialog == null && context != null) {
             try {
                 dialog = PopupProgress.newInstance(context, msg)
                         .setCancelable(isCancelable)
