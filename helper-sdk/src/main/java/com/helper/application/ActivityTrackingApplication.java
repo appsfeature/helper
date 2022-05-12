@@ -18,6 +18,7 @@ import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class ActivityTrackingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
@@ -28,6 +29,19 @@ public abstract class ActivityTrackingApplication extends Application implements
 
     private Handler handler;
 
+    /**
+     * @apiNote : Call from Application class according to need
+     */
+    public ActivityTrackingApplication addActivityLifecycleListener(int hashCode, ActivityLifecycleListener listener) {
+        Helper.getInstance().addActivityLifecycleListener(hashCode, listener);
+        return this;
+    }
+
+    public ActivityTrackingApplication setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle) {
+        Helper.getInstance().setEnableCurrentActivityLifecycle(isEnableCurrentActivityLifecycle);
+        return this;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,35 +49,37 @@ public abstract class ActivityTrackingApplication extends Application implements
             Helper.getInstance().setDebugMode(isDebugMode());
             registerActivityLifecycleCallbacks(this);
             handler = new Handler();
-        }else if (Helper.getInstance().getActivityLifecycleListener() != null){
+        }else if (Helper.getInstance().getActivityLifecycleListener() != null
+                && Helper.getInstance().getActivityLifecycleListener().size() > 0){
+            registerActivityLifecycleCallbacks(this);
+        }else if (Helper.getInstance().isEnableCurrentActivityLifecycle()){
             registerActivityLifecycleCallbacks(this);
         }
     }
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        try {
-            Log.d(TAG, activity.getClass().getSimpleName());
-            if (handler != null) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (activity instanceof AppCompatActivity) {
-                            FragmentManager fm = ((AppCompatActivity) activity).getSupportFragmentManager();
-                            List<Fragment> fragments = fm.getFragments();
-                            for (Fragment fragment : fragments) {
-                                Log.d(TAG, activity.getClass().getSimpleName() + " -> Attached (" +fragment.getClass().getSimpleName() + ")");
+        dispatchAllListeners(activity, "onActivityCreated", savedInstanceState);
+        Helper.getInstance().setCurrentActivity(activity);
+        if(isDebugMode()) {
+            try {
+                Log.d(TAG, activity.getClass().getSimpleName());
+                if (handler != null) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (activity instanceof AppCompatActivity) {
+                                FragmentManager fm = ((AppCompatActivity) activity).getSupportFragmentManager();
+                                List<Fragment> fragments = fm.getFragments();
+                                for (Fragment fragment : fragments) {
+                                    Log.d(TAG, activity.getClass().getSimpleName() + " -> Attached (" + fragment.getClass().getSimpleName() + ")");
+                                }
                             }
                         }
-                    }
-                }, waitingTime);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityCreated(activity, savedInstanceState);
+                    }, waitingTime);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -71,84 +87,96 @@ public abstract class ActivityTrackingApplication extends Application implements
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityPreCreated(activity, savedInstanceState);
-            }
-        }
+        Helper.getInstance().setCurrentActivity(activity);
+        dispatchAllListeners(activity, "onActivityPreCreated", savedInstanceState);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onActivityPostCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityPostCreated(activity, savedInstanceState);
-            }
-        }
+        dispatchAllListeners(activity, "onActivityPostCreated", savedInstanceState);
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityStarted(activity);
-            }
-        }
+        dispatchAllListeners(activity, "onActivityStarted");
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityResumed(activity);
-            }
-        }
+        dispatchAllListeners(activity, "onActivityResumed");
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityPaused(activity);
-            }
-        }
+        dispatchAllListeners(activity, "onActivityPaused");
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityStopped(activity);
-            }
-        }
+        dispatchAllListeners(activity, "onActivityStopped");
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivitySaveInstanceState(activity, outState);
-            }
-        }
+        dispatchAllListeners(activity, "onActivitySaveInstanceState", outState);
     }
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
-        if (Helper.getInstance().getActivityLifecycleListener() != null) {
-            for (ActivityLifecycleListener listener : Helper.getInstance().getActivityLifecycleListener()) {
-                listener.onActivityDestroyed(activity);
-            }
-        }
-    }
-
-    public ActivityTrackingApplication addActivityLifecycleListener(ActivityLifecycleListener listener) {
-        Helper.getInstance().addActivityLifecycleListener(listener);
-        return this;
+        Helper.getInstance().setCurrentActivity(null);
+        dispatchAllListeners(activity, "onActivityDestroyed");
     }
 
     public ActivityTrackingApplication setWaitingTime(long waitingTime) {
         this.waitingTime = waitingTime;
         return this;
+    }
+
+    public void dispatchAllListeners(Activity activity, String lifecycle) {
+        dispatchAllListeners(activity, lifecycle, null);
+    }
+
+    public void dispatchAllListeners(Activity activity, String lifecycle, Bundle bundle) {
+        try {
+            if (Helper.getInstance().getActivityLifecycleListener() != null && Helper.getInstance().getActivityLifecycleListener().size() > 0) {
+                for (Map.Entry<Integer, ActivityLifecycleListener> entry : Helper.getInstance().getActivityLifecycleListener().entrySet()) {
+                    ActivityLifecycleListener callback = entry.getValue();
+                    if (callback != null) {
+                        switch (lifecycle){
+                            case "onActivityCreated":
+                                callback.onActivityCreated(activity, bundle);
+                                break;
+                            case "onActivityPreCreated":
+                                callback.onActivityPreCreated(activity, bundle);
+                                break;
+                            case "onActivityPostCreated":
+                                callback.onActivityPostCreated(activity, bundle);
+                                break;
+                            case "onActivityStarted":
+                                callback.onActivityStarted(activity);
+                                break;
+                            case "onActivityResumed":
+                                callback.onActivityResumed(activity);
+                                break;
+                            case "onActivityPaused":
+                                callback.onActivityPaused(activity);
+                                break;
+                            case "onActivityStopped":
+                                callback.onActivityStopped(activity);
+                                break;
+                            case "onActivitySaveInstanceState":
+                                callback.onActivitySaveInstanceState(activity, bundle);
+                                break;
+                            case "onActivityDestroyed":
+                                callback.onActivityDestroyed(activity);
+                                break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

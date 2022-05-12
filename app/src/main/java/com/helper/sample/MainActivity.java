@@ -25,18 +25,25 @@ public class MainActivity extends AppCompatActivity {
         StyleUtil.setStatusBarDarkMode(this, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Helper.getInstance().addActivityLifecycleListener(new ActivityLifecycleListener() {
-            @Override
-            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+        Helper.getInstance()
+                .setEnableCurrentActivityLifecycle(true)
+                .addActivityLifecycleListener(MainActivity.this.hashCode(), new ActivityLifecycleListener() {
+                    @Override
+                    public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+                    }
+                });
     }
 
     public void onOpenBrowser(View view) {
 //        BaseUtil.openLinkInAppBrowser(this,"","");
 
-        SocialUtil.openLinkInBrowserChrome(this , "https://pixabay.com/");
+        SocialUtil.openLinkInBrowserChrome(this, "https://pixabay.com/");
 /*
         TaskRunner.getInstance().executeAsync(new Callable<Void>() {
             @Override
@@ -64,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        BaseUtil.showToast(this, "Connected : "+BaseUtil.isConnected(this));
+        BaseUtil.showToast(this, "Connected : " + BaseUtil.isConnected(this));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Helper.getInstance().removeActivityLifecycleListener(MainActivity.this.hashCode());
     }
 }
