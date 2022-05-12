@@ -35,6 +35,8 @@ public abstract class ActivityTrackingApplication extends Application implements
             Helper.getInstance().setDebugMode(isDebugMode());
             registerActivityLifecycleCallbacks(this);
             handler = new Handler();
+        }else if (Helper.getInstance().getActivityLifecycleListener() != null){
+            registerActivityLifecycleCallbacks(this);
         }
     }
 
