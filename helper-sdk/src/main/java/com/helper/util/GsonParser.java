@@ -31,6 +31,22 @@ public class GsonParser {
         }
         return toJson;
     }
+    /**
+     * @param classOfT : ModelName.class
+     */
+    public static <T> String toJson(Object item, Class<T> classOfT) {
+        String toJson = "";
+        try {
+            Gson gson = new GsonBuilder()
+                    .excludeFieldsWithoutExposeAnnotation()
+                    .serializeNulls()
+                    .create();
+            toJson = gson.toJson(item, classOfT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return toJson;
+    }
 
     /**
      * @param typeCast : new TypeToken<ModelName>() {}
@@ -42,6 +58,17 @@ public class GsonParser {
                     .serializeNulls()
                     .create();
             return gson.fromJson(jsonValue, typeCast.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /**
+     * @param classOfT : ModelName.class
+     */
+    public static <T> T fromJson(String jsonValue, Class<T> classOfT) {
+        try {
+            return getGson().fromJson(jsonValue, classOfT);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -60,6 +87,18 @@ public class GsonParser {
         }
         return toJson;
     }
+    /**
+     * @param classOfT : ModelName.class
+     */
+    public static <T> String toJsonAll(Object item, Class<T> classOfT) {
+        String toJson = "";
+        try {
+            toJson = new Gson().toJson(item, classOfT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return toJson;
+    }
 
 
     /**
@@ -68,6 +107,17 @@ public class GsonParser {
     public static <T> T fromJsonAll(String jsonValue, TypeToken<T> typeCast) {
         try {
             return new Gson().fromJson(jsonValue, typeCast.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /**
+     * @param classOfT : ModelName.class
+     */
+    public static <T> T fromJsonAll(String jsonValue, Class<T> classOfT) {
+        try {
+            return new Gson().fromJson(jsonValue, classOfT);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
