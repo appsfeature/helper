@@ -35,6 +35,7 @@ public class BaseTimeViewHolder extends RecyclerView.ViewHolder {
 
     public String getTimeInDaysAgoFormat(String serverDateFormat){
         try {
+            if(TextUtils.isEmpty(serverDateFormat)) return serverDateFormat;
             Date mDate = getDateFormat().parse(serverDateFormat);
             if(mDate != null) return getTimeInDaysAgoFormat(mDate.getTime()).toString();
         } catch (ParseException e) {
