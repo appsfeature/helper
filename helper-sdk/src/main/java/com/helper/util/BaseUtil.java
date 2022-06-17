@@ -429,7 +429,7 @@ public class BaseUtil {
         return new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
     }
 
-    public String getDatabaseDateTime() {
+    public static String getDatabaseTimeStamp() {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())).format(new Date());
     }
 
