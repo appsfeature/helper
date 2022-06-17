@@ -34,12 +34,24 @@ public abstract class ActivityTrackingApplication extends Application implements
      */
     public ActivityTrackingApplication addActivityLifecycleListener(int hashCode, ActivityLifecycleListener listener) {
         Helper.getInstance().addActivityLifecycleListener(hashCode, listener);
+        registerActivityLifecycleCallbacksSingleton();
         return this;
     }
 
     public ActivityTrackingApplication setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle) {
-        Helper.getInstance().setEnableCurrentActivityLifecycle(isEnableCurrentActivityLifecycle);
+        Helper.getInstance().isEnableCurrentActivityLifecycle = isEnableCurrentActivityLifecycle;
+        registerActivityLifecycleCallbacksSingleton();
         return this;
+    }
+
+    private boolean isRegisteredActivityLifecycle = false;
+
+    private void registerActivityLifecycleCallbacksSingleton() {
+        if(!isRegisteredActivityLifecycle){
+            Log.i(ActivityTrackingApplication.class.getSimpleName(), "registerActivityLifecycleCallbacksSingleton");
+            isRegisteredActivityLifecycle = true;
+            registerActivityLifecycleCallbacks(this);
+        }
     }
 
     @Override
@@ -47,13 +59,8 @@ public abstract class ActivityTrackingApplication extends Application implements
         super.onCreate();
         if (isDebugMode()) {
             Helper.getInstance().setDebugMode(isDebugMode());
-            registerActivityLifecycleCallbacks(this);
+            registerActivityLifecycleCallbacksSingleton();
             handler = new Handler();
-        }else if (Helper.getInstance().getActivityLifecycleListener() != null
-                && Helper.getInstance().getActivityLifecycleListener().size() > 0){
-            registerActivityLifecycleCallbacks(this);
-        }else if (Helper.getInstance().isEnableCurrentActivityLifecycle()){
-            registerActivityLifecycleCallbacks(this);
         }
     }
 

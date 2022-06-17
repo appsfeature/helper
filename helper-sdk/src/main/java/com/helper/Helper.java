@@ -19,7 +19,7 @@ public class Helper {
     private static volatile Helper helper;
     private boolean isEnableDebugMode = false;
     private Response.Helper mListener;
-    private boolean isEnableCurrentActivityLifecycle = false;
+    public boolean isEnableCurrentActivityLifecycle = false;
     @Nullable
     private Activity mCurrentActivity;
 
@@ -101,13 +101,8 @@ public class Helper {
         return isEnableCurrentActivityLifecycle;
     }
 
-    public Helper setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle) {
-        this.isEnableCurrentActivityLifecycle = isEnableCurrentActivityLifecycle;
-        return this;
-    }
-
     /**
-     * @apiNote : for enable Use {@link #setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle)} method
+     * @apiNote : for enable Use {ActivityTrackingApplication.setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle)} method
      * @apiNote : Initialize in onCreate and clear reference in onDestroy method
      * @return Current Activity Created from Lifecycle
      */
