@@ -80,7 +80,6 @@ public interface Response {
 
     interface Progress {
         void onStartProgressBar();
-
         void onStopProgressBar();
     }
 
@@ -89,8 +88,7 @@ public interface Response {
     }
 
     interface AnimatorListener {
-        void onAnimationStart(Animator animation);
-
+        default void onAnimationStart(Animator animation) {}
         void onAnimationEnd(Animator animation);
     }
 
