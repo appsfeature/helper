@@ -2,6 +2,7 @@ package com.helper.util;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 
 import com.helper.callback.Response;
+
+import java.util.ArrayList;
 
 public class BaseAnimationUtil {
 
@@ -361,4 +365,123 @@ public class BaseAnimationUtil {
             widthAnimator.start();
         }
     }
+
+
+    public static void zoomButtonInOut(final View view, final Response.AnimatorListener listener) {
+        zoomButtonInOut(view, 200, new float[]{1f, 0.80f, 1f}, listener);
+    }
+    public static void zoomButtonInOut(final View view, int duration, float[] values, final Response.AnimatorListener listener) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(duration);
+        animatorSet.setInterpolator(new LinearInterpolator());
+        ArrayList<Animator> animatorList = new ArrayList<>();
+        ObjectAnimator scaleXAnimator, scaleYAnimator = null;
+        scaleXAnimator = ObjectAnimator.ofFloat(view, "ScaleX", values);
+        animatorList.add(scaleXAnimator);
+        scaleYAnimator = ObjectAnimator.ofFloat(view, "ScaleY", values);
+        animatorList.add(scaleYAnimator);
+        animatorSet.playTogether(animatorList);
+        if (listener != null) {
+            animatorSet.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    listener.onAnimationStart(animator);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    listener.onAnimationEnd(animator);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+        }
+        view.setVisibility(View.VISIBLE);
+        animatorSet.start();
+    }
+
+    public static void zoomButtonIn(final View view, int duration, final Response.AnimatorListener listener) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(duration);
+        animatorSet.setInterpolator(new LinearInterpolator());
+        ArrayList<Animator> animatorList = new ArrayList<>();
+        ObjectAnimator scaleXAnimator, scaleYAnimator = null;
+        scaleXAnimator = ObjectAnimator.ofFloat(view, "ScaleX", 1f, 0f);
+        animatorList.add(scaleXAnimator);
+        scaleYAnimator = ObjectAnimator.ofFloat(view, "ScaleY", 1f, 0f);
+        animatorList.add(scaleYAnimator);
+        animatorSet.playTogether(animatorList);
+        if(listener != null) {
+            animatorSet.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    listener.onAnimationStart(animator);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    listener.onAnimationEnd(animator);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+        }
+        view.setVisibility(View.VISIBLE);
+        animatorSet.start();
+    }
+
+    public static void zoomButtonOut(final View view, int duration, final Response.AnimatorListener listener) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(duration);
+        animatorSet.setInterpolator(new LinearInterpolator());
+        ArrayList<Animator> animatorList = new ArrayList<>();
+        ObjectAnimator scaleXAnimator, scaleYAnimator = null;
+        scaleXAnimator = ObjectAnimator.ofFloat(view, "ScaleX", 0f, 1f);
+        animatorList.add(scaleXAnimator);
+        scaleYAnimator = ObjectAnimator.ofFloat(view, "ScaleY", 0f, 1f);
+        animatorList.add(scaleYAnimator);
+        animatorSet.playTogether(animatorList);
+        if(listener != null) {
+            animatorSet.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    listener.onAnimationStart(animator);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    listener.onAnimationEnd(animator);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+        }
+        view.setVisibility(View.VISIBLE);
+        animatorSet.start();
+    }
+
 }
