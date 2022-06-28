@@ -28,17 +28,20 @@ public interface Response {
     interface Callback<T> {
         void onSuccess(T response);
         void onFailure(Exception e);
+        default void onProgressUpdate(Boolean isShow){}
         default void onRetry(NetworkListener.Retry retryCallback){}
     }
 
     interface CallbackImage<T> {
         void onSuccess(T response, String imagePath, String pdfPath);
         void onFailure(Exception e);
+        default void onProgressUpdate(Boolean isShow){}
         default void onRetry(NetworkListener.Retry retryCallback){}
     }
 
     interface Status<T> {
         void onSuccess(T response);
+        default void onProgressUpdate(Boolean isShow){}
         default void onRetry(NetworkListener.Retry retryCallback){}
     }
 
@@ -47,11 +50,13 @@ public interface Response {
         void onDataLoaded();
         void onSuccess(T response);
         void onFailure(Exception e);
+        default void onProgressUpdate(Boolean isShow){}
         default void onRetry(NetworkListener.Retry retryCallback){}
     }
 
     interface OnCustomResponse {
         void onCustomResponse(boolean status, String data);
+        default void onProgressUpdate(Boolean isShow){}
         default void onRetry(NetworkListener.Retry retryCallback){}
     }
 
