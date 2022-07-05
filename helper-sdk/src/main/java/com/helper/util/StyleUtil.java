@@ -2,8 +2,12 @@ package com.helper.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
@@ -14,6 +18,10 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 
 public class StyleUtil {
@@ -98,7 +106,63 @@ public class StyleUtil {
         }
     }
 
+    public static void setStatusBarColor(Activity activity, @ColorInt int statusBarColor) {
+        if(DayNightPreference.isDayMode()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                activity.getWindow().setStatusBarColor(statusBarColor);
+            }
+        }
+    }
+
     public static float dpToPx(Context context, float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
     }
+
+    public static String getColorValue(Context context, int colorResource) {
+        return getColorValue(context, "", colorResource);
+    }
+    public static String getColorValue(Context context, String transparentLevel, int colorResource) {
+        try {
+            if(context == null){
+                return "#fff";
+            }
+            String colorValue = Integer.toHexString(ContextCompat.getColor(context, colorResource) & 0x00ffffff);
+            if(colorValue.length() < 6){
+                switch (colorValue.length()){
+                    case 5:
+                        colorValue = "0" + colorValue;
+                        break;
+                    case 4:
+                        colorValue = "00" + colorValue;
+                        break;
+                    case 3:
+                        colorValue = "000" + colorValue;
+                        break;
+                }
+            }
+            return "#" + transparentLevel + colorValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "#ffffff";
+        }
+    }
+
+
+    /**
+     * @param drawable : itemView.getBackground()
+     * @param color    : ContextCompat.getColor(context, R.color.color1);
+     */
+    @SuppressWarnings("deprecation")
+    public static void setColorFilter(@NonNull Drawable drawable, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_ATOP));
+        } else {
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
 }
