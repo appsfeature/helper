@@ -157,11 +157,13 @@ public class StyleUtil {
      * @param color    : ContextCompat.getColor(context, R.color.color1);
      */
     @SuppressWarnings("deprecation")
-    public static void setColorFilter(@NonNull Drawable drawable, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_ATOP));
-        } else {
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    public static void setColorFilter(Drawable drawable, int color) {
+        if(drawable != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_ATOP));
+            } else {
+                drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }
         }
     }
 
