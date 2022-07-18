@@ -20,6 +20,7 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
@@ -106,14 +107,17 @@ public class StyleUtil {
         }
     }
 
-    public static void setStatusBarColor(Activity activity, @ColorInt int statusBarColor) {
+    public static void setStatusBarColor(Activity activity, @ColorRes int color) {
+        setStatusBarColor(activity, true, color);
+    }
+    public static void setStatusBarColor(Activity activity, boolean isLightText, @ColorRes int color) {
         if(DayNightPreference.isDayMode()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (isLightText && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                activity.getWindow().setStatusBarColor(statusBarColor);
+                activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, color));
             }
         }
     }
