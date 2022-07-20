@@ -125,6 +125,9 @@
 
     <!-- Light base activity theme -->
     <style name="ActivityTheme.ActionBar.Lite.NoActionBar" parent="ActivityTheme.NoActionBar">
+        <item name="colorPrimary">@color/themeBackgroundCardColor</item>
+        <item name="colorPrimaryDark">@color/themeBackgroundCardColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="theme">@style/Toolbar.AppBarOverlay.Lite</item>
         <item name="popupTheme">@style/Toolbar.AppBarOverlay.Lite</item>
         <item name="iconTint">@color/themeTextColor</item><!-- Menu Icon change color-->
