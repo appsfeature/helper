@@ -36,4 +36,5 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
     implementation "com.google.firebase:firebase-config:$rootProject.ext.fbs_library_version_config"
     implementation "androidx.browser:browser:$rootProject.ext.browser"
+    implementation 'com.airbnb.android:lottie:5.2.0'//Size 127Kb.
 }

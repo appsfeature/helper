@@ -2,6 +2,7 @@ package com.helper.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -65,15 +66,17 @@ public class PopupProgress {
         return this;
     }
 
-    public AlertDialog show() throws Exception {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, R.style.DialogTheme);
-        final View dialogView = LayoutInflater.from(context).inflate(R.layout.base_dialog_progress, null);
+    public AlertDialog show() {
+        return show(false);
+    }
+
+    public AlertDialog show(boolean isVertical) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, R.style.DialogThemeFullScreen);
+        final View dialogView = LayoutInflater.from(context).inflate(isVertical ? R.layout.base_dialog_progress_vertical : R.layout.base_dialog_progress, null);
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCancelable(cancelable);
-        tvMessage = (TextView) dialogView.findViewById(R.id.tv_message);
-        if (message == null) {
-            tvMessage.setText(context.getString(R.string.helper_dialog_message));
-        } else {
+        tvMessage = dialogView.findViewById(R.id.tv_message);
+        if (tvMessage != null && !TextUtils.isEmpty(message)) {
             tvMessage.setText(message);
         }
         AlertDialog b = dialogBuilder.create();

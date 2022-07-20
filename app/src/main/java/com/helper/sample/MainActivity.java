@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Helper.getInstance()
-                .setEnableCurrentActivityLifecycle(true)
                 .addActivityLifecycleListener(MainActivity.this.hashCode(), new ActivityLifecycleListener() {
                     @Override
                     public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
@@ -42,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onOpenBrowser(View view) {
 //        BaseUtil.openLinkInAppBrowser(this,"","");
-
-        SocialUtil.openLinkInBrowserChrome(this, "https://pixabay.com/");
+        BaseUtil.showDialog(this, "Happy", false, true);
+//        SocialUtil.openLinkInBrowserChrome(this, "https://pixabay.com/");
 /*
         TaskRunner.getInstance().executeAsync(new Callable<Void>() {
             @Override

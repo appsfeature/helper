@@ -137,13 +137,15 @@ public class BaseUtil {
         if (view != null) {
             view.setVisibility(visibility);
             if(visibility == VISIBLE) {
-                TextView tvNoData = view.findViewById(R.id.tv_no_data);
+                View tvNoData = view.findViewById(R.id.tv_no_data);
                 if (view.findViewById(R.id.player_progressbar) != null) {
                     view.findViewById(R.id.player_progressbar).setVisibility(GONE);
                 }
                 if (tvNoData != null) {
                     tvNoData.setVisibility(VISIBLE);
-                    tvNoData.setText(getNoDataMessage(view.getContext(), message));
+                    if(tvNoData instanceof TextView) {
+                        ((TextView)tvNoData).setText(getNoDataMessage(view.getContext(), message));
+                    }
                 }
                 View layoutRetry = view.findViewById(R.id.layout_retry);
                 if (layoutRetry != null) layoutRetry.setVisibility(GONE);
@@ -161,7 +163,7 @@ public class BaseUtil {
             if (view.findViewById(com.helper.R.id.player_progressbar) != null) {
                 view.findViewById(com.helper.R.id.player_progressbar).setVisibility(VISIBLE);
             }
-            TextView tvNoData = view.findViewById(com.helper.R.id.tv_no_data);
+            View tvNoData = view.findViewById(com.helper.R.id.tv_no_data);
             if (tvNoData != null) tvNoData.setVisibility(GONE);
 
             View layoutRetry = view.findViewById(R.id.layout_retry);
@@ -176,7 +178,7 @@ public class BaseUtil {
     public static void showNoDataRetry(View view, NetworkListener.Retry retryCallback, Response.Progress progress) {
         if (view != null) {
             view.setVisibility(View.VISIBLE);
-            TextView tvNoData = view.findViewById(R.id.tv_no_data);
+            View tvNoData = view.findViewById(R.id.tv_no_data);
             View layoutRetry = view.findViewById(R.id.layout_retry);
             Button btnRetry = view.findViewById(R.id.btn_retry);
             ProgressBar pbProgress = view.findViewById(R.id.player_progressbar);
@@ -277,10 +279,13 @@ public class BaseUtil {
         showProgressDialog(context, isShow, context.getString(R.string.helper_loading));
     }
     public static void showProgressDialog(Context context, boolean isShow, String message) {
+        showProgressDialog(context, isShow, message, false);
+    }
+    public static void showProgressDialog(Context context, boolean isShow, String message, boolean isVertical) {
         if (context != null) {
             if (context instanceof Activity && !((Activity) context).isFinishing()) {
                 if (isShow) {
-                    BaseUtil.showDialog(message, context);
+                    BaseUtil.showDialog(context, message, false, isVertical);
                 } else {
                     BaseUtil.hideDialog();
                 }
@@ -306,11 +311,15 @@ public class BaseUtil {
     }
 
     public static void showDialog(Context context, String msg, boolean isCancelable) {
+        showDialog(context, msg, isCancelable, false);
+    }
+
+    public static void showDialog(Context context, String msg, boolean isCancelable, boolean isVertical) {
         if (dialog == null && context != null) {
             try {
                 dialog = PopupProgress.newInstance(context, msg)
                         .setCancelable(isCancelable)
-                        .show();
+                        .show(isVertical);
             } catch (Exception e) {
                 e.printStackTrace();
             }

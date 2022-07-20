@@ -43,4 +43,5 @@
 
     <color name="color_history_watched_view">#1DB98D</color>
 
+    <bool name="windowLightStatusBarColor">true</bool>
 </resources>

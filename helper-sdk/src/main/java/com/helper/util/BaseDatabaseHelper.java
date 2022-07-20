@@ -67,6 +67,10 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
         return s;
     }
 
+    public String sqlEscapeString(String txt) {
+        return txt != null ? txt.replaceAll("'", "''") : "";
+    }
+
     private SimpleDateFormat yyyyMMdd;
     private SimpleDateFormat ddMMMyyyy;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="ActivityTheme.ActionBar">
@@ -44,7 +44,7 @@
         <item name="themeNavItemColorSelected">@color/themeNavItemColorSelected</item>
     </style>
 
-    <!-- Light base activity theme -->
+    <!-- Dark base activity theme -->
     <style name="ActivityTheme.ActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -80,6 +80,80 @@
         <item name="themeNavItemColorSelected">@color/themeNavItemColorSelected</item>
     </style>
 
+    <!-- Light base activity theme -->
+    <style name="ActivityTheme.ActionBar.Lite" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/themeTextColor</item>
+        <item name="android:textColorPrimary">@color/themeTextColor</item>
+        <item name="android:textColorSecondary">@color/themeSecondaryTextColor</item>
+        <item name="android:editTextColor">@color/themeSecondaryTextColor</item>
+        <item name="android:editTextBackground">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/themeHintColor</item>
+        <item name="android:divider">@color/themeDividerColor</item>
+        <item name="android:listDivider">@color/themeDividerColor</item>
+        <item name="android:childDivider">@color/themeDividerColor</item>
+        <item name="android:windowBackground">@color/themeWindowBackground</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+        <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
+        <item name="android:spinnerStyle">@style/SpinnerStyle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <!--  Adding Custom Styles   -->
+        <item name="themeTextColor">@color/themeTextColor</item>
+        <item name="themeTitleColor">@color/themeTitleColor</item>
+        <item name="themeTextColorLite">@color/themeTextColorLite</item>
+        <item name="themeHintColor">@color/themeHintColor</item>
+        <item name="themeButtonShapeColor">@color/themeButtonShapeColor</item>
+        <item name="themeDividerColor">@color/themeDividerColor</item>
+        <item name="themeDividerColorDark">@color/themeDividerColorDark</item>
+        <item name="themeWindowBackground">@color/themeWindowBackground</item>
+        <item name="themeBackgroundCardColor">@color/themeBackgroundCardColor</item>
+        <item name="themePlaceHolderBackgroundCardColor">@color/themePlaceHolderBackgroundCardColor</item>
+        <item name="themeNavBackgroundColor">@color/themeNavBackgroundColor</item>
+        <item name="themeNavItemColor">@color/themeNavItemColor</item>
+        <item name="themeNavItemColorSelected">@color/themeNavItemColorSelected</item>
+        <item name="theme">@style/Toolbar.AppBarOverlay.Lite</item>
+        <item name="popupTheme">@style/Toolbar.AppBarOverlay.Lite</item>
+        <item name="iconTint">@color/themeTextColor</item><!-- Menu Icon change color-->
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/themeBackgroundCardColor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/windowLightStatusBarColor</item><!-- Status bar text and Icon color change-->
+        <item name="tabStyle">@style/ActivityTheme.ActionBar.TabStyle</item>
+    </style>
+
+    <!-- Light base activity theme -->
+    <style name="ActivityTheme.ActionBar.Lite.NoActionBar" parent="ActivityTheme.NoActionBar">
+        <item name="theme">@style/Toolbar.AppBarOverlay.Lite</item>
+        <item name="popupTheme">@style/Toolbar.AppBarOverlay.Lite</item>
+        <item name="iconTint">@color/themeTextColor</item><!-- Menu Icon change color-->
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/themeBackgroundCardColor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/windowLightStatusBarColor</item><!-- Status bar text and Icon color change-->
+        <item name="tabStyle">@style/ActivityTheme.ActionBar.TabStyle</item>
+    </style>
+
+    <!-- ActionBar tabs styles -->
+    <style name="ActivityTheme.ActionBar.TabStyle" parent="@style/Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/Toolbar.TabTextAppearance</item>
+        <item name="tabIndicatorColor">@color/themeTitleColor</item>
+        <item name="tabTextColor">@color/themeTextColorLite</item>
+        <item name="tabSelectedTextColor">@color/themeTitleColor</item>
+        <item name="textAllCaps">false</item>
+        <item name="tabPadding">0dp</item>
+    </style>
+
+    <style name="Toolbar.TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Toolbar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Toolbar.AppBarOverlay.Lite" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Toolbar.PopupOverlay.Lite" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Toolbar.PopupOverlay.Dark" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
@@ -97,6 +171,14 @@
         <item name="android:textColorPrimary">@color/themeTextColor</item>
         <item name="android:textColorSecondary">@color/themeTextColor</item>
         <item name="textColorAlertDialogListItem">@color/themeTextColor</item>
+    </style>
+
+    <style name="DialogThemeFullScreen" parent="DialogTheme">
+        <!--also use value 100% for full screen-->
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="SpinnerStyle" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
