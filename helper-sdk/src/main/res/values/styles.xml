@@ -99,8 +99,8 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
         <!--        <item name="android:alertDialogStyle">@style/DialogTheme</item>-->
         <item name="android:spinnerStyle">@style/SpinnerStyle</item>
-        <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
-        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+        <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextViewLite</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextViewLite</item>
         <!--  Adding Custom Styles   -->
         <item name="themeTextColor">@color/themeTextColor</item>
         <item name="themeTitleColor">@color/themeTitleColor</item>
@@ -134,6 +134,8 @@
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/themeBackgroundCardColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/windowLightStatusBarColor</item><!-- Status bar text and Icon color change-->
         <item name="tabStyle">@style/ActivityTheme.ActionBar.TabStyle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/SearchAutoCompleteTextViewLite</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextViewLite</item>
     </style>
 
     <!-- ActionBar tabs styles -->
@@ -160,6 +162,11 @@
     <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
+    </style>
+
+    <style name="SearchAutoCompleteTextViewLite" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:textColor">@color/themeTextColor</item>
+        <item name="android:textColorHint">@color/themeTextColor</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
