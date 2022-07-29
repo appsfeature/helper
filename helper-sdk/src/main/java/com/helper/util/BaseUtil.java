@@ -181,7 +181,7 @@ public class BaseUtil {
             View tvNoData = view.findViewById(R.id.tv_no_data);
             View layoutRetry = view.findViewById(R.id.layout_retry);
             Button btnRetry = view.findViewById(R.id.btn_retry);
-            ProgressBar pbProgress = view.findViewById(R.id.player_progressbar);
+            View pbProgress = view.findViewById(R.id.player_progressbar);
 
             BaseAnimationUtil.alphaAnimation(layoutRetry, View.VISIBLE);
             BaseAnimationUtil.alphaAnimation(pbProgress, View.GONE);
