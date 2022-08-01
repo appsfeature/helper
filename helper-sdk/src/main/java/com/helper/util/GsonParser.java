@@ -124,4 +124,15 @@ public class GsonParser {
         }
     }
 
+
+    /**
+     * @param item : model that's convert
+     * @param itemClassType : item class type
+     * @param convertClassType : after convert class type
+     * @apiNote : Required similar variables of both class.
+     */
+    public static <T> T convert(Object item, Class<?> itemClassType , Class<T> convertClassType) {
+        return fromJson(toJsonAll(item, itemClassType), convertClassType);
+    }
+
 }
