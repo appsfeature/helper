@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
@@ -22,8 +24,9 @@ import java.util.Map;
 
 public abstract class ActivityTrackingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
-    private final String TAG = ActivityTrackingApplication.class.getSimpleName();
-    private long waitingTime = 800;
+    private final String TAG = "ActivityTracking";
+    private long waitingTimeActivity = 800;
+    private long waitingTimeFragment = 1500;
 
     public abstract boolean isDebugMode();
 
@@ -47,7 +50,7 @@ public abstract class ActivityTrackingApplication extends Application implements
     private boolean isRegisteredActivityLifecycle = false;
 
     private void registerActivityLifecycleCallbacksSingleton() {
-        if(!isRegisteredActivityLifecycle){
+        if (!isRegisteredActivityLifecycle) {
             Log.i(ActivityTrackingApplication.class.getSimpleName(), "registerActivityLifecycleCallbacksSingleton");
             isRegisteredActivityLifecycle = true;
             registerActivityLifecycleCallbacks(this);
@@ -68,8 +71,10 @@ public abstract class ActivityTrackingApplication extends Application implements
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         dispatchAllListeners(activity, "onActivityCreated", savedInstanceState);
         Helper.getInstance().setCurrentActivity(activity);
-        if(isDebugMode()) {
+        if (isDebugMode()) {
             try {
+                //Log Activity
+                Log.d(TAG, "-------------------------------------------------");
                 Log.d(TAG, activity.getClass().getSimpleName());
                 if (handler != null) {
                     handler.postDelayed(new Runnable() {
@@ -78,17 +83,62 @@ public abstract class ActivityTrackingApplication extends Application implements
                             if (activity instanceof AppCompatActivity) {
                                 FragmentManager fm = ((AppCompatActivity) activity).getSupportFragmentManager();
                                 List<Fragment> fragments = fm.getFragments();
+                                int count = 1;
                                 for (Fragment fragment : fragments) {
-                                    Log.d(TAG, activity.getClass().getSimpleName() + " -> Attached (" + fragment.getClass().getSimpleName() + ")");
+                                    //Log Fragment attached on Activity
+                                    if (count == 1) {
+                                        Log.d(TAG, activity.getClass().getSimpleName() + " -> " + count + ". Attached (" + fragment.getClass().getSimpleName() + ")");
+                                    }else {
+                                        Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> ") + count+ ". Attached (" + fragment.getClass().getSimpleName() + ")");
+                                    }
+                                    fragment.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+                                        @Override
+                                        public void onResume(@NonNull LifecycleOwner owner) {
+                                            owner.getLifecycle().removeObserver(this);
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        if(!fragment.isAdded()) return;
+                                                        FragmentManager cfm = fragment.getChildFragmentManager();
+                                                        List<Fragment> childFragments = cfm.getFragments();
+                                                        int mCount = 1;
+                                                        for (Fragment child : childFragments) {
+                                                            //Log Child fragment attached on Fragment
+                                                            if (mCount == 1) {
+                                                                Log.d(TAG, " ");
+                                                                Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> ") + "<" + fragment.getClass().getSimpleName() + "--> " + mCount + ". Attached (" + child.getClass().getSimpleName() + ")");
+                                                            } else {
+                                                                Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> " + "<" + fragment.getClass().getSimpleName() + "--> ") + mCount + ". Attached (" + child.getClass().getSimpleName() + ")");
+                                                            }
+                                                            mCount += 1;
+                                                        }
+                                                    } catch (IllegalStateException e) {
+                                                        e.printStackTrace();
+                                                        Log.d(TAG, e.toString());
+                                                    }
+                                                }
+                                            }, waitingTimeFragment);
+                                        }
+                                    });
+                                    count += 1;
                                 }
                             }
                         }
-                    }, waitingTime);
+                    }, waitingTimeActivity);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String getSpace(String simpleName) {
+        StringBuilder space = new StringBuilder(simpleName.length());
+        for (int i = 0; i < simpleName.length(); i++) {
+            space.append(" ");
+        }
+        return space.toString();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -136,7 +186,12 @@ public abstract class ActivityTrackingApplication extends Application implements
     }
 
     public ActivityTrackingApplication setWaitingTime(long waitingTime) {
-        this.waitingTime = waitingTime;
+        this.waitingTimeActivity = waitingTime;
+        return this;
+    }
+
+    public ActivityTrackingApplication setWaitingTimeFragment(long waitingTime) {
+        this.waitingTimeFragment = waitingTime;
         return this;
     }
 
@@ -150,7 +205,7 @@ public abstract class ActivityTrackingApplication extends Application implements
                 for (Map.Entry<Integer, ActivityLifecycleListener> entry : Helper.getInstance().getActivityLifecycleListener().entrySet()) {
                     ActivityLifecycleListener callback = entry.getValue();
                     if (callback != null) {
-                        switch (lifecycle){
+                        switch (lifecycle) {
                             case "onActivityCreated":
                                 callback.onActivityCreated(activity, bundle);
                                 break;
