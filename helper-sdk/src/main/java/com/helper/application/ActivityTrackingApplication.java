@@ -91,39 +91,44 @@ public abstract class ActivityTrackingApplication extends Application implements
                                     }else {
                                         Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> ") + count+ ". Attached (" + fragment.getClass().getSimpleName() + ")");
                                     }
-                                    fragment.getLifecycle().addObserver(new DefaultLifecycleObserver() {
-                                        @Override
-                                        public void onResume(@NonNull LifecycleOwner owner) {
-                                            owner.getLifecycle().removeObserver(this);
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        if(!fragment.isAdded()) return;
-                                                        FragmentManager cfm = fragment.getChildFragmentManager();
-                                                        List<Fragment> childFragments = cfm.getFragments();
-                                                        int mCount = 1;
-                                                        for (Fragment child : childFragments) {
-                                                            //Log Child fragment attached on Fragment
-                                                            if (mCount == 1) {
-                                                                Log.d(TAG, " ");
-                                                                Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> ") + "<" + fragment.getClass().getSimpleName() + "--> " + mCount + ". Attached (" + child.getClass().getSimpleName() + ")");
-                                                            } else {
-                                                                Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> " + "<" + fragment.getClass().getSimpleName() + "--> ") + mCount + ". Attached (" + child.getClass().getSimpleName() + ")");
-                                                            }
-                                                            mCount += 1;
-                                                        }
-                                                    } catch (IllegalStateException e) {
-                                                        e.printStackTrace();
-                                                        Log.d(TAG, e.toString());
-                                                    }
-                                                }
-                                            }, waitingTimeFragment);
-                                        }
-                                    });
+                                    addChildFragmentTracking(fragment);
                                     count += 1;
                                 }
                             }
+                        }
+
+                        private void addChildFragmentTracking(Fragment fragment) {
+                            fragment.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+                                @Override
+                                public void onResume(@NonNull LifecycleOwner owner) {
+                                    owner.getLifecycle().removeObserver(this);
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                if(!fragment.isAdded()) return;
+                                                FragmentManager cfm = fragment.getChildFragmentManager();
+                                                List<Fragment> childFragments = cfm.getFragments();
+                                                int mCount = 1;
+                                                for (Fragment child : childFragments) {
+                                                    //Log Child fragment attached on Fragment
+                                                    if (mCount == 1) {
+                                                        Log.d(TAG, " ");
+                                                        Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> ") + "<" + fragment.getClass().getSimpleName() + "--> " + mCount + ". Attached (" + child.getClass().getSimpleName() + ")");
+                                                    } else {
+                                                        Log.d(TAG, getSpace(activity.getClass().getSimpleName() + " -> " + "<" + fragment.getClass().getSimpleName() + "--> ") + mCount + ". Attached (" + child.getClass().getSimpleName() + ")");
+                                                    }
+                                                    addChildFragmentTracking(child);
+                                                    mCount += 1;
+                                                }
+                                            } catch (IllegalStateException e) {
+                                                e.printStackTrace();
+                                                Log.d(TAG, e.toString());
+                                            }
+                                        }
+                                    }, waitingTimeFragment);
+                                }
+                            });
                         }
                     }, waitingTimeActivity);
                 }
