@@ -8,25 +8,30 @@ import android.view.View;
  *              .setSelected(AppPreference.isGenderMale());
  *      swGender.isFirstSelected()
  *
- *  drawable/selector_tabs_text.xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <selector xmlns:android="http://schemas.android.com/apk/res/android">
-      <item android:color="@android:color/white" android:state_selected="true"/>
-      <item android:color="@color/themeTextColorLite" android:state_selected="false"/>
-    </selector>
-
- *  drawable/selector_tabs_background.xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <selector xmlns:android="http://schemas.android.com/apk/res/android">
-      <item android:drawable="@drawable/bg_shape_filter_selected" android:state_selected="true"/>
-      <item android:drawable="@android:color/transparent" android:state_selected="false"/>
-    </selector>
+ *   @implSpec : drawable/selector_tabs_text.xml
+ *   <?xml version="1.0" encoding="utf-8"?>
+ *   <selector xmlns:android="http://schemas.android.com/apk/res/android">
+ *     <item android:color="@android:color/white" android:state_selected="true"/>
+ *     <item android:color="@color/themeTextColorLite" android:state_selected="false"/>
+ *   </selector>
+ *
+ *   @implSpec : drawable/selector_tabs_background.xml
+ *   <?xml version="1.0" encoding="utf-8"?>
+ *   <selector xmlns:android="http://schemas.android.com/apk/res/android">
+ *     <item android:drawable="@drawable/bg_shape_filter_selected" android:state_selected="true"/>
+ *     <item android:drawable="@android:color/transparent" android:state_selected="false"/>
+ *   </selector>
  */
 public class SelectionSwitch {
 
     private final View tvSwitch1;
     private final View tvSwitch2;
     private boolean isFirstSelected;
+    private ChangeListener changeListener;
+
+    public interface ChangeListener{
+        void onSelectionChange(boolean isFirstSelected);
+    }
 
     public SelectionSwitch(View tvSwitch1, View tvSwitch2) {
         this.tvSwitch1 = tvSwitch1;
@@ -34,22 +39,17 @@ public class SelectionSwitch {
         addSwitchListener();
     }
 
+    public SelectionSwitch addChangeListener(ChangeListener changeListener) {
+        this.changeListener = changeListener;
+        return this;
+    }
+
     private void addSwitchListener() {
         if (tvSwitch1 != null) {
-            tvSwitch1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    setSelected(true);
-                }
-            });
+            tvSwitch1.setOnClickListener(view -> setSelected(true));
         }
         if (tvSwitch2 != null) {
-            tvSwitch2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    setSelected(false);
-                }
-            });
+            tvSwitch2.setOnClickListener(view -> setSelected(false));
         }
     }
 
@@ -69,6 +69,9 @@ public class SelectionSwitch {
             if (tvSwitch2 != null) {
                 tvSwitch2.setSelected(true);
             }
+        }
+        if (changeListener != null) {
+            changeListener.onSelectionChange(isFirstSelected);
         }
         return this;
     }
