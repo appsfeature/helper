@@ -138,6 +138,19 @@
         <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextViewLite</item>
     </style>
 
+    <style name="ActivityTheme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <!-- ActionBar tabs styles -->
     <style name="ActivityTheme.ActionBar.TabStyle" parent="@style/Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/Toolbar.TabTextAppearance</item>
