@@ -1,6 +1,6 @@
 package com.helper.activity;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -21,18 +21,17 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.helper.Helper;
 import com.helper.R;
-import com.helper.callback.Response;
 import com.helper.util.BaseConstants;
 import com.helper.util.BaseUtil;
 import com.helper.util.FileUtils;
 import com.helper.util.Logger;
 import com.helper.util.RunTimePermissionUtility;
-import com.helper.util.ShareHtmlContent;
 import com.helper.util.SocialUtil;
 
 import java.io.File;
@@ -40,11 +39,10 @@ import java.io.File;
 
 public class BrowserActivity extends AppCompatActivity {
 
-    private String TAG = "BrowserActivity";
+    private final String TAG = BrowserActivity.class.getSimpleName();
     private String url;
 
     private static final int WRITE_EXTERNAL_REQUEST_CODE_FOR_PDF = 101;
-    private static final int WRITE_EXTERNAL_REQUEST_CODE_FOR_SHARE = 102;
     public ProgressBar progressBar;
     public RelativeLayout container;
     public WebView webView;
@@ -80,7 +78,7 @@ public class BrowserActivity extends AppCompatActivity {
         webView.onResume();
     }
 
-
+    @SuppressLint("SetJavaScriptEnabled")
     private void initDataFromIntent() {
         progressBar = findViewById(R.id.progressBar);
         container = findViewById(R.id.container);
@@ -237,8 +235,9 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Logger.e(TAG, "requestCode : " + requestCode + ", permissions :" + permissions + ",grantResults : " + grantResults);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        Logger.e(TAG, "requestCode : " + requestCode + ", permissions :" + permissions + ",grantResults : " + grantResults);
 
         if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Logger.e(TAG, "WRITE_EXTERNAL permission has now been granted. Showing result.");
@@ -262,7 +261,7 @@ public class BrowserActivity extends AppCompatActivity {
     /**
      * Alternate Class ShareHtmlContent
      */
-    private void saveWebPageToPDF(WebView webView) throws Exception {
+    private void saveWebPageToPDF(WebView webView){
         //FBAnalytics.fbLogStringValue(BaseConstants.FBAnalyticsEvent.CREATE_PDF, url);
         if (Build.VERSION.SDK_INT >= 21) {
             if (!isRunning) {
@@ -305,15 +304,8 @@ public class BrowserActivity extends AppCompatActivity {
     private void showHideProgressBar(boolean show) {
         if (show) {
             String processing = "Saving PDF to SD Card....";
-//            progressDialog = new ProgressDialog(this, R.style.DialogTheme);
-//            progressDialog.setMessage(processing);
-//            progressDialog.setCancelable(false);
-//            progressDialog.show();
             BaseUtil.showDialog(this, processing, false);
         } else {
-//            if (progressDialog.isShowing()) {
-//                progressDialog.dismiss();
-//            }
             BaseUtil.hideDialog();
         }
     }
@@ -330,19 +322,9 @@ public class BrowserActivity extends AppCompatActivity {
         //alertDialogBuilder.setIcon(R.drawable.notification_template_icon_bg);
         alertDialogBuilder.setMessage(message);
 
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.cancel();
-            }
-        });
+        alertDialogBuilder.setPositiveButton("OK", (arg0, arg1) -> arg0.cancel());
 
-        alertDialogBuilder.setNegativeButton("Share", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                sharePDF(pdfPath);
-            }
-        });
+        alertDialogBuilder.setNegativeButton("Share", (dialog, which) -> sharePDF(pdfPath));
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();

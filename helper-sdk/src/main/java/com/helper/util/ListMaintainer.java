@@ -114,6 +114,10 @@ public class ListMaintainer {
         }
     }
 
+    private static <T> String updateRecentList(Context context, String key, T item, String title) {
+        return updateRecentList(context, key, 0, item, title);
+    }
+
     private static <T> String updateRecentList(Context context, String key, int listSize, T item, String title) {
         List<T> value = GsonParser.fromJson((BasePrefUtil.getRecentFeatureData(context, key)), new TypeToken<List<T>>() {
         });
@@ -131,7 +135,7 @@ public class ListMaintainer {
         if (value.size() == 0) {
             return "";
         } else {
-            if (value.size() > listSize) {
+            if (listSize > 0 && value.size() > listSize) {
                 return GsonParser.toJson(value.subList(0, listSize), new TypeToken<List<T>>() {
                 });
             } else {
