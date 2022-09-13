@@ -69,6 +69,14 @@ public class StyleUtil {
         return s;
     }
 
+    public static void setStatusBarColorFilter(Activity activity, boolean darkMode) {
+        if(darkMode) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+    }
+
     public static void setStatusBarDarkMode(Activity activity, boolean darkMode) {
         try {
             if (darkMode) {

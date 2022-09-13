@@ -8,6 +8,8 @@ import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 
 import com.google.gson.reflect.TypeToken;
+import com.helper.model.BaseModel;
+import com.helper.model.ListMaintainerModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +37,29 @@ public class ListMaintainer {
     }
 
     /**
+     * @param item     : list item
+     * @param title    : for unique check
+     */
+    public static <T> void saveData(Context context, T item, String title) {
+        saveData(context, KEY_DEFAULT, 0, item, title);
+    }
+
+    /**
      * @param listSize : list size
      * @param item     : list item
      * @param title    : for unique check
      */
     public static <T> void saveData(Context context, int listSize, T item, String title) {
         saveData(context, KEY_DEFAULT, listSize, item, title);
+    }
+
+    /**
+     * @param key      : unique key for save data
+     * @param item     : list item
+     * @param title    : for unique check
+     */
+    public static <T> void saveData(Context context, String key, T item, String title) {
+        saveData(context, key, 0, item, title);
     }
 
     /**
@@ -181,6 +200,62 @@ public class ListMaintainer {
     @Nullable
     public static <T> T getList(Context context, String key, TypeToken<T> typeCast) {
         return GsonParser.fromJson(BasePrefUtil.getRecentFeatureData(context, key), typeCast);
+    }
+
+
+    /**
+     * @apiNote : if
+     */
+    private static <T> boolean removeData(Context context, String key, String matchText, TypeToken<List<T>> typeCast) {
+        List<T> value = GsonParser.fromJson((BasePrefUtil.getRecentFeatureData(context, key)), typeCast);
+        if (value == null) {
+            value = new ArrayList<>();
+        }
+        int prevSize = value.size();
+        for (T item : value) {
+            if (item instanceof ListMaintainerModel) {
+                if(((ListMaintainerModel)item).getTitle().equalsIgnoreCase(matchText)){
+                    value.remove(item);
+                    break;
+                }
+            }
+        }
+        if (value.size() <= 0) {
+            BasePrefUtil.setRecentFeatureData(context, key, "");
+        } else {
+            String newJson = GsonParser.toJson(value, new TypeToken<List<T>>() {
+            });
+            if (!TextUtils.isEmpty(newJson)) {
+                BasePrefUtil.setRecentFeatureData(context, key, newJson);
+            }
+        }
+        return prevSize != value.size();
+    }
+
+
+
+    private static boolean removeData(Context context, String key, String matchText) {
+        List<BaseModel> value = GsonParser.fromJson((BasePrefUtil.getRecentFeatureData(context, key)), new TypeToken<List<BaseModel>>(){});
+        if (value == null) {
+            value = new ArrayList<>();
+        }
+        int prevSize = value.size();
+        for (BaseModel item : value) {
+            if(item.getTitle().equalsIgnoreCase(matchText)){
+                value.remove(item);
+                break;
+            }
+        }
+        if (value.size() <= 0) {
+            BasePrefUtil.setRecentFeatureData(context, key, "");
+        } else {
+            String newJson = GsonParser.toJson(value, new TypeToken<List<BaseModel>>() {
+            });
+            if (!TextUtils.isEmpty(newJson)) {
+                BasePrefUtil.setRecentFeatureData(context, key, newJson);
+            }
+        }
+        return prevSize != value.size();
     }
 
 }
