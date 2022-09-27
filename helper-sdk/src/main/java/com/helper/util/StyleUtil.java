@@ -25,6 +25,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.helper.R;
 
 
@@ -33,19 +34,21 @@ public class StyleUtil {
     public static SpannableString spannableText(String sentence, int textColor, String... coloredTest) {
         return spannableText(sentence, textColor, 0, false, coloredTest);
     }
+
     public static SpannableString spannableText(String sentence, int textColor, boolean isBold, String... coloredTest) {
         return spannableText(sentence, textColor, 0, isBold, coloredTest);
     }
+
     public static SpannableString spannableText(String sentence, int textColor, int textSizeInDip, boolean isBold, String... coloredTest) {
         SpannableString s = new SpannableString(sentence);
         try {
-            for (String item : coloredTest){
+            for (String item : coloredTest) {
                 int indexOf = sentence.indexOf(item);
-                if(indexOf > 0 && indexOf < sentence.length()) {
+                if (indexOf > 0 && indexOf < sentence.length()) {
                     s.setSpan(new ForegroundColorSpan(textColor), indexOf, indexOf + item.length(), 0);
-                    if(textSizeInDip != 0)
+                    if (textSizeInDip != 0)
                         s.setSpan(new AbsoluteSizeSpan(textSizeInDip, true), indexOf, indexOf + item.length(), 0);
-                    if(isBold)
+                    if (isBold)
                         s.setSpan(new StyleSpan(Typeface.BOLD), indexOf, indexOf + item.length(), 0);
                 }
             }
@@ -58,12 +61,13 @@ public class StyleUtil {
     public static SpannableString spannableTextBold(String sentence, String... boldTest) {
         return spannableTextBold(new StyleSpan(Typeface.BOLD), sentence, boldTest);
     }
+
     public static SpannableString spannableTextBold(StyleSpan styleSpan, String sentence, String... boldTest) {
         SpannableString s = new SpannableString(sentence);
         try {
-            for (String item : boldTest){
+            for (String item : boldTest) {
                 int indexOf = sentence.indexOf(item);
-                if(indexOf > 0 && indexOf < sentence.length())
+                if (indexOf > 0 && indexOf < sentence.length())
                     s.setSpan(styleSpan, indexOf, indexOf + item.length(), 0);
             }
         } catch (Exception e) {
@@ -73,7 +77,7 @@ public class StyleUtil {
     }
 
     public static void setStatusBarColorFilter(Activity activity, boolean darkMode) {
-        if(darkMode) {
+        if (darkMode) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
@@ -83,14 +87,14 @@ public class StyleUtil {
     public static void setStatusBarDarkMode(Activity activity, boolean darkMode) {
         try {
             if (darkMode) {
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                     }
-                }else {
+                } else {
                     activity.getWindow().setDecorFitsSystemWindows(false);
                     WindowInsetsController controller = activity.getWindow().getInsetsController();
-                    if(controller != null) {
+                    if (controller != null) {
                         controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
 //                        controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
                         controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
@@ -105,7 +109,7 @@ public class StyleUtil {
     public static void setTranslucentStatus(Window window) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-    //            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                //            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -121,8 +125,9 @@ public class StyleUtil {
     public static void setStatusBarColor(Activity activity, @ColorRes int color) {
         setStatusBarColor(activity, true, color);
     }
+
     public static void setStatusBarColor(Activity activity, boolean isLightText, @ColorRes int color) {
-        if(DayNightPreference.isDayMode()) {
+        if (DayNightPreference.isDayMode()) {
             if (isLightText && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
@@ -140,14 +145,15 @@ public class StyleUtil {
     public static String getColorValue(Context context, int colorResource) {
         return getColorValue(context, "", colorResource);
     }
+
     public static String getColorValue(Context context, String transparentLevel, int colorResource) {
         try {
-            if(context == null){
+            if (context == null) {
                 return "#fff";
             }
             String colorValue = Integer.toHexString(ContextCompat.getColor(context, colorResource) & 0x00ffffff);
-            if(colorValue.length() < 6){
-                switch (colorValue.length()){
+            if (colorValue.length() < 6) {
+                switch (colorValue.length()) {
                     case 5:
                         colorValue = "0" + colorValue;
                         break;
@@ -173,12 +179,22 @@ public class StyleUtil {
      */
     @SuppressWarnings("deprecation")
     public static void setColorFilter(Drawable drawable, int color) {
-        if(drawable != null) {
+        if (drawable != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_ATOP));
             } else {
                 drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
             }
+        }
+    }
+
+    /**
+     * @apiNote : BottomNavigationView.applyBottomBarColor();
+     */
+    public static void applyBottomBarColor(BottomNavigationView bottomBar) {
+        if (bottomBar != null) {
+            bottomBar.setItemIconTintList(getBottomBarColor(bottomBar.getContext()));
+            bottomBar.setItemTextColor(getBottomBarColor(bottomBar.getContext()));
         }
     }
 
