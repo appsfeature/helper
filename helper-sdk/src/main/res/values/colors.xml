@@ -13,7 +13,7 @@
     <color name="themeNavItemColor">#99000000</color>
     <color name="themeNavItemColorSelected">#333941</color>
     <color name="themeBottomBarColor">@color/themeHintColor</color>
-    <color name="themeBottomBarColorActive">@color/colorPrimary</color>
+    <color name="themeBottomBarColorActive">@color/colorAccent</color>
     <!--App Default Theme Colors-->
 
     <!--App Default Theme Colors-->
