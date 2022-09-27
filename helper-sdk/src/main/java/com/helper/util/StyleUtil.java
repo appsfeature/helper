@@ -2,6 +2,7 @@ package com.helper.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
@@ -23,6 +24,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import com.helper.R;
 
 
 public class StyleUtil {
@@ -179,4 +182,19 @@ public class StyleUtil {
         }
     }
 
+    /**
+     * @apiNote : BottomNavigationView.setItemIconTintList()
+     *          : BottomNavigationView.setItemTextColor()
+     */
+    public static ColorStateList getBottomBarColor(Context context) {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_selected}, // enabled
+                new int[]{-android.R.attr.state_selected} // disabled
+        };
+        int[] colors = new int[]{
+                ContextCompat.getColor(context, R.color.themeBottomBarColorActive),
+                ContextCompat.getColor(context, R.color.themeBottomBarColor)
+        };
+        return new ColorStateList(states, colors);
+    }
 }

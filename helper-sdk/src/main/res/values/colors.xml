@@ -12,6 +12,8 @@
     <color name="themeNavBackgroundColor">#ffffff</color>
     <color name="themeNavItemColor">#99000000</color>
     <color name="themeNavItemColorSelected">#333941</color>
+    <color name="themeBottomBarColor">@color/themeHintColor</color>
+    <color name="themeBottomBarColorActive">@color/colorPrimary</color>
     <!--App Default Theme Colors-->
 
     <!--App Default Theme Colors-->
