@@ -77,7 +77,7 @@ public class StyleUtil {
     }
 
     public static void setStatusBarColorFilter(Activity activity, boolean darkMode) {
-        if (darkMode) {
+        if (activity != null && darkMode) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
@@ -86,7 +86,7 @@ public class StyleUtil {
 
     public static void setStatusBarDarkMode(Activity activity, boolean darkMode) {
         try {
-            if (darkMode) {
+            if (activity != null && darkMode) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -108,14 +108,13 @@ public class StyleUtil {
 
     public static void setTranslucentStatus(Window window) {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                //            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if(window == null) return;
+//            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(Color.parseColor("#FAFAFA"));
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.parseColor("#FAFAFA"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,7 +126,7 @@ public class StyleUtil {
     }
 
     public static void setStatusBarColor(Activity activity, boolean isLightText, @ColorRes int color) {
-        if (DayNightPreference.isDayMode()) {
+        if (activity != null && DayNightPreference.isDayMode()) {
             if (isLightText && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
@@ -203,6 +202,7 @@ public class StyleUtil {
      *          : BottomNavigationView.setItemTextColor()
      */
     public static ColorStateList getBottomBarColor(Context context) {
+        if(context == null) return null;
         int[][] states = new int[][]{
                 new int[]{android.R.attr.state_selected}, // enabled
                 new int[]{-android.R.attr.state_selected} // disabled
