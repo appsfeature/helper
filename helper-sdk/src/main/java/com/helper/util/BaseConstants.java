@@ -21,10 +21,11 @@ public interface BaseConstants {
     String DEFAULT_DIRECTORY = "Helper";
 
     interface Error {
+        String UPDATE_LATER = "Update later!";
         String MSG_ERROR = "Error, please try later.";
         String DATA_NOT_FOUND = "Error, Data not found";
         String CATEGORY_NOT_FOUND = "Error, This is not supported. Please update";
-        String MSG_ERROR_INTEGRATION = "Error : Integration, Please contact to developer.";
+        String INTEGRATION = "Error : Integration, Please contact to developer.";
     }
 
 }
