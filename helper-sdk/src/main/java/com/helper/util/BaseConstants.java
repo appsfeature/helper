@@ -24,7 +24,7 @@ public interface BaseConstants {
         String MSG_ERROR = "Error, please try later.";
         String DATA_NOT_FOUND = "Error, Data not found";
         String CATEGORY_NOT_FOUND = "Error, This is not supported. Please update";
-        String MSG_ERROR_INTEGRATION = "Error, Please contact to developer.";
+        String MSG_ERROR_INTEGRATION = "Error : Integration, Please contact to developer.";
     }
 
 }
