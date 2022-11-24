@@ -6,8 +6,8 @@ plugins {
 }
 
 ext {
-    appcompat = '1.4.1'
-    material = '1.6.0'
+    appcompat = '1.5.1'
+    material = '1.7.0'
     browser = '1.4.0'
     retrofit_version = '2.9.0'
     room_version = "2.2.5"
