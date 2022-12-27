@@ -62,7 +62,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
      * @return removed bottom padding form html content
      */
     public String removeBottomPadding(String s) {
-        if (s.contains("<p>&nbsp;</p>"))
+        if (s != null && s.contains("<p>&nbsp;</p>"))
             s = s.replaceAll("<p>&nbsp;</p>", "");
         return s;
     }
@@ -177,6 +177,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getTimeSpanString(String serverDateFormat) {
+        if(serverDateFormat == null) return serverDateFormat;
         if (formatYYYYMMDD == null)
             formatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         try {
