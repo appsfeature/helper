@@ -1,30 +1,36 @@
 package com.helper.sample;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
-import com.helper.task.TaskRunner;
+import com.helper.task.AsyncThread;
 import com.helper.util.BaseUtil;
-import com.helper.util.SocialUtil;
 import com.helper.util.StyleUtil;
 
-import java.util.concurrent.Callable;
-
 public class MainActivity extends AppCompatActivity {
+
+    private Button btnAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StyleUtil.setStatusBarDarkMode(this, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btnAsyncTask = findViewById(R.id.btn_async_tack);
+        btnAsyncTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DataLoader().execute(true);
+            }
+        });
         Helper.getInstance()
                 .addActivityLifecycleListener(MainActivity.this.hashCode(), new ActivityLifecycleListener() {
                     @Override
@@ -37,6 +43,39 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+
+    }
+
+    public class DataLoader extends AsyncThread<Boolean, Integer, String> {
+
+        @Override
+        protected String doInBackground(Boolean... booleans) {
+            try {
+                for(int i = 1; i <= 10; i++) {
+                    Thread.sleep(500);
+                    publishProgress(i);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "Success";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            btnAsyncTask.setText("Progress-" + values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String integer) {
+            super.onPostExecute(integer);
+            btnAsyncTask.setText(integer);
+        }
     }
 
     public void onOpenBrowser(View view) {

@@ -15,6 +15,7 @@ public abstract class AsyncThread<Params, Progress, Result> {
     }
 
     @WorkerThread
+    @SuppressWarnings("unchecked")
     protected abstract Result doInBackground(Params... params);
 
 
@@ -23,9 +24,11 @@ public abstract class AsyncThread<Params, Progress, Result> {
     }
 
     @MainThread
+    @SuppressWarnings("unchecked")
     protected void onProgressUpdate(Progress... values) {
     }
 
+    @SafeVarargs
     @MainThread
     public final void execute(Params... params) {
         onPreExecute();
@@ -42,6 +45,7 @@ public abstract class AsyncThread<Params, Progress, Result> {
         });
     }
 
+    @SafeVarargs
     @MainThread
     public final void executeOnExecutor(Object object, Params... params) {
         execute(params);
@@ -56,6 +60,7 @@ public abstract class AsyncThread<Params, Progress, Result> {
         return handler;
     }
 
+    @SafeVarargs
     @WorkerThread
     protected final void publishProgress(Progress... values) {
         if (getHandler() != null) {

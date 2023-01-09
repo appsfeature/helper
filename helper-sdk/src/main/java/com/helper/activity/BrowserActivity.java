@@ -126,6 +126,7 @@ public class BrowserActivity extends AppCompatActivity {
             }
 
             @Override
+            @SuppressWarnings("deprecation")
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 super.shouldOverrideUrlLoading(view, url);
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {

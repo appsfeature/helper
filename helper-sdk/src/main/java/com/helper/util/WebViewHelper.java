@@ -81,7 +81,7 @@ public class WebViewHelper {
     public WebViewHelper setEnableCaching(WebView web) {
         if (web != null && web.getSettings() != null) {
             web.getSettings().setAllowFileAccess(true);
-            web.getSettings().setAppCacheEnabled(true);
+//            web.getSettings().setAppCacheEnabled(true);
             web.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         }
         return this;

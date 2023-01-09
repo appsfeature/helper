@@ -13,5 +13,12 @@
         android:onClick="onOpenBrowser"
         android:text="Open Browser"/>
 
+    <Button
+        android:id="@+id/btn_async_tack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AsyncTack"/>
+
 
 </LinearLayout>
