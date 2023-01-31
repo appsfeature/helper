@@ -260,4 +260,24 @@
         <item name="android:textSize">@dimen/actionBarSizeSmall</item>
     </style>
 
+    <style name="NavigationViewStyle">
+        <item name="itemTextColor">@color/themeNavItemColor</item>
+        <item name="itemIconTint">@color/themeNavItemColor</item>
+        <item name="itemBackground">@color/themeNavBackgroundColor</item>
+        <item name="android:background">@color/themeNavBackgroundColor</item>
+    </style>
+
+    <style name="NavigationViewStyle.Simple">
+        <item name="itemTextColor">@color/theme_navigation_item_selector</item>
+        <item name="itemIconTint">@color/theme_navigation_item_selector</item>
+        <item name="itemBackground">@color/themeNavBackgroundColor</item>
+        <item name="android:background">@color/themeNavBackgroundColor</item>
+    </style>
+
+    <style name="NavigationViewStyle.SlideLine">
+        <item name="itemTextColor">@color/theme_navigation_item_selector</item>
+        <item name="itemIconTint">@color/theme_navigation_item_selector</item>
+        <item name="itemBackground">@drawable/theme_navigation_item_background</item>
+        <item name="android:background">@color/themeNavBackgroundColor</item>
+    </style>
 </resources>

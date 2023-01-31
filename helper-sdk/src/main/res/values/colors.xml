@@ -10,6 +10,7 @@
     <!--App Default Theme Colors-->
     <color name="themeEditTextShapeColor">#ffffff</color>
     <color name="themeNavBackgroundColor">#ffffff</color>
+    <color name="themeNavBackgroundColorSelected">#20ffffff</color>
     <color name="themeNavItemColor">#99000000</color>
     <color name="themeNavItemColorSelected">#333941</color>
     <color name="themeBottomBarColor">@color/themeHintColor</color>
