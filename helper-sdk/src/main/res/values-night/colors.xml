@@ -12,7 +12,7 @@
     <color name="themeEditTextShapeColor">#D6D5D5</color>
     <color name="themeNavBackgroundColor">#212123</color>
     <color name="themeNavBackgroundColorSelected">#10000000</color>
-    <color name="themeNavItemColor">#75C5C5C5</color>
+    <color name="themeNavItemColor">#99ffffff</color>
     <color name="themeNavItemColorSelected">#ffffff</color>
     <color name="themeBottomBarColor">@color/themeHintColor</color>
     <color name="themeBottomBarColorActive">#ffffff</color>
@@ -29,6 +29,7 @@
     <color name="themeTitleColor">@android:color/white</color>
     <color name="themeTitleNormalColor">@android:color/white</color>
     <color name="themeTextColorLite">#666666</color>
+    <color name="themeTextColorDialog">#AAAAAA</color>
     <color name="themeTextColorMerge">#99292929</color>
     <color name="themeButtonShapeColor">#39393B</color>
     <color name="themeButtonShapeColorWhite">#39393B</color>

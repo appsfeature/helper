@@ -45,6 +45,11 @@ public interface Response {
         default void onRetry(NetworkListener.Retry retryCallback){}
     }
 
+    interface Dialog {
+        void onDoneClicked();
+        default void onCancel(){}
+    }
+
     interface NetworkCallback<T> {
         void onCompleted();
         void onDataLoaded();

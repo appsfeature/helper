@@ -28,6 +28,7 @@
     <color name="themeTitleColor">@color/colorPrimary</color>
     <color name="themeTitleNormalColor">@color/themeTextColor</color>
     <color name="themeTextColorLite">#686767</color>
+    <color name="themeTextColorDialog">#9E9D9D</color>
     <color name="themeTextColorMerge">#99292929</color>
     <color name="themeHintColor">#AAAAAA</color>
     <color name="themeSecondaryTextColor">#666666</color>

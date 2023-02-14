@@ -325,6 +325,16 @@ public class BaseUtil {
         }
     }
 
+    public static void showPopupDialog(Context context, String message) {
+        AppDialog.show(context, message, null, context.getString(R.string.ok), context.getString(R.string.cancel), null);
+    }
+    public static void showPopupDialog(Context context, String message, Response.Dialog callback) {
+        AppDialog.show(context, message, null, context.getString(R.string.ok), context.getString(R.string.cancel), callback);
+    }
+    public static void showPopupDialog(Context context, String title, String message, Response.Dialog callback) {
+        AppDialog.show(context, title, message, context.getString(R.string.ok), context.getString(R.string.cancel), callback);
+    }
+
     public static boolean isEmptyOrNull(String s) {
         return (s == null || TextUtils.isEmpty(s));
     }
