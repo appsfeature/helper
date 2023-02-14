@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.task.AsyncThread;
+import com.helper.util.AppDialog;
 import com.helper.util.BaseUtil;
 import com.helper.util.StyleUtil;
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onOpenBrowser(View view) {
 //        BaseUtil.openLinkInAppBrowser(this,"","");
-        BaseUtil.showDialog(this, "Happy", false, true);
+        AppDialog.showProgress(this, "Processing...");
 //        SocialUtil.openLinkInBrowserChrome(this, "https://pixabay.com/");
 /*
         TaskRunner.getInstance().executeAsync(new Callable<Void>() {

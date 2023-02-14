@@ -108,4 +108,21 @@ public class AppDialog {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * @apiNote : show progress in the center of screen.
+     */
+    public static void showProgress(Context context) {
+        BaseUtil.showDialog(context, null, false, true);
+    }
+    /**
+     * @apiNote : show progress horizontally.
+     */
+    public static void showProgress(Context context, String message) {
+        BaseUtil.showDialog(context, message, false, false);
+    }
+
+    public static void dismissProgress() {
+        BaseUtil.hideDialog();
+    }
 }
