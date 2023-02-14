@@ -5,113 +5,51 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
+import com.helper.base.HelperClass;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
-import com.helper.util.BasePrefUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-public class Helper {
+public interface Helper {
 
-    public static boolean IS_ADS_ENABLE = true;
-    private static volatile Helper helper;
-    private boolean isEnableDebugMode = false;
-    private Response.Helper mListener;
-    public boolean isEnableCurrentActivityLifecycle = false;
-    @Nullable
-    private Activity mCurrentActivity;
+    boolean isEnableDebugMode();
 
-    private Helper() {
+    static Helper getInstance() {
+        return HelperClass.Builder();
     }
-
-    public static Helper getInstance() {
-        if (helper == null) {
-            synchronized (Helper.class) {
-                if (helper == null) helper = new Helper();
-            }
-        }
-        return helper;
-    }
-
-    public boolean isEnableDebugMode() {
-        return isEnableDebugMode;
-    }
-
     /**
      * @param isDebug = BuildConfig.DEBUG
      * @return this
      */
-    public Helper setDebugMode(Boolean isDebug) {
-        isEnableDebugMode = isDebug;
-        return this;
-    }
+    Helper setDebugMode(Boolean isDebug);
 
-    public Response.Helper getListener() {
-        return mListener;
-    }
+    Response.Helper getListener();
 
-    public Helper setListener(Response.Helper listener) {
-        this.mListener = listener;
-        return this;
-    }
+    Helper setListener(Response.Helper listener);
 
-    public HashMap<Integer, ActivityLifecycleListener> getActivityLifecycleListener() {
-        return mActivityLifecycleListener;
-    }
+    HashMap<Integer, ActivityLifecycleListener> getActivityLifecycleListener();
 
-    public Helper addActivityLifecycleListener(ActivityLifecycleListener listener) {
-        addActivityLifecycleListener(this.hashCode(), listener);
-        return this;
-    }
+    Helper addActivityLifecycleListener(ActivityLifecycleListener listener);
 
-    public Helper addActivityLifecycleListener(int hashCode, ActivityLifecycleListener listener) {
-        synchronized (mActivityLifecycleListener) {
-            mActivityLifecycleListener.put(hashCode, listener);
-        }
-        return this;
-    }
+    Helper addActivityLifecycleListener(int hashCode, ActivityLifecycleListener listener);
 
-    private final HashMap<Integer, ActivityLifecycleListener> mActivityLifecycleListener = new HashMap<>();
+    void removeActivityLifecycleListener(int hashCode);
 
-    public void removeActivityLifecycleListener(int hashCode) {
-        if (mActivityLifecycleListener.get(hashCode) != null) {
-            synchronized (mActivityLifecycleListener) {
-                this.mActivityLifecycleListener.remove(hashCode);
-            }
-        }
-    }
+    String getDownloadDirectory(Context context);
 
-    public String getDownloadDirectory(Context context) {
-        return BasePrefUtil.getDownloadDirectory(context);
-    }
+    Helper setDownloadDirectory(Context context, String directory);
+    void setEnableCurrentActivityLifecycle(boolean enableCurrentActivityLifecycle);
 
-    public Helper setDownloadDirectory(Context context, String directory) {
-        BasePrefUtil.setDownloadDirectory(context, directory);
-        return this;
-    }
-
-    public Helper setAdsEnable(Boolean isAdsEnable) {
-        IS_ADS_ENABLE = isAdsEnable;
-        return this;
-    }
-
-    public boolean isEnableCurrentActivityLifecycle() {
-        return isEnableCurrentActivityLifecycle;
-    }
+    boolean isEnableCurrentActivityLifecycle();
 
     /**
+     * @return Current Activity Created from Lifecycle
      * @apiNote : for enable Use {ActivityTrackingApplication.setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle)} method
      * @apiNote : Initialize in onCreate and clear reference in onDestroy method
-     * @return Current Activity Created from Lifecycle
      */
     @Nullable
-    public Activity getCurrentActivity() {
-        return mCurrentActivity;
-    }
+    Activity getCurrentActivity();
 
-    public void setCurrentActivity(Activity currentActivity) {
-        this.mCurrentActivity = currentActivity;
-    }
+    void setCurrentActivity(Activity currentActivity);
 }

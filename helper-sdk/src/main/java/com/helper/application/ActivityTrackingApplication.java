@@ -42,7 +42,7 @@ public abstract class ActivityTrackingApplication extends Application implements
     }
 
     public ActivityTrackingApplication setEnableCurrentActivityLifecycle(boolean isEnableCurrentActivityLifecycle) {
-        Helper.getInstance().isEnableCurrentActivityLifecycle = isEnableCurrentActivityLifecycle;
+        Helper.getInstance().setEnableCurrentActivityLifecycle(isEnableCurrentActivityLifecycle);
         registerActivityLifecycleCallbacksSingleton();
         return this;
     }
