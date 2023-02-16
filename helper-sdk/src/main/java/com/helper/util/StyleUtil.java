@@ -188,7 +188,7 @@ public class StyleUtil {
     }
 
     /**
-     * @apiNote : BottomNavigationView.applyBottomBarColor();
+     * @apiNote : StyleUtil.applyBottomBarColor();
      */
     public static void applyBottomBarColor(BottomNavigationView bottomBar) {
         if (bottomBar != null) {
