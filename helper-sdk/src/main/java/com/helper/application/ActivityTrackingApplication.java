@@ -57,6 +57,20 @@ public abstract class ActivityTrackingApplication extends Application implements
         }
     }
 
+
+    protected boolean isLoaded = false;
+
+    /**
+     * @apiNote : call init() method in Splash onCreate.
+     */
+    public void init() {
+        if (!isLoaded) {
+            initLibs();
+            isLoaded = true;
+        }
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -66,6 +80,11 @@ public abstract class ActivityTrackingApplication extends Application implements
             handler = new Handler();
         }
     }
+
+    /**
+     * @apiNote : call init() method in Splash onCreate.
+     */
+    public abstract void initLibs();
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
