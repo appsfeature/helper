@@ -14,6 +14,10 @@ import androidx.annotation.Nullable;
 import com.helper.R;
 import com.helper.callback.Response;
 
+/**
+ * @apiNote : Design 1 requires title and message both or message = ""
+ * @apiNote : Design 2 requires only title
+ */
 public class AppDialog {
 
     public static void show(Context context, String message) {
@@ -32,10 +36,6 @@ public class AppDialog {
         show(context, title, message, context.getString(R.string.ok), context.getString(R.string.cancel), callback);
     }
 
-    public static void show(Context context, String title, String message, String buttonPositive, Response.Dialog callback) {
-        show(context, title, message, buttonPositive, context.getString(R.string.cancel), callback);
-    }
-
     public static void showAlert(Context context, String message) {
         show(context, message, null, context.getString(R.string.ok), null, null);
     }
@@ -48,6 +48,10 @@ public class AppDialog {
         show(context, title, message, buttonPositive, null, null);
     }
 
+    public static void show(Context context, String title, String buttonPositive, String buttonNegative, Response.Dialog callback) {
+        show(context, title, null, buttonPositive, buttonNegative, callback);
+    }
+
     public static void show(Context context, String title, @Nullable String subTitle, String buttonPositive, String buttonNegative, Response.Dialog callback) {
         try {
             if(context == null) return;
@@ -57,7 +61,7 @@ public class AppDialog {
             if (dialog.getWindow() != null) {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
-            dialog.setContentView(R.layout.base_dialog);
+            dialog.setContentView(subTitle == null ? R.layout.base_dialog_2 : R.layout.base_dialog);
             TextView tvTitle = dialog.findViewById(R.id.tv_title);
             TextView tvSubTitle = dialog.findViewById(R.id.tv_sub_title);
             TextView btnAction = dialog.findViewById(R.id.btn_action);
