@@ -42,9 +42,9 @@ public class BaseNetworkManager {
      * @param callback : response
      * @param <T> : typecast
      */
-    public static <T> void parseConfigData(String data, Type type, ParserConfigDataSimple<T> callback) {
-         parseConfigData(data, null, type, callback);
-    }
+//    public static <T> void parseConfigData(String data, Type type, ParserConfigDataSimple<T> callback) {
+//         parseConfigData(data, null, type, callback);
+//    }
     public static <T> void parseConfigData(String data, Type type, ParserConfigData<T> callback) {
          parseConfigData(data, null, type, callback);
     }
@@ -91,22 +91,28 @@ public class BaseNetworkManager {
         }
     }
 
-//    public static <T> void parseConfigData(String data, Type type, ParserConfigDataSimple<T> callback) {
-//        try {
-//            if (!BaseUtil.isEmptyOrNull(data)) {
-//                final T t = GsonParser.getGson()
-//                        .fromJson(data, type);
-//                if (t != null) {
-//                    callback.onSuccess(t);
-//                } else {
-//                    callback.onFailure(new Exception(BaseConstants.NO_DATA));
-//                }
-//            } else {
-//                callback.onFailure(new Exception(BaseConstants.EMPTY_OR_NULL_DATA));
-//            }
-//        } catch (JsonSyntaxException e) {
-//            e.printStackTrace();
-//            callback.onFailure(e);
-//        }
-//    }
+    /**
+     * @param data : JSON data
+     * @param type : new TypeToken<ModelName>() {}.getType()
+     * @param callback : response
+     * @param <T> : typecast
+     */
+    public static <T> void parseConfigData(String data, Type type, ParserConfigDataSimple<T> callback) {
+        try {
+            if (!BaseUtil.isEmptyOrNull(data)) {
+                final T t = GsonParser.getGson()
+                        .fromJson(data, type);
+                if (t != null) {
+                    callback.onSuccess(t);
+                } else {
+                    callback.onFailure(new Exception(BaseConstants.NO_DATA));
+                }
+            } else {
+                callback.onFailure(new Exception(BaseConstants.EMPTY_OR_NULL_DATA));
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            callback.onFailure(e);
+        }
+    }
 }
