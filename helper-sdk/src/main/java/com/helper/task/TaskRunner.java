@@ -2,6 +2,7 @@ package com.helper.task;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -42,6 +43,7 @@ public class TaskRunner {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d(TaskRunner.class.getSimpleName(), e.toString());
                 handler.post(() -> {
                     if (callback != null) {
                         callback.onComplete(null);
@@ -62,6 +64,7 @@ public class TaskRunner {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d(TaskRunner.class.getSimpleName(), e.toString());
                 handler.post(() -> {
                     if (callback != null) {
                         callback.onComplete(null);
@@ -77,6 +80,7 @@ public class TaskRunner {
                 callable.call();
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d(TaskRunner.class.getSimpleName(), e.toString());
             }
         });
     }

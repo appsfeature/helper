@@ -42,13 +42,13 @@ public class StyleUtil {
     public static SpannableString spannableText(String sentence, int textColor, int textSizeInDip, boolean isBold, String... coloredTest) {
         SpannableString s = new SpannableString(sentence);
         try {
-            for (String item : coloredTest) {
+            for (String item : coloredTest){
                 int indexOf = sentence.indexOf(item);
-                if (indexOf > 0 && indexOf < sentence.length()) {
+                if(indexOf >= 0 && indexOf < sentence.length()) {
                     s.setSpan(new ForegroundColorSpan(textColor), indexOf, indexOf + item.length(), 0);
-                    if (textSizeInDip != 0)
+                    if(textSizeInDip != 0)
                         s.setSpan(new AbsoluteSizeSpan(textSizeInDip, true), indexOf, indexOf + item.length(), 0);
-                    if (isBold)
+                    if(isBold)
                         s.setSpan(new StyleSpan(Typeface.BOLD), indexOf, indexOf + item.length(), 0);
                 }
             }
@@ -67,7 +67,7 @@ public class StyleUtil {
         try {
             for (String item : boldTest) {
                 int indexOf = sentence.indexOf(item);
-                if (indexOf > 0 && indexOf < sentence.length())
+                if(indexOf >= 0 && indexOf < sentence.length())
                     s.setSpan(styleSpan, indexOf, indexOf + item.length(), 0);
             }
         } catch (Exception e) {
