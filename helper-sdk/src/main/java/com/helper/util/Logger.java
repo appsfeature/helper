@@ -5,6 +5,10 @@ import android.util.Log;
 
 import com.helper.Helper;
 
+import org.jetbrains.annotations.Nullable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Amit on 7/1/2017.
@@ -14,6 +18,14 @@ public class Logger {
     public static final String SDK_NAME = "Helper";
     public static final String TAG = SDK_NAME + "-log";
 
+    public static void track(Context context, @Nullable StackTraceElement[] stackTrace) {
+        if (Helper.getInstance().isEnableDebugMode()) {
+            Log.d(TAG, LINE_BREAK_START);
+            Log.d(TAG, getStackTrace(context, stackTrace));
+            Log.d(TAG, LINE_BREAK_END);
+        }
+    }
+    
     public static void e(String s) {
         if (Helper.getInstance().isEnableDebugMode()) {
             Log.d(TAG, LINE_BREAK_START);
@@ -112,6 +124,36 @@ public class Logger {
             return "";
         }
         return "";
+    }
+
+    /**
+     * @param currentThread = Thread.currentThread().getStackTrace()
+     * @return Getting the Heirercy of executing method.
+     */
+    public static String getStackTrace(Context context, StackTraceElement[] currentThread) {
+        try {
+            StringBuilder builder = new StringBuilder();
+            if(currentThread!=null){
+                for (StackTraceElement item : currentThread){
+                    if(item != null && item.toString().contains(context.getPackageName())){
+                        builder.append(getTimeStamp())
+                                .append(item)
+                                .append(" [Line Number = ")
+                                .append(item.getLineNumber())
+                                .append("]")
+                                .append("\n");
+                    }
+                }
+                return builder.toString();
+            }
+        } catch (Exception e) {
+            return "";
+        }
+        return "";
+    }
+
+    public static String getTimeStamp() {
+        return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ", Locale.getDefault())).format(new Date());
     }
 
     public static String getClassPath(Class<?> classReference, String methodName) {
