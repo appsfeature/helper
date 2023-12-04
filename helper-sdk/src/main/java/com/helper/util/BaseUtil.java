@@ -38,9 +38,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Field;
 
 public class BaseUtil {
 
+    public static <T> String printObject(T t) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            for (Field field : t.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                try {
+                    if(field.getName().equals("CREATOR")){
+                        continue;
+                    }
+                    sb.append(field.getName()).append(": ").append(field.get(t)).append('\n');
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            return t.toString();
+        }
+    }
+    
     public static SpannableString spannableText(String sentence, int textColor, String... coloredTest) {
         return spannableText(sentence, textColor, 0, coloredTest);
     }
