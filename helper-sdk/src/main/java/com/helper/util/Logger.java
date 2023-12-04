@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.helper.Helper;
+import com.helper.util.BaseUtil;
 
 import org.jetbrains.annotations.Nullable;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,15 @@ public class Logger {
     public static final String SDK_NAME = "Helper";
     public static final String TAG = SDK_NAME + "-log";
 
+    public static <T> void logObjectClass(T t) {
+        if (Helper.getInstance().isEnableDebugMode()) {
+            Log.d(TAG, LINE_BREAK_START);
+            Log.d(TAG, "Class : " + t.getClass().getSimpleName());
+            Log.d(TAG, BaseUtil.printObject(t));
+            Log.d(TAG, LINE_BREAK_END);
+        }
+    }
+    
     public static void track(Context context, @Nullable StackTraceElement[] stackTrace) {
         if (Helper.getInstance().isEnableDebugMode()) {
             Log.d(TAG, LINE_BREAK_START);
