@@ -16,6 +16,20 @@ public class GsonParser {
     }
 
     /**
+     * @param classOfT : ModelName.class
+     */
+    public static <T> String prettyPrinting(Object item, Class<T> classOfT) {
+        String toJson = "";
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            toJson = gson.toJson(item, classOfT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return toJson;
+    }
+
+    /**
      * @param typeCast : new TypeToken<ModelName>() {}
      */
     public static <T> String toJson(Object item, TypeToken<T> typeCast) {
