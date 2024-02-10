@@ -21,7 +21,7 @@ Add this to your project build.gradle
 [![](https://jitpack.io/v/appsfeature/helper.svg)](https://jitpack.io/#appsfeature/helper)
 ```gradle
 dependencies {
-        implementation 'com.github.appsfeature:helper:1.8'
+        implementation 'com.github.appsfeature:helper:2.1'
 }
 ```
 
