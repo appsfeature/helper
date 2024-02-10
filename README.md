@@ -18,10 +18,10 @@ allprojects {
 Add this to your project build.gradle
 
 #### Dependency
-[![](https://jitpack.io/v/org.bitbucket.android-dennislabs/helper.svg)](https://jitpack.io/#org.bitbucket.android-dennislabs/helper)
+[![](https://jitpack.io/v/appsfeature/helper.svg)](https://jitpack.io/#appsfeature/helper)
 ```gradle
 dependencies {
-        implementation 'org.bitbucket.android-dennislabs:helper:1.8'
+        implementation 'com.github.appsfeature:helper:1.8'
 }
 ```
 
