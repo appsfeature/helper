@@ -1,6 +1,6 @@
 # Helper 
 
-#### Library size is : Kb
+#### Library size is : 2.7MB
   
 ## Setup Project
 
