@@ -115,6 +115,11 @@ public class HelperClass implements Helper {
     }
 
     @Override
+    public String getUserId(Context context) {
+        return BasePrefUtil.getUserId(context);
+    }
+
+    @Override
     public LoginModel getLoginDetail(Context context) {
         return BasePrefUtil.getLoginDetail(context);
     }

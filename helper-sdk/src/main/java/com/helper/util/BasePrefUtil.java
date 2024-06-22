@@ -13,6 +13,7 @@ public class BasePrefUtil {
     private static final String RECENT_FEATURE_DATA = "recent_feature_data";
     private static final String STORAGE_MIGRATION_COMPLETED = "helper_storage_migration_completed";
     private static final String LOGIN_DETAIL = "login_detail";
+    private static final String USER_ID = "user_id";
     private static SharedPreferences sharedPreferences;
 
 
@@ -160,11 +161,23 @@ public class BasePrefUtil {
         setString(context, LOGIN_DETAIL, value);
     }
 
+    public static String getUserId(Context context) {
+        return getString(context, USER_ID, "");
+    }
+
+    private static void setUserId(Context context, String value) {
+        setString(context, USER_ID, value);
+    }
+
     public static LoginModel getLoginDetail(Context context) {
-        return GsonParser.fromJsonAll(getLoginDetailJson(context), LoginModel.class);
+        LoginModel loginDetail = GsonParser.fromJsonAll(getLoginDetailJson(context), LoginModel.class);
+        return (loginDetail == null) ? new LoginModel() : loginDetail;
     }
 
     public static void setLoginDetail(Context context, LoginModel loginDetail) {
-        setLoginDetailJson(context, GsonParser.toJsonAll(loginDetail, LoginModel.class));
+        if(loginDetail != null) {
+            setUserId(context, loginDetail.getUserId());
+            setLoginDetailJson(context, GsonParser.toJsonAll(loginDetail, LoginModel.class));
+        }
     }
 }

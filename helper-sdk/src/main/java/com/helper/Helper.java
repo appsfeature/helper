@@ -56,6 +56,8 @@ public interface Helper {
     void setCurrentActivity(Activity currentActivity);
 
 
+    String getUserId(Context context);
+
     LoginModel getLoginDetail(Context context);
 
     void setLoginDetail(Context context, LoginModel loginDetail);
