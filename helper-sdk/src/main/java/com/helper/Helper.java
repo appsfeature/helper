@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import com.helper.base.HelperClass;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
+import com.helper.model.LoginModel;
+import com.helper.util.GsonParser;
 
 import java.util.HashMap;
 
@@ -52,4 +54,9 @@ public interface Helper {
     Activity getCurrentActivity();
 
     void setCurrentActivity(Activity currentActivity);
+
+
+    LoginModel getLoginDetail(Context context);
+
+    void setLoginDetail(Context context, LoginModel loginDetail);
 }

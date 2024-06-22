@@ -3,6 +3,7 @@ package com.helper.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.helper.model.LoginModel;
 
 
 public class BasePrefUtil {
@@ -11,6 +12,7 @@ public class BasePrefUtil {
     private static final String DOWNLOAD_DIRECTORY = "DownloadDirectory";
     private static final String RECENT_FEATURE_DATA = "recent_feature_data";
     private static final String STORAGE_MIGRATION_COMPLETED = "helper_storage_migration_completed";
+    private static final String LOGIN_DETAIL = "login_detail";
     private static SharedPreferences sharedPreferences;
 
 
@@ -148,5 +150,21 @@ public class BasePrefUtil {
 
     public static boolean isStorageMigrationCompleted(Context context) {
         return getBoolean(context, STORAGE_MIGRATION_COMPLETED,false);
+    }
+
+    public static String getLoginDetailJson(Context context) {
+        return getString(context, LOGIN_DETAIL, "");
+    }
+
+    public static void setLoginDetailJson(Context context, String value) {
+        setString(context, LOGIN_DETAIL, value);
+    }
+
+    public static LoginModel getLoginDetail(Context context) {
+        return GsonParser.fromJsonAll(getLoginDetailJson(context), LoginModel.class);
+    }
+
+    public static void setLoginDetail(Context context, LoginModel loginDetail) {
+        setLoginDetailJson(context, GsonParser.toJsonAll(loginDetail, LoginModel.class));
     }
 }
