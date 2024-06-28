@@ -2,6 +2,7 @@ package com.helper.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.helper.util.GsonParser;
 
 public class LoginModel {
 
@@ -23,6 +24,9 @@ public class LoginModel {
     @Expose
     @SerializedName(value="mobileNo")
     private String mobileNo;
+    @Expose
+    @SerializedName(value="extras")
+    private String extras;
 
     public boolean isLoginComplete() {
         return isLoginComplete;
@@ -76,5 +80,20 @@ public class LoginModel {
     public LoginModel setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
         return this;
+    }
+
+    public String getExtras() {
+        return extras;
+    }
+
+    public void setExtras(String extras) {
+        this.extras = extras;
+    }
+
+    /**
+     * @param tClass : ExtraModel.class
+     */
+    public <T> T getExtrasModel(Class<T> tClass) {
+        return GsonParser.fromJsonAll(getExtras(), tClass);
     }
 }

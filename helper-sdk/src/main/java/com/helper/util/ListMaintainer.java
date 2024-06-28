@@ -14,6 +14,9 @@ import com.helper.model.ListMaintainerModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Extend YourModel.class with {@link ListMaintainerModel}
+ */
 public class ListMaintainer {
 
     private static final String KEY_DEFAULT = "default";
@@ -206,7 +209,7 @@ public class ListMaintainer {
     /**
      * @apiNote : if
      */
-    private static <T> boolean removeData(Context context, String key, String matchText, TypeToken<List<T>> typeCast) {
+    public static <T> boolean removeData(Context context, String key, String matchText, TypeToken<List<T>> typeCast) {
         List<T> value = GsonParser.fromJson((BasePrefUtil.getRecentFeatureData(context, key)), typeCast);
         if (value == null) {
             value = new ArrayList<>();
@@ -224,32 +227,6 @@ public class ListMaintainer {
             BasePrefUtil.setRecentFeatureData(context, key, "");
         } else {
             String newJson = GsonParser.toJson(value, new TypeToken<List<T>>() {
-            });
-            if (!TextUtils.isEmpty(newJson)) {
-                BasePrefUtil.setRecentFeatureData(context, key, newJson);
-            }
-        }
-        return prevSize != value.size();
-    }
-
-
-
-    private static boolean removeData(Context context, String key, String matchText) {
-        List<BaseModel> value = GsonParser.fromJson((BasePrefUtil.getRecentFeatureData(context, key)), new TypeToken<List<BaseModel>>(){});
-        if (value == null) {
-            value = new ArrayList<>();
-        }
-        int prevSize = value.size();
-        for (BaseModel item : value) {
-            if(item.getTitle().equalsIgnoreCase(matchText)){
-                value.remove(item);
-                break;
-            }
-        }
-        if (value.size() <= 0) {
-            BasePrefUtil.setRecentFeatureData(context, key, "");
-        } else {
-            String newJson = GsonParser.toJson(value, new TypeToken<List<BaseModel>>() {
             });
             if (!TextUtils.isEmpty(newJson)) {
                 BasePrefUtil.setRecentFeatureData(context, key, newJson);
