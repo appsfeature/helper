@@ -3,6 +3,7 @@ package com.helper;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.helper.base.HelperClass;
@@ -57,6 +58,7 @@ public interface Helper {
 
     String getUserId(Context context);
 
+    @NonNull
     UserProfile getUserProfile(Context context);
 
     void setUserProfile(Context context, UserProfile UserProfile);

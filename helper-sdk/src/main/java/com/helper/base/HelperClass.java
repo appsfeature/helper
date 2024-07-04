@@ -3,6 +3,7 @@ package com.helper.base;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.helper.Helper;
@@ -118,6 +119,7 @@ public class HelperClass implements Helper {
         return BasePrefUtil.getUserId(context);
     }
 
+    @NonNull
     @Override
     public UserProfile getUserProfile(Context context) {
         return BasePrefUtil.getUserProfile(context);

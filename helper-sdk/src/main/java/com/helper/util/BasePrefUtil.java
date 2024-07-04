@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.helper.model.UserProfile;
 
 
@@ -174,6 +176,7 @@ public class BasePrefUtil {
         setString(context, USER_ID, value);
     }
 
+    @NonNull
     public static UserProfile getUserProfile(Context context) {
         UserProfile userProfile = GsonParser.fromJsonAll(getUserProfileJson(context), UserProfile.class);
         return (userProfile == null) ? new UserProfile() : userProfile;
