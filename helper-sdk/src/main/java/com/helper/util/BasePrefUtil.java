@@ -2,8 +2,9 @@ package com.helper.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
-import com.helper.model.LoginModel;
+import com.helper.model.UserProfile;
 
 
 public class BasePrefUtil {
@@ -153,12 +154,16 @@ public class BasePrefUtil {
         return getBoolean(context, STORAGE_MIGRATION_COMPLETED,false);
     }
 
-    public static String getLoginDetailJson(Context context) {
+    public static String getUserProfileJson(Context context) {
         return getString(context, LOGIN_DETAIL, "");
     }
 
-    public static void setLoginDetailJson(Context context, String value) {
+    public static void setUserProfileJson(Context context, String value) {
         setString(context, LOGIN_DETAIL, value);
+    }
+
+    public static boolean isLoginCompleted(Context context) {
+        return !TextUtils.isEmpty(getUserId(context));
     }
 
     public static String getUserId(Context context) {
@@ -169,15 +174,15 @@ public class BasePrefUtil {
         setString(context, USER_ID, value);
     }
 
-    public static LoginModel getLoginDetail(Context context) {
-        LoginModel loginDetail = GsonParser.fromJsonAll(getLoginDetailJson(context), LoginModel.class);
-        return (loginDetail == null) ? new LoginModel() : loginDetail;
+    public static UserProfile getUserProfile(Context context) {
+        UserProfile userProfile = GsonParser.fromJsonAll(getUserProfileJson(context), UserProfile.class);
+        return (userProfile == null) ? new UserProfile() : userProfile;
     }
 
-    public static void setLoginDetail(Context context, LoginModel loginDetail) {
-        if(loginDetail != null) {
-            setUserId(context, loginDetail.getUserId());
-            setLoginDetailJson(context, GsonParser.toJsonAll(loginDetail, LoginModel.class));
+    public static void setUserProfile(Context context, UserProfile userProfile) {
+        if(userProfile != null) {
+            setUserId(context, userProfile.getUserId());
+            setUserProfileJson(context, GsonParser.toJsonAll(userProfile, UserProfile.class));
         }
     }
 }

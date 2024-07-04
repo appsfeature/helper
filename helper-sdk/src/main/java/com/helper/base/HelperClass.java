@@ -8,9 +8,8 @@ import androidx.annotation.Nullable;
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
-import com.helper.model.LoginModel;
+import com.helper.model.UserProfile;
 import com.helper.util.BasePrefUtil;
-import com.helper.util.GsonParser;
 
 import java.util.HashMap;
 
@@ -120,12 +119,12 @@ public class HelperClass implements Helper {
     }
 
     @Override
-    public LoginModel getLoginDetail(Context context) {
-        return BasePrefUtil.getLoginDetail(context);
+    public UserProfile getUserProfile(Context context) {
+        return BasePrefUtil.getUserProfile(context);
     }
 
     @Override
-    public void setLoginDetail(Context context, LoginModel loginDetail) {
-        BasePrefUtil.setLoginDetail(context, loginDetail);
+    public void setUserProfile(Context context, UserProfile userProfile) {
+        BasePrefUtil.setUserProfile(context, userProfile);
     }
 }

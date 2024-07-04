@@ -3,6 +3,7 @@ package com.helper.util;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.spec.AlgorithmParameterSpec;
@@ -12,50 +13,55 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptUtil {
-    private static String IV_STR = "EncryptionHandler";
+    private static final String IV_STR = "EncryptionHandler";
 
+
+    /************************************ Base64 Encryption Methods **********************************/
 
     public static String encode(String value) {
-        return encode(value, "UTF-8", Base64.DEFAULT);
+        return encode(value, StandardCharsets.UTF_8, Base64.DEFAULT);
     }
     public static String encode(String value, int decodeType) {
-        return encode(value, "UTF-8", decodeType);
+        return encode(value, StandardCharsets.UTF_8, decodeType);
     }
     // Sending side
-    public static String encode(String value, String charsetName, int base64Type) {
+    public static String encode(String value, Charset charsetName, int base64Type) {
         try {
             byte[] data = value.getBytes(charsetName);
             return Base64.encodeToString(data, base64Type);
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return value;
         }
     }
 
     public static String decode(String base64value) {
-        return decode(base64value, "UTF-8", Base64.DEFAULT);
+        return decode(base64value, StandardCharsets.UTF_8, Base64.DEFAULT);
     }
     public static String decode(String base64value, int decodeType) {
-        return decode(base64value, "UTF-8", decodeType);
+        return decode(base64value, StandardCharsets.UTF_8, decodeType);
     }
     // Receiving side
-    public static String decode(String base64value,String charsetName, int base64Type) {
+    public static String decode(String base64value, Charset charsetName, int base64Type) {
         try {
             byte[] data = Base64.decode(base64value, base64Type);
             return new String(data, charsetName);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Logger.d(e.toString());
             return base64value;
         }
     }
+
+    /************************************ AES Encryption Public Methods **********************************/
 
     /* Start Symmetric Encryption with AES */
     public static String encrypt(String keyStr, String enStr){
         try {
             byte[] bytes = encrypt(IV_STR, keyStr, enStr.getBytes(StandardCharsets.UTF_8));
-            return new String(Base64.encode(bytes ,Base64.DEFAULT), StandardCharsets.UTF_8);
+            return new String(Base64.encode(bytes ,Base64.DEFAULT), StandardCharsets.UTF_8)
+                    .replaceAll("\\\n","");
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.d(e.toString());
             return enStr;
         }
     }
@@ -65,10 +71,12 @@ public class EncryptUtil {
             byte[] bytes = decrypt(IV_STR, keyStr, Base64.decode(deStr.getBytes(StandardCharsets.UTF_8),Base64.DEFAULT));
             return new String(bytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.d(e.toString());
             return deStr;
         }
     }
+
+    /************************************ AES Encryption Methods *************************************/
 
     private static byte[] encrypt(String ivStr, String keyStr, byte[] bytes) throws Exception{
         MessageDigest md = MessageDigest.getInstance("MD5");

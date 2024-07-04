@@ -4,44 +4,45 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.helper.util.GsonParser;
 
-public class LoginModel {
+public class UserProfile {
 
-    @Expose
-    @SerializedName(value="isLoginComplete")
-    private boolean isLoginComplete;
     @Expose
     @SerializedName(value="userId")
     private String userId;
+
     @Expose
     @SerializedName(value="userName")
     private String userName;
+
     @Expose
     @SerializedName(value="userImage")
     private String userImage;
-    @Expose
-    @SerializedName(value="emailId")
-    private String emailId;
+
     @Expose
     @SerializedName(value="mobileNo")
     private String mobileNo;
+
+    @Expose
+    @SerializedName(value="emailId")
+    private String emailId;
+
+    @Expose
+    @SerializedName(value="type")
+    private int type;
+
+    @Expose
+    @SerializedName(value="mode")
+    private int mode;
+
     @Expose
     @SerializedName(value="extras")
     private String extras;
-
-    public boolean isLoginComplete() {
-        return isLoginComplete;
-    }
-
-    public LoginModel setLoginComplete(boolean loginComplete) {
-        isLoginComplete = loginComplete;
-        return this;
-    }
 
     public String getUserId() {
         return userId;
     }
 
-    public LoginModel setUserId(String userId) {
+    public UserProfile setUserId(String userId) {
         this.userId = userId;
         return this;
     }
@@ -50,7 +51,7 @@ public class LoginModel {
         return userName;
     }
 
-    public LoginModel setUserName(String userName) {
+    public UserProfile setUserName(String userName) {
         this.userName = userName;
         return this;
     }
@@ -59,7 +60,7 @@ public class LoginModel {
         return userImage;
     }
 
-    public LoginModel setUserImage(String userImage) {
+    public UserProfile setUserImage(String userImage) {
         this.userImage = userImage;
         return this;
     }
@@ -68,7 +69,7 @@ public class LoginModel {
         return emailId;
     }
 
-    public LoginModel setEmailId(String emailId) {
+    public UserProfile setEmailId(String emailId) {
         this.emailId = emailId;
         return this;
     }
@@ -77,7 +78,7 @@ public class LoginModel {
         return mobileNo;
     }
 
-    public LoginModel setMobileNo(String mobileNo) {
+    public UserProfile setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
         return this;
     }
@@ -86,8 +87,27 @@ public class LoginModel {
         return extras;
     }
 
-    public void setExtras(String extras) {
+    public UserProfile setExtras(String extras) {
         this.extras = extras;
+        return this;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public UserProfile setType(int type) {
+        this.type = type;
+        return this;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public UserProfile setMode(int mode) {
+        this.mode = mode;
+        return this;
     }
 
     /**
