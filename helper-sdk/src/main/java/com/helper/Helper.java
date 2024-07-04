@@ -61,5 +61,5 @@ public interface Helper {
     @NonNull
     UserProfile getUserProfile(Context context);
 
-    void setUserProfile(Context context, UserProfile UserProfile);
+    void setUserProfile(Context context, String profileJson);
 }

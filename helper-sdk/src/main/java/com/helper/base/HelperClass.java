@@ -11,6 +11,7 @@ import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
 import com.helper.model.UserProfile;
 import com.helper.util.BasePrefUtil;
+import com.helper.util.GsonParser;
 
 import java.util.HashMap;
 
@@ -126,7 +127,7 @@ public class HelperClass implements Helper {
     }
 
     @Override
-    public void setUserProfile(Context context, UserProfile userProfile) {
-        BasePrefUtil.setUserProfile(context, userProfile);
+    public void setUserProfile(Context context, String profileJson) {
+        BasePrefUtil.setUserProfile(context, GsonParser.fromJson(profileJson, UserProfile.class));
     }
 }

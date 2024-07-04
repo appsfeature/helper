@@ -1,5 +1,6 @@
 package com.helper.model;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.helper.util.GsonParser;
@@ -115,5 +116,13 @@ public class UserProfile {
      */
     public <T> T getExtrasModel(Class<T> tClass) {
         return GsonParser.fromJsonAll(getExtras(), tClass);
+    }
+
+    public String toJson() {
+        try {
+            return new Gson().toJson(this);
+        } catch (Exception e) {
+            return "";
+        }
     }
 }
