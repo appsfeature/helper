@@ -55,11 +55,4 @@ public interface Helper {
 
     void setCurrentActivity(Activity currentActivity);
 
-
-    String getUserId(Context context);
-
-    @NonNull
-    UserProfile getUserProfile(Context context);
-
-    void setUserProfile(Context context, String profileJson);
 }
