@@ -12,9 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Amit on 7/1/2017.
- */
 
 public class Logger {
     public static final String SDK_NAME = "Helper";

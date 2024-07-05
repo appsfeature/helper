@@ -31,7 +31,7 @@ import androidx.core.content.ContextCompat;
 import com.helper.R;
 import com.helper.callback.NetworkListener;
 import com.helper.callback.Response;
-import com.helper.widget.PopupProgress;
+import com.helper.widget.AppProgress;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -313,17 +313,9 @@ public class BaseUtil {
         }
     }
 
-    private static AlertDialog dialog;
 
     public static void hideDialog() {
-        try {
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
-                dialog = null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+         AppProgress.hide();
     }
 
     public static void showDialog(String msg, Context context) {
@@ -335,15 +327,7 @@ public class BaseUtil {
     }
 
     public static void showDialog(Context context, String msg, boolean isCancelable, boolean isVertical) {
-        if (dialog == null && context != null) {
-            try {
-                dialog = PopupProgress.newInstance(context, msg)
-                        .setCancelable(isCancelable)
-                        .show(isVertical);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        AppProgress.show(context, msg, isCancelable, isVertical);
     }
 
     public static void showPopupDialog(Context context, String message) {

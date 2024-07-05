@@ -17,11 +17,14 @@
         android:text="No Internet Connection"
         android:visibility="gone" />
 
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/player_progressbar"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/progress_bar"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
 
     <LinearLayout
         android:id="@+id/layout_retry"

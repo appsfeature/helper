@@ -234,7 +234,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
                 Cursor cursor = getWritableDatabase().query(tableName, new String[]{columnName}, selection, null, null, null, null);
                 if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                     do {
-                        mList.add(cursor.getInt(cursor.getColumnIndex(columnName)));
+                        mList.add(getColumnIndexInt(cursor, columnName));
                     } while (cursor.moveToNext());
                 }
                 if (cursor != null) {
@@ -253,7 +253,7 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
             @SuppressLint("Recycle") Cursor cursor = getWritableDatabase().query(tableName, null, catColumnName + " = " + catId, null, null, null, ID + " DESC");
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 do {
-                    list.add(cursor.getInt(cursor.getColumnIndex(itemIdColumn)));
+                    list.add(getColumnIndexInt(cursor, itemIdColumn));
                 } while (cursor.moveToNext());
             }
             if (cursor != null) {
@@ -262,6 +262,33 @@ public abstract class BaseDatabaseHelper extends SQLiteOpenHelper {
         }
         return list;
     }
+
+    public String getColumnIndex(Cursor cursor, String columnName) {
+        try {
+            int columnIndex = cursor.getColumnIndex(columnName);
+            if (columnIndex != -1) {
+                return cursor.getString(columnIndex);
+            } else {
+                return "";
+            }
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public int getColumnIndexInt(Cursor cursor, String columnName) {
+        try {
+            int columnIndex = cursor.getColumnIndex(columnName);
+            if (columnIndex != -1) {
+                return cursor.getInt(columnIndex);
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
 
     public enum DataType {
         SUBJECT,
