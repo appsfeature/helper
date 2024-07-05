@@ -6,6 +6,7 @@ import static android.view.View.VISIBLE;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -501,4 +502,26 @@ public class BaseUtil {
     public static CharSequence getTimeStamp(String timeInMileSecond){
         return getTimeInDaysAgoFormatFromMileSecond(timeInMileSecond);
     }
+
+    public static void restartApp(Context context) {
+        if(context != null) {
+            final Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+                System.exit(0);
+                /******** or **********/
+                // Runtime.getRuntime().exit(0);
+            }
+        }
+    }
+
+    public static void openExternalApp(Context context, String packageName) {
+        final Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if(intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        }
+    }
+
 }
