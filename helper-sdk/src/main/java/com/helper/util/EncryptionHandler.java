@@ -2,7 +2,6 @@ package com.helper.util;
 
 import android.util.Base64;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -12,7 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class EncryptUtil {
+public class EncryptionHandler {
     private static final String IV_STR = "EncryptionHandler";
 
 
