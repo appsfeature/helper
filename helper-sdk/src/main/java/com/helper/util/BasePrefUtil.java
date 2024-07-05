@@ -11,12 +11,9 @@ import com.helper.model.UserProfile;
 
 public class BasePrefUtil {
 
-    private static final String TAG = "BasePrefUtil";
     private static final String DOWNLOAD_DIRECTORY = "DownloadDirectory";
     private static final String RECENT_FEATURE_DATA = "recent_feature_data";
     private static final String STORAGE_MIGRATION_COMPLETED = "helper_storage_migration_completed";
-    private static final String LOGIN_DETAIL = "login_detail";
-    private static final String USER_ID = "user_id";
     private static SharedPreferences sharedPreferences;
 
 
@@ -154,38 +151,5 @@ public class BasePrefUtil {
 
     public static boolean isStorageMigrationCompleted(Context context) {
         return getBoolean(context, STORAGE_MIGRATION_COMPLETED,false);
-    }
-
-    public static String getUserProfileJson(Context context) {
-        return getString(context, LOGIN_DETAIL, "");
-    }
-
-    public static void setUserProfileJson(Context context, String value) {
-        setString(context, LOGIN_DETAIL, value);
-    }
-
-    public static boolean isLoginCompleted(Context context) {
-        return !TextUtils.isEmpty(getUserId(context));
-    }
-
-    public static String getUserId(Context context) {
-        return getString(context, USER_ID, "");
-    }
-
-    private static void setUserId(Context context, String value) {
-        setString(context, USER_ID, value);
-    }
-
-    @NonNull
-    public static UserProfile getUserProfile(Context context) {
-        UserProfile userProfile = GsonParser.fromJsonAll(getUserProfileJson(context), UserProfile.class);
-        return (userProfile == null) ? new UserProfile() : userProfile;
-    }
-
-    public static void setUserProfile(Context context, UserProfile userProfile) {
-        if(userProfile != null) {
-            setUserId(context, userProfile.getUserId());
-            setUserProfileJson(context, GsonParser.toJsonAll(userProfile, UserProfile.class));
-        }
     }
 }
