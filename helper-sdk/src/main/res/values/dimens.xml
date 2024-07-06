@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="actionBarSizeLarge">20sp</dimen>
-    <dimen name="actionBarSizeMedium">18sp</dimen>
-    <dimen name="actionBarSizeSmall">16sp</dimen>
-
 </resources>

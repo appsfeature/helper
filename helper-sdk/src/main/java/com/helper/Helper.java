@@ -3,13 +3,11 @@ package com.helper;
 import android.app.Activity;
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.helper.base.HelperClass;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
-import com.helper.model.UserProfile;
 
 import java.util.HashMap;
 

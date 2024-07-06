@@ -1,8 +1,5 @@
 package com.helper.util;
 
-/**
- * @author Created by Amit on 5/8/2018.
- */
 
 public interface CategoryType {
 

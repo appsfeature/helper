@@ -3,16 +3,12 @@ package com.helper.base;
 import android.app.Activity;
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.callback.Response;
-import com.helper.login.LoginPreference;
-import com.helper.model.UserProfile;
 import com.helper.util.BasePrefUtil;
-import com.helper.util.GsonParser;
 
 import java.util.HashMap;
 

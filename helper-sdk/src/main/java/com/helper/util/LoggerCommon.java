@@ -6,10 +6,6 @@ import android.util.Log;
 import com.helper.Helper;
 
 
-/**
- * Created by Amit on 7/1/2017.
- */
-
 public class LoggerCommon {
     public static final String SDK_NAME = "common-sdk";
     public static final String TAG = SDK_NAME + "-log";

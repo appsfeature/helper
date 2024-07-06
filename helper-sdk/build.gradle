@@ -6,7 +6,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 19
+        minSdk 21
         targetSdk 33
         multiDexEnabled true
 
@@ -35,6 +35,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
     implementation "com.google.firebase:firebase-config:$rootProject.ext.fbs_library_version_config"
     implementation "androidx.browser:browser:$rootProject.ext.browser"
+    implementation "com.github.appsfeature:base:$rootProject.ext.base_version"
     implementation 'com.airbnb.android:lottie:5.2.0'//Size 127Kb.
     implementation 'androidx.multidex:multidex:2.0.1'
 

@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.base.app.AppProgress;
 import com.helper.Helper;
 import com.helper.callback.ActivityLifecycleListener;
 import com.helper.task.AsyncThread;
-import com.helper.util.AppDialog;
 import com.helper.util.BaseUtil;
 import com.helper.util.StyleUtil;
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onOpenBrowser(View view) {
 //        BaseUtil.openLinkInAppBrowser(this,"","");
-        AppDialog.showProgress(this, "Processing...");
+        AppProgress.show(this, "Processing...");
 //        SocialUtil.openLinkInBrowserChrome(this, "https://pixabay.com/");
 /*
         TaskRunner.getInstance().executeAsync(new Callable<Void>() {

@@ -105,23 +105,6 @@ public class FileUtils {
         return result;
     }
 
-    public static void initStorageFileMigrationOnApiLevel29(Context context) {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            if(!BasePrefUtil.isStorageMigrationCompleted(context)) {
-                TaskRunner.getInstance().executeAsync(new Callable<Void>() {
-                    @Override
-                    public Void call() throws Exception {
-                        copyFiles(context);
-                        BasePrefUtil.setStorageMigrationCompleted(context, true);
-                        return null;
-                    }
-                });
-            }
-        }else {
-            BasePrefUtil.setStorageMigrationCompleted(context, true);
-        }
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public static void copyFiles(Context context) {
         File destination = getFileStoreDirectory(context);
