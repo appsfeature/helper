@@ -3,11 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    namespace 'com.helper'
+    compileSdk 34
 
     defaultConfig {
-        minSdk 21
-        targetSdk 33
+        minSdk 25
+        targetSdk 34
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -22,8 +23,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -35,7 +36,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
     implementation "com.google.firebase:firebase-config:$rootProject.ext.fbs_library_version_config"
     implementation "androidx.browser:browser:$rootProject.ext.browser"
-    implementation "com.github.appsfeature:base:$rootProject.ext.base_version"
+    implementation "org.bitbucket.appsfeature:core:$rootProject.ext.core_version"
     implementation 'com.airbnb.android:lottie:5.2.0'//Size 127Kb.
     implementation 'androidx.multidex:multidex:2.0.1'
 
