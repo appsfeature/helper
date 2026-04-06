@@ -1,0 +1,249 @@
+package com.example.verifonevx990app.utils;
+
+import android.app.Activity;
+import android.app.Application;
+import android.app.Instrumentation;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+ 
+
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayDeque;
+import java.util.Iterator;
+
+public abstract class ActivityTrackingApplication2 extends Application implements Application.ActivityLifecycleCallbacks {
+
+    private static final String TAG = "ActivityTracking";
+
+    // 🔥 Store startActivity records
+    private final ArrayDeque<StartRecord> startRecords = new ArrayDeque<>();
+
+    private static class StartRecord {
+        String callerActivity;
+        String callerContext;
+        String targetClass;
+
+        StartRecord(String callerActivity, String callerContext, String targetClass) {
+            this.callerActivity = callerActivity;
+            this.callerContext = callerContext;
+            this.targetClass = targetClass;
+        }
+    }
+
+    public boolean isDebugMode() {
+        return BuildConfig.DEBUG;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (isDebugMode()) {
+            listRunningServices();
+            registerActivityLifecycleCallbacks(this);
+            hookInstrumentation(); // 🔥 main hook
+        }
+    }
+
+    private void listRunningServices() {
+        // optional
+    }
+
+    // 🔥 Instrumentation Hook
+    private void hookInstrumentation() {
+        try {
+            Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
+            Object activityThread = activityThreadClass
+                    .getMethod("currentActivityThread")
+                    .invoke(null);
+
+            Field mInstrumentationField =
+                    activityThreadClass.getDeclaredField("mInstrumentation");
+            mInstrumentationField.setAccessible(true);
+
+            Instrumentation base =
+                    (Instrumentation) mInstrumentationField.get(activityThread);
+
+            if (!(base instanceof TrackingInstrumentation)) {
+                mInstrumentationField.set(
+                        activityThread,
+                        new TrackingInstrumentation(base)
+                );
+            }
+
+            Log.d(TAG, "Instrumentation hooked");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 🔥 Custom Instrumentation
+    private class TrackingInstrumentation extends Instrumentation {
+
+        private final Instrumentation base;
+        private Method execMethod;
+
+        TrackingInstrumentation(Instrumentation base) {
+            this.base = base;
+            this.execMethod = findExecMethod();
+        }
+
+        private Method findExecMethod() {
+            for (Method m : Instrumentation.class.getDeclaredMethods()) {
+                if (m.getName().equals("execStartActivity")) {
+                    m.setAccessible(true);
+                    return m;
+                }
+            }
+            return null;
+        }
+
+        public ActivityResult execStartActivity(
+                Context who,
+                IBinder contextThread,
+                IBinder token,
+                Activity target,
+                Intent intent,
+                int requestCode,
+                Bundle options
+        ) {
+            try {
+//                String callerActivity = target != null ? target.getClass().getSimpleName() : "null";
+                String callerActivity = resolveCaller(who, target);
+                String callerContext = who.getClass().getSimpleName();
+                String targetClass = intent.getComponent() != null
+                        ? intent.getComponent().getClassName()
+                        : "implicit";
+
+                synchronized (startRecords) {
+                    if (startRecords.size() > 50) {
+                        startRecords.poll();
+                    }
+                    startRecords.add(new StartRecord(callerActivity, callerContext, targetClass));
+                }
+
+                Log.d(TAG, "START -> " + callerActivity + " ---> " + targetClass);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                return (ActivityResult) execMethod.invoke(
+                        base, who, contextThread, token, target, intent, requestCode, options
+                );
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private String resolveCaller(Context who, Activity target) {
+
+        // ✅ Case 1: Direct Activity (best case)
+        if (target != null) {
+            return target.getClass().getSimpleName();
+        }
+
+        // ✅ Case 2: Context itself Activity
+        if (who instanceof Activity) {
+            return who.getClass().getSimpleName();
+        }
+
+        // ✅ Case 3: ContextWrapper chain (IMPORTANT 🔥)
+        Context baseContext = who;
+        while (baseContext instanceof ContextWrapper) {
+            if (baseContext instanceof Activity) {
+                return baseContext.getClass().getSimpleName();
+            }
+            baseContext = ((ContextWrapper) baseContext).getBaseContext();
+        }
+
+        // ❌ Case 4: Application / Service / Unknown
+        return who.getClass().getSimpleName();
+    }
+
+    /**
+     * 🔥 Activity Created
+     */
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+        if (isDebugMode()) {
+            try {
+                Log.d(TAG, "-------------------------------------------------");
+
+                // ❌ Old (not useful for startActivity)
+                getPreviousCallingActivity(activity);
+
+                // 🔥 MATCH caller
+                String currentClass = activity.getClass().getName();
+                StartRecord matched = null;
+
+                synchronized (startRecords) {
+                    Iterator<StartRecord> iterator = startRecords.iterator();
+                    while (iterator.hasNext()) {
+                        StartRecord record = iterator.next();
+                        if (currentClass.equals(record.targetClass)) {
+                            matched = record;
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                }
+
+                if (matched != null) {
+                    Log.d(TAG, "Opened: " + activity.getClass().getSimpleName()
+                            + " | StartedBy: " + matched.callerActivity);
+                } else {
+                    Log.d(TAG, "Opened: " + activity.getClass().getSimpleName()
+                            + " | StartedBy: Unknown");
+                }
+
+                Log.d(TAG, activity.getClass().getSimpleName());
+
+                FragmentManager fm = ((AppCompatActivity) activity).getSupportFragmentManager();
+                fm.addFragmentOnAttachListener((fragmentManager, fragment) ->
+                        Log.d(TAG, "Attached : " + fragment.getClass().getSimpleName())
+                );
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getPreviousCallingActivity(Activity activity) {
+        try {
+            ComponentName componentName = activity.getCallingActivity();
+            if (componentName != null) {
+                Log.d(TAG, "CallingFrom : " + componentName.getShortClassName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override public void onActivityStarted(@NonNull Activity activity) {}
+    @Override public void onActivityResumed(@NonNull Activity activity) {}
+    @Override public void onActivityPaused(@NonNull Activity activity) {}
+    @Override public void onActivityStopped(@NonNull Activity activity) {}
+    @Override public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {}
+    @Override public void onActivityDestroyed(@NonNull Activity activity) {}
+
+    public static void log(@NotNull String message) {
+        Log.d(TAG, message);
+    }
+}
